@@ -1,6 +1,10 @@
-import React from 'react';
 
-const MainTttle = ({title, className}) => {
+interface TMainTitle {
+    title:string;
+    className:string;
+}
+
+const MainTttle = ({title, className}:TMainTitle) => {
     return (
        <>
         <h2 className={`${className} 2xl:text-4xl text-3xl  font-bold  uppercase`}>

@@ -1,6 +1,9 @@
-import React from 'react';
 
-const TagTitle = ({tagTitle}) => {
+interface TTagTitle{
+    tagTitle:string;
+}
+
+const TagTitle = ({tagTitle}:TTagTitle) => {
     return (
         <h4 className="text-primary text-xl font-medium uppercase">
             {tagTitle}

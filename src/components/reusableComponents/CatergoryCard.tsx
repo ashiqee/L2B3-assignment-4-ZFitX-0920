@@ -1,7 +1,8 @@
-import React from 'react';
+
+import {  TCategoryProps } from '@/types/Interface';
 import { Link } from 'react-router-dom';
 
-const CatergoryCard = ({item}) => {
+const CatergoryCard = ({item}:TCategoryProps) => {
     return (
         <div className="relative h-[260px] md:h-[400px] bg-cover
          md:hover:text-5xl overflow-hidden  md:text-3xl 

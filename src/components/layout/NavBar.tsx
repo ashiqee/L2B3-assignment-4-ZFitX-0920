@@ -1,10 +1,15 @@
-import { Link, NavLink } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Search, ShoppingBag, User } from 'lucide-react';
 import MobileMenu from './MobileMenu';
 import Logo from '../reusableComponents/Logo';
+import {  TMenuItem } from '@/types/Interface';
+
+
 
 const NavBar = () => {
+
+
   const menus = [
     {
       menuId: 1,
@@ -42,7 +47,7 @@ const NavBar = () => {
         {/* menu section  */}
 
         <ul className="2xl:flex hidden justify-center  gap-6 items-center">
-          {menus.map((menu) => (
+          {menus.map((menu:TMenuItem) => (
             <NavLink
               className={({ isActive }) =>
                 isActive

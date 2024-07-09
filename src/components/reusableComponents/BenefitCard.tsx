@@ -2,12 +2,13 @@ import React from 'react';
 import { Button } from '../ui/button';
 import MainTttle from './MainTttle';
 import { Link } from 'react-router-dom';
+import { TBenefit, TBenifitProps } from '@/types/Interface';
 
-const BenefitCard = ({ benefits }) => {
+const BenefitCard = ({ benefits }:TBenifitProps) => {
   const [benefit, setBenefit] = React.useState(benefits[0]);
   const [isActive, setIsActive] = React.useState(benefit.id);
 
-  const handleClick = (benefit) => {
+  const handleClick = (benefit:TBenefit) => {
     setBenefit(benefit);
     setIsActive(benefit.id);
   };
@@ -28,7 +29,7 @@ const BenefitCard = ({ benefits }) => {
               <li>Secure</li>
             </ul>
 
-            <Link>
+            <Link to='#'>
               <Button>View more</Button>
             </Link>
           </div>
@@ -38,7 +39,7 @@ const BenefitCard = ({ benefits }) => {
       {/* ui section here */}
       <div className="space-y-3 bg-primary/10 text-white ">
         <ul className="space-y-3 p-10 text-2xl">
-          {benefits?.map((benefit, i) => (
+          {benefits?.map((benefit) => (
             <li key={benefit.title} className="py-3 border-b-2">
               <button
                 onClick={() => handleClick(benefit)}

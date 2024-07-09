@@ -3,12 +3,14 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
+import { MenusProps } from "@/types/Interface";
 import { PopoverClose } from "@radix-ui/react-popover";
 
 import { NavLink } from "react-router-dom";
 
+
   
-const MobileMenu = ({menus}) => {
+const MobileMenu = ({menus}:MenusProps) => {
 
   
 

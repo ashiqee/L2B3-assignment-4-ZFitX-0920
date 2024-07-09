@@ -1,6 +1,8 @@
-import React from 'react';
+
 import MainTttle from '../reusableComponents/MainTttle';
 import CatergoryCard from '../reusableComponents/CatergoryCard';
+import { TCategory } from './../../types/Interface';
+
 
 const CategorySection = () => {
 
@@ -43,7 +45,7 @@ const CategorySection = () => {
 
             <div className='grid grid-cols-2 pt-10 md:grid-cols-3   container'>
             {
-                categorys.map((item)=> (<CatergoryCard key={item.categoryId} item={item}/>))
+                categorys.map((item:TCategory)=> (<CatergoryCard key={item.categoryId} item={item}/>))
             }
             </div>
            

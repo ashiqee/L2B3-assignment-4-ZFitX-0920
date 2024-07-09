@@ -1,7 +1,11 @@
-import React from 'react';
+
 import FeatureProductCard from '../reusableComponents/FeatureProductCard';
 import MainTttle from '../reusableComponents/MainTttle';
 import TagTitle from '../reusableComponents/TagTitle';
+
+interface TProduct{
+    id:number
+}
 
 const FeaturedProduct = () => {
 
@@ -47,7 +51,7 @@ const FeaturedProduct = () => {
             xl:grid-cols-4 
             px-2 md:px-4 xl:px-0  items-center container gap-2 md:gap-4 xl:gap-10">
 {
-    productData?.map((product,i)=> (<FeatureProductCard key={i} data={product}/>))
+    productData?.map((product:TProduct)=> (<FeatureProductCard key={product.id} />))
 
 }
             </section>

@@ -1,6 +1,6 @@
 import MainTttle from "./MainTttle";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './gallery.css'
 
 
@@ -40,7 +40,7 @@ const ImageGallery = () => {
 
 
 
-    const getImg = (i) => {
+    const getImg = (i:number) => {
 
         setCurrentIndex(i)
 
