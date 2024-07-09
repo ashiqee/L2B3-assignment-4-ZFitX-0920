@@ -13,9 +13,10 @@ const BenefitCard = ({ benefits }) => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-0">
-      <div className="flex items-center  pr-10 ">
-        <div className="space-y-5">
+   
+    <div className="md:grid flex flex-col-reverse grid-cols-1  md:grid-cols-3 gap-0">
+      <div className="flex items-center px-4 md:pr-10 ">
+        <div className="space-y-5 pt-10 md:pt-0">
           <MainTttle className="text-left" title={benefit?.title} />
 
           <p className="text-justify">{benefit.description}</p>
