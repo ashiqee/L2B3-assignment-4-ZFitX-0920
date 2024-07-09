@@ -1,8 +1,8 @@
 import React from 'react';
 
-const MainTttle = ({title}) => {
+const MainTttle = ({title, className}) => {
     return (
-        <h2 className='2xl:text-4xl text-xl  font-bold text-center uppercase'>
+        <h2 className={`${className} 2xl:text-4xl text-3xl  font-bold  uppercase`}>
             {title}
         </h2>
     );

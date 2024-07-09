@@ -39,9 +39,9 @@ const CategorySection = () => {
 
     return (
         <div className="space-y-10">
-            <MainTttle title={"TOP CAtagories"}/>
+            <MainTttle className="text-center" title={"TOP CAtagories"}/>
 
-            <div className='grid grid-cols-3  container'>
+            <div className='grid grid-cols-2 md:grid-cols-3   container'>
             {
                 categorys.map((item)=> (<CatergoryCard key={item.categoryId} item={item}/>))
             }

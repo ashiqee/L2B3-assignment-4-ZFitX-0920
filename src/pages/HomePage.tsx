@@ -2,6 +2,7 @@ import CategorySection from '@/components/homepage/CategorySection';
 import FeaturedProduct from '@/components/homepage/FeaturedProduct';
 import Hero from '@/components/homepage/Hero';
 import React from 'react';
+import BenefitSection from './../components/homepage/BenefitSection';
 
 const HomePage = () => {
     return (
@@ -9,6 +10,7 @@ const HomePage = () => {
             <Hero/>
             <CategorySection/>
             <FeaturedProduct/>
+            <BenefitSection/>
     </div>
     );
 };

@@ -22,12 +22,12 @@ const FeatureProductCard = () => {
        
       </CardContent>
       <div className="space-y-2">
-       <p className="text-primary uppercase font-[8px]">ELITE Fitness</p>
-       <div className=" flex items-center gap-3">
-      <h3 className="hover:text-primary text-xl text-white">
+       <p className="text-primary uppercase text-[13px] md:text-[15px]">ELITE Fitness</p>
+       <div className=" md:flex items-center gap-3">
+      <h3 className="hover:text-primary text-md md:text-xl text-white">
        Foam Women's Gym Shoes
        </h3>
-      <Button>View Details</Button>
+      <Button className="px-1 md:px-3 mt-1 py-0">View Details</Button>
        </div>
        
       </div>
