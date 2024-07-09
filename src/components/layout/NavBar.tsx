@@ -19,7 +19,7 @@ const NavBar = () => {
     {
       menuId: 2,
       label: 'Shop',
-      path: '/shop',
+      path: '/products',
     },
     {
       menuId: 3,
