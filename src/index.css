@@ -88,3 +88,9 @@ background: radial-gradient(at center, #2F3E10, #010101);
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }  
+
+  *{
+    scrollbar-width: none;
+    padding: 0;
+    margin: 0;
+  }

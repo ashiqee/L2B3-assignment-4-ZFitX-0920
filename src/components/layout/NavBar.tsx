@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Search, ShoppingBag, User } from 'lucide-react';
 import MobileMenu from './MobileMenu';
+import Logo from '../reusableComponents/Logo';
 
 const NavBar = () => {
   const menus = [
@@ -35,13 +36,7 @@ const NavBar = () => {
         {/* mobile menu  */}
         <MobileMenu menus={menus} />
         
-          <Link to="/">
-            <h1 className="text-3xl">
-              {' '}
-              <span className="font-bold text-primary">Z</span>Fit
-              <span className="text-primary">X</span>{' '}
-            </h1>
-          </Link>
+         <Logo/>
         </section>
 
         {/* menu section  */}
