@@ -12,12 +12,12 @@ const CategorySection = () => {
         },
         {
             categoryId : 2,
-            imgUrl:"https://images.playground.com/6b2ebc67326d4fc1824240cc1493f21f.jpeg",
+            imgUrl:"https://dj7w0h47bhjwk.cloudfront.net/assets/home-grid/class--chisel-it-d8e7999396170b4808d443476a3cae4e5ce3a5ef012cdb44e2eb9c16a0102ce7.jpg",
             catergoryName:"HeadPhones",
         },
         {
             categoryId : 3,
-            imgUrl:"https://images.playground.com/7da37105f2b94b2286c72eb5715f4940.jpeg",
+            imgUrl:"https://dj7w0h47bhjwk.cloudfront.net/assets/home-grid/class--action-sports-a3e1f48b852c0879bcb766e4c480fa0bab4ab47edf25508ce7a1ab89beaed95d.jpg",
             catergoryName:"Work Out",
         },
         {
@@ -38,12 +38,12 @@ const CategorySection = () => {
     ]
 
     return (
-        <div>
+        <div className="space-y-10">
             <MainTttle title={"TOP CAtagories"}/>
 
-            <div className='grid grid-cols-3 container'>
+            <div className='grid grid-cols-3  container'>
             {
-                categorys.map((item)=> (<CatergoryCard item={item}/>))
+                categorys.map((item)=> (<CatergoryCard key={item.categoryId} item={item}/>))
             }
             </div>
            

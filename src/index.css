@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-background: #0E2420;
-background: radial-gradient(at center, #0E2420, #010101);
   @layer base {
     :root {
       --background: #0E2420;
@@ -17,7 +15,7 @@ background: radial-gradient(at center, #0E2420, #010101);
       --popover: 0 0% 100%;
       --popover-foreground: 222.2 84% 4.9%;
 
-      --primary: #A1DD70;
+      --primary: #74eb12;
       --primary-foreground: 210 40% 98%;
 
       --secondary: 210 40% 96.1%;
@@ -49,7 +47,7 @@ background: radial-gradient(at center, #0E2420, #010101);
       --popover: 222.2 84% 4.9%;
       --popover-foreground: 210 40% 98%;
 
-      --primary: #A1DD70;
+      --primary: #74eb12;
       --primary-foreground: #f9f9f9;
 
       --secondary: 217.2 32.6% 17.5%;
@@ -81,6 +79,7 @@ background: radial-gradient(at center, #2F3E10, #010101);
       font-family: "Chakra Petch", sans-serif;
       font-weight: 400;
       font-style: normal;
+      letter-spacing: 0.03cm;
       
     }
   }
