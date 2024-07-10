@@ -22,14 +22,17 @@ const FeatureProductCard = () => {
       <CardContent  onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="px-0 pb-0 mb-4 relative   overflow-hidden">
        <div>
        <img className='hover:scale-125  object-cover transition-transform w-full duration-1000' 
-        src="https://dt-fitfinity.myshopify.com/cdn/shop/products/prod12a.jpg?v=1701158983&width=720"/>
+        src="https://shop.lifefitness.com/cdn/shop/files/cybex-525at-silver-silver-1000x1000.jpg?v=1692635887&width=600"/>
        </div>
        {
         open && <div className="absolute -left-2 w-20  flex flex-col gap-3 text-white justify-center items-center inset-0 ">
-        <button className="hover:text-primary  text-xl" ><ShoppingCart />
+        
+      
+        <button className="hover:text-white hover:bg-gray-600 text-black bg-primary rounded-full p-2  text-xl" >
+          <ShoppingCart />
         
         </button>
-        <button className="hover:text-primary text-xl" >  <Heart /></button>
+        <button className="hover:text-white hover:bg-gray-600 text-black bg-primary rounded-full p-2 text-xl" >  <Heart /></button>
         </div>
        }
       </CardContent>

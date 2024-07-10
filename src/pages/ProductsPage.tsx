@@ -1,7 +1,15 @@
 import ProductsSidebar from '@/components/layout/ProductsSidebar';
 import FeatureProductCard from '@/components/reusableComponents/FeatureProductCard';
 import PageBanner from '@/components/reusableComponents/PageBanner';
-import { Input } from '@/components/ui/input';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const ProductsPage = () => {
   const img =
@@ -19,12 +27,29 @@ const ProductsPage = () => {
 
         {/* product grid */}
       <div className="col-span-4">
-        <div>
+        <div className="flex items-center py-2 p-2  border-[0.001px] mb-7 justify-between">
           <p>Showing 1–12 of 24 results</p>
-          <button></button>
+          <button>
+          <DropdownMenu >
+  <DropdownMenuTrigger>Sort by</DropdownMenuTrigger>
+  <DropdownMenuContent className="  mr-20 mt-2">
+    <DropdownMenuLabel>Featured</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem className="hover:text-primary hover:bg-gray-700">Price, low to high</DropdownMenuItem>
+    <DropdownMenuItem className="hover:text-primary hover:bg-gray-700">Price, high to low</DropdownMenuItem>
+    
+  </DropdownMenuContent>
+</DropdownMenu>
+
+          </button>
         </div>
       <div className="grid w-full  grid-cols-4 gap-4">
           
+          {/* Todo product card */}
+          <FeatureProductCard/>
+          <FeatureProductCard/>
+          <FeatureProductCard/>
+          <FeatureProductCard/>
           <FeatureProductCard/>
           <FeatureProductCard/>
           <FeatureProductCard/>
