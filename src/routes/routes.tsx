@@ -1,4 +1,5 @@
 import App from "@/App";
+import AboutUs from "@/pages/AboutUs";
 import HomePage from "@/pages/HomePage";
 import ProductsPage from "@/pages/ProductsPage";
 import {
@@ -21,7 +22,7 @@ import {
         },
         {
             path:'/about-us',
-            element:<HomePage/>
+            element:<AboutUs/>
         },
         {
             path:'/cart',
