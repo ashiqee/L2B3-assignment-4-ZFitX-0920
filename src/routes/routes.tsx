@@ -1,6 +1,7 @@
 import App from "@/App";
 import AboutUs from "@/pages/AboutUs";
 import HomePage from "@/pages/HomePage";
+import ProductDetails from "@/pages/ProductDetails";
 import ProductsPage from "@/pages/ProductsPage";
 import {
     createBrowserRouter,
@@ -19,6 +20,10 @@ import {
         {
             path:'/products',
             element:<ProductsPage/>
+        },
+        {
+            path:'/products/:id',
+            element:<ProductDetails/>
         },
         {
             path:'/about-us',

@@ -1,5 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
+import { Button } from '../ui/button';
 
 const ProductsSidebar = () => {
   const [openMenus, setOpenMenus] = useState({
@@ -129,6 +130,13 @@ const ProductsSidebar = () => {
          
           </ul>
         </div>
+      </div>
+         {/* filter  */}
+         <div className="shadow-xl p-1 mb-5 flex justify-end rounded-lg">
+          <Button  >Clear Filter:</Button>
+      
+
+        
       </div>
     </div>
   );
