@@ -1,5 +1,7 @@
 import App from "@/App";
+import Cart from "@/pages/Cart";
 import AboutUs from "@/pages/AboutUs";
+import Checkout from "@/pages/Checkout";
 import HomePage from "@/pages/HomePage";
 import ProductDetails from "@/pages/ProductDetails";
 import ProductsPage from "@/pages/ProductsPage";
@@ -26,13 +28,18 @@ import {
             element:<ProductDetails/>
         },
         {
+          path:'/cart',
+          element:<Cart/>
+      },
+        {
+          path:'/checkout',
+          element:<Checkout/>
+      },
+        {
             path:'/about-us',
             element:<AboutUs/>
         },
-        {
-            path:'/cart',
-            element:<HomePage/>
-        },
+       
       ]
     },
   ]);

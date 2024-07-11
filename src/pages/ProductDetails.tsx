@@ -1,14 +1,15 @@
 import MainTttle from '@/components/reusableComponents/MainTttle';
 import PageBanner from '@/components/reusableComponents/PageBanner';
-import { Button } from '@/components/ui/button';
+
 import { ShoppingBag } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { reternPolicy } from '@/static/pageContent';
+import { img, reternPolicy } from '@/static/pageContent';
+
+import CartModal from '@/components/reusableComponents/CartModal';
+
 
 const ProductDetails = () => {
-  const img =
-    'https://shop.lifefitness.com/cdn/shop/files/homepage-lifestyle-1.jpg?v=1695225574&width=2000';
-  const thumbsImages = [
+const thumbsImages = [
     {
       imgUrl: img,
     },
@@ -84,7 +85,8 @@ const ProductDetails = () => {
                 <span>1</span>
                 <button>+</button>
               </div>
-              <Button>Add to cart</Button>
+              <CartModal/>
+            
             </div>
           </div>
         </div>

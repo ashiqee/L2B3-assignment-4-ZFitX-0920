@@ -74,8 +74,10 @@
     }
     body {
       @apply text-foreground;
-      background: #2F3E10;
-background: radial-gradient(at center, #2F3E10, #010101);
+       background: #1c1d34;
+       /* /* background: #2F3E10; */
+       /* background: radial-gradient(at center, #2F3E10, #010101); */
+       background: radial-gradient(at center, #10133e, #010101);
       font-family: "Chakra Petch", sans-serif;
       font-weight: 400;
       font-style: normal;

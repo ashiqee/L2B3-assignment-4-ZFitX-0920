@@ -1,4 +1,12 @@
 
+export const img =
+'https://shop.lifefitness.com/cdn/shop/files/homepage-lifestyle-1.jpg?v=1695225574&width=2000';
+
+export const checkoutImg =
+'https://shop.lifefitness.com/cdn/shop/files/homepage-lifestyle-1.jpg?v=1695225574&width=2000';
+
+
+
 
 export const reternPolicy = `Returns Policy
 
