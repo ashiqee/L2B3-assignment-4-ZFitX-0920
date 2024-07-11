@@ -10,8 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useGetProductsQuery } from '@/redux/features/products/productApi';
+
 
 const ProductsPage = () => {
+  const {data ,isLoading ,isError} = useGetProductsQuery({});
+
+  if(isLoading){
+    return <>Loading...</>
+  }
+  console.log(data?.data[0].p_images[0]);
+  
   const img =
     'https://dt-fitfinity.myshopify.com/cdn/shop/files/AdobeStock_320492530_Preview.jpg?v=1701422683&width=1920';
 

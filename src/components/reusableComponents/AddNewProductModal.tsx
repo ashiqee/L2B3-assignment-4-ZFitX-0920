@@ -8,12 +8,20 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
 import { img } from '@/static/pageContent';
-import { Plus, Trash } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
+
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
+import { useAddProductMutation } from '@/redux/features/products/productApi';
 
 const AddNewProductModal = () => {
+
+  const {addProduct}  = useAddProductMutation()
+
+
+  
+
+
   return (
     <Dialog>
       <DialogTrigger>
