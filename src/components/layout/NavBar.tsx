@@ -1,4 +1,4 @@
-import {  NavLink } from 'react-router-dom';
+import {  Link, NavLink } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Search, ShoppingBag, User } from 'lucide-react';
 import MobileMenu from './MobileMenu';
@@ -79,7 +79,9 @@ const NavBar = () => {
               <Search />
             </button>
           <button className="hover:text-primary">
+            <Link to='/cart'>
             <ShoppingBag />
+            </Link>
           </button>
           <button className="hover:text-primary">
             <User />

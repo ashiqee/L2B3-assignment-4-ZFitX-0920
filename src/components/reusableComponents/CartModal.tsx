@@ -22,7 +22,7 @@ const CartModal = () => {
         <DialogHeader>
           <DialogTitle className="text-2xl">Shopping Cart</DialogTitle>
           <DialogDescription className="py-5 flex flex-col justify-between h-full">
-           <div className='max-h-[260px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide'>
+           <div className='max-h-[560px]  flex  flex-col gap-3  overflow-x-hidden scrollbar-hide'>
            <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
               <div className="flex  gap-2">
                 <img className="w-28 object-cover h-28" src={img} />

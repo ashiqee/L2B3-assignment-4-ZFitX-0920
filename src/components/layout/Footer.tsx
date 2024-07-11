@@ -45,7 +45,7 @@ const Footer = () => {
           <ul className="space-y-3">
             <li className="hover:text-primary">
               {' '}
-              <Link to="/"> Dashboard</Link>
+              <Link to="/product-management"> Dashboard</Link>
             </li>
             <li className="hover:text-primary">
               {' '}

@@ -9,6 +9,7 @@ import {
     createBrowserRouter,
   
   } from "react-router-dom";
+import ProductManagement from "@/pages/ProductManagement";
 
   const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ import {
         {
             path:'/about-us',
             element:<AboutUs/>
+        },
+        {
+            path:'/product-management',
+            element:<ProductManagement/>
         },
        
       ]
