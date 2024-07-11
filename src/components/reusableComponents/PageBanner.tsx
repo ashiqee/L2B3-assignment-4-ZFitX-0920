@@ -10,14 +10,15 @@ import { useCurrentPath } from '@/hooks/useCurrentPath';
 interface TPageBannerProps {
    
     img: string;
+    bannerTitle:string
 }
 
-const PageBanner = ({img }:TPageBannerProps) => {
+const PageBanner = ({img,bannerTitle }:TPageBannerProps) => {
 
   const currentPath = useCurrentPath()
   return (
     <div>
-      <Breadcrumb className="min-h-[160px] md:min-h-[240px] 2xl:h-[360px] flex justify-center uppercase bg-cover object-center items-center"
+      <Breadcrumb className="min-h-[160px] md:min-h-[240px] 2xl:h-[360px] flex justify-center uppercase bg-center bg-cover object-center items-center"
       style={{ backgroundImage: `url(${img})` }}
       >
         <BreadcrumbList className='2xl:pt-14 pt-0'>
@@ -30,7 +31,7 @@ const PageBanner = ({img }:TPageBannerProps) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{currentPath?.length >= 3 ? currentPath[2]:currentPath[1]}</BreadcrumbPage>
+            <BreadcrumbPage>{currentPath?.length >= 3 ? bannerTitle:currentPath[1]}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

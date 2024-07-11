@@ -14,12 +14,12 @@ import { useGetProductsQuery } from '@/redux/features/products/productApi';
 
 
 const ProductsPage = () => {
-  const {data ,isLoading ,isError} = useGetProductsQuery({});
+  const {data: products ,isLoading ,isError} = useGetProductsQuery({});
 
   if(isLoading){
     return <>Loading...</>
   }
-  console.log(data?.data[0].p_images[0]);
+  console.log(products?.data);
   
   const img =
     'https://dt-fitfinity.myshopify.com/cdn/shop/files/AdobeStock_320492530_Preview.jpg?v=1701422683&width=1920';
@@ -55,14 +55,14 @@ const ProductsPage = () => {
       <div className="grid w-full  grid-cols-4 gap-4">
           
           {/* Todo product card */}
-          <FeatureProductCard/>
-          <FeatureProductCard/>
-          <FeatureProductCard/>
-          <FeatureProductCard/>
-          <FeatureProductCard/>
-          <FeatureProductCard/>
-          <FeatureProductCard/>
-          <FeatureProductCard/>
+          {
+            products?.data?.map((product)=>(
+<FeatureProductCard key={product._id} data={product} />
+            ))
+          }
+          
+        
+         
           
         </div>
       </div>

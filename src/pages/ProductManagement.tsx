@@ -15,12 +15,13 @@ import {
 import AddNewProductModal from '@/components/reusableComponents/AddNewProductModal';
 import ActionMenu from '@/components/reusableComponents/ActionMenu';
 
-
+import { Toaster, toast } from 'sonner';
 
 
 const ProductManagement = () => {
   return (
     <div className="mt-20">
+        <Toaster/>
       <div className="container mx-auto py-10">
         {/* navbar product manage  */}
         <div className="flex items-center justify-between">
@@ -48,7 +49,7 @@ const ProductManagement = () => {
           {/* add new button  */}
           <div>
            
-           <AddNewProductModal/>
+           <AddNewProductModal toast={toast} />
           
           </div>
         </div>
