@@ -21,7 +21,7 @@ const ProductsSidebar = () => {
         </p>
 
         <div className="w-full my-8">
-          <Input className="w-full mt-8" type="text" placeHolder="Search..." />
+          <Input className="w-full mt-8" type="text" placeholder="Search..." />
         </div>
       </div>
 

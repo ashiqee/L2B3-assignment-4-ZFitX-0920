@@ -10,7 +10,9 @@ const productApi = baseApi.injectEndpoints({
           providesTags:["products"]
         }),
         addProduct: builder.mutation({
-            query:({data})=>({
+            query:(data)=>({
+                
+                
                 url:'/products',
                 method: "POST",
                 body:data,
