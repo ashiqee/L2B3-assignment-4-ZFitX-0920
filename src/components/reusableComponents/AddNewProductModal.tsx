@@ -1,123 +1,80 @@
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from '@/components/ui/dialog';
-  import { Button } from '../ui/button';
-  import { img } from '@/static/pageContent';
-  import { Plus, Trash } from 'lucide-react';
-  import { Link } from 'react-router-dom';
-  
-  const AddNewProductModal = () => {
-    return (
-      <Dialog>
-        <DialogTrigger>
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '../ui/button';
+import { img } from '@/static/pageContent';
+import { Plus, Trash } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Label } from '@radix-ui/react-label';
+import { Input } from '../ui/input';
+
+const AddNewProductModal = () => {
+  return (
+    <Dialog>
+      <DialogTrigger>
         <Button className="flex gap-2">
-              {' '}
-              <span>
-                {' '}
-                <Plus />
-              </span>{' '}
-              Add New
-            </Button>
-        </DialogTrigger>
-        <DialogContent >
-          <DialogHeader >
-            <DialogTitle className="text-2xl">Add New Product</DialogTitle>
-            <DialogDescription className="py-5 flex flex-col justify-between h-full">
-             <div className='max-h-[260px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide'>
-             <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
-                <div className="flex  gap-2">
-                  <img className="w-28 object-cover h-28" src={img} />
-                  <div className="space-y-2">
-                    <h4 className="text-xl text-primary">Product Title</h4>
-                    <div>
-                    <p className="text-white text-md">$2500</p>
-                   
-                    </div>
-                    <div className=" flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                      <button>-</button>
-                      <span>1</span>
-                      <button>+</button>
-  
-                    </div>
-                   
-                  </div>
+          {' '}
+          <span>
+            {' '}
+            <Plus />
+          </span>{' '}
+          Add New
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-2xl">Add New Product</DialogTitle>
+          <DialogDescription className="py-5  overflow-x-auto flex flex-col justify-between h-[80vh]">
+            <form action="">
+              <div className='space-y-3'>
+                <div>
+                <Label className='text-xl text-white'>Product Name:</Label>
+                <Input type="text" className='text-white' name="productName" />
                 </div>
-                <div className='flex-col items-end justify-between flex p-3'>
-                  
-                <button className="text-2xl flex-end text-right hover:text-primary text-white">
-                  <Trash />
-                </button>
-                <p className="text-white text-[16px] pb-2 flex gap-3 items-center text-md">Sub Total: $2500</p>
+                <div>
+                <Label className='text-xl text-white'>Stock:</Label>
+                <Input type="number" className='text-white' min={1} name="stock" />
                 </div>
-              </div>
-              <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
-                <div className="flex  gap-2">
-                  <img className="w-28 object-cover h-28" src={img} />
-                  <div className="space-y-2">
-                    <h4 className="text-xl text-primary">Product Title</h4>
-                    <p className="text-white text-md">$2500</p>
-                    <div className=" flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                      <button>-</button>
-                      <span>1</span>
-                      <button>+</button>
-                    </div>
-                  </div>
+                <div>
+                <Label className='text-xl text-white'>Category Name:</Label>
+                <Input type="text" className='text-white' name="catergory" />
                 </div>
-                <button className="text-2xl hover:text-primary text-white">
-                  <Trash />
-                </button>
-              </div>
-              <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
-                <div className="flex  gap-2">
-                  <img className="w-28 object-cover h-28" src={img} />
-                  <div className="space-y-2">
-                    <h4 className="text-xl text-primary">Product Title</h4>
-                    <p className="text-white text-md">$2500</p>
-                    <div className=" flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                      <button>-</button>
-                      <span>1</span>
-                      <button>+</button>
-                    </div>
-                  </div>
+                <div>
+                <Label className='text-xl text-white'>Description:</Label>
+                <Input type="text" className='text-white' name="description" />
                 </div>
-                <button className="text-2xl hover:text-primary text-white">
-                  <Trash />
-                </button>
-              </div>
-             </div>
-  
-              {/* check out  */}
-              <div className="border-t-2 text-white mt-6 ">
-                <div className="space-y-4 py-4">
-                  <h4 className="text-2xl flex  justify-between items-center">
-                    Sub Total: <span>$2500</span>
-                  </h4>
-                  <p>Free delivery</p>
-                  <div className='flex items-center gap-4'>
-                  <Link className='w-full' to='/cart'>
-                  <Button className="w-full">
-                    
-                    View Cart
-                  </Button>
-                    </Link>
-                    <Link to='/checkout'>
-              <Button className="w-full">Check Out</Button>
-              </Link>
-                   
-                  </div>
+                <div>
+                <Label className='text-xl text-white'>Images</Label>
+                <Input type="file" className='text-white' name="images" />
+                </div>
+<div className='grid grid-cols-4 gap-2'>
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+<img className="w-28 object-cover h-28" src={img} />
+</div>
+                <div className='flex justify-end'>
+                <Button type='submit'>Add New Product</Button>
                 </div>
               </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    );
-  };
-  
-  export default AddNewProductModal;
-  
+            </form>
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default AddNewProductModal;
