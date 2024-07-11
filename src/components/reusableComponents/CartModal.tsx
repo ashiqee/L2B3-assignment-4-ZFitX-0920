@@ -11,12 +11,14 @@ import { img } from '@/static/pageContent';
 import { Trash } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const CartModal = () => {
+const CartModal = ({handleAddtoCart}) => {
+  
+  
   return (
     <Dialog>
       <DialogTrigger>
         {' '}
-        <Button>Add to cart</Button>
+        <Button onClick={handleAddtoCart}>Add to cart</Button>
       </DialogTrigger>
       <DialogContent className=" ">
         <DialogHeader>
@@ -49,40 +51,8 @@ const CartModal = () => {
               <p className="text-white text-[16px] pb-2 flex gap-3 items-center text-md">Sub Total: $2500</p>
               </div>
             </div>
-            <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
-              <div className="flex  gap-2">
-                <img className="w-28 object-cover h-28" src={img} />
-                <div className="space-y-2">
-                  <h4 className="text-xl text-primary">Product Title</h4>
-                  <p className="text-white text-md">$2500</p>
-                  <div className=" flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                    <button>-</button>
-                    <span>1</span>
-                    <button>+</button>
-                  </div>
-                </div>
-              </div>
-              <button className="text-2xl hover:text-primary text-white">
-                <Trash />
-              </button>
-            </div>
-            <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
-              <div className="flex  gap-2">
-                <img className="w-28 object-cover h-28" src={img} />
-                <div className="space-y-2">
-                  <h4 className="text-xl text-primary">Product Title</h4>
-                  <p className="text-white text-md">$2500</p>
-                  <div className=" flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                    <button>-</button>
-                    <span>1</span>
-                    <button>+</button>
-                  </div>
-                </div>
-              </div>
-              <button className="text-2xl hover:text-primary text-white">
-                <Trash />
-              </button>
-            </div>
+            {/* {carts?.items} */}
+           
            </div>
 
             {/* check out  */}

@@ -1,45 +1,55 @@
+import { RootState } from "@/redux/store";
 import { createSlice,PayloadAction  } from "@reduxjs/toolkit";
-import { RootState } from "../../store";
 
-interface TProduct{
-    p_name: string;
-    p_description:string;
-    p_category:string;
-    p_images:string[];
-    p_price:number;
-    p_stock:number;
-    p_isDeleted: boolean;
+interface TCartItem{
+    productId: string;
+    quantity:number;
+    
 }
 
-type TProductState = {
+type TCartState = {
 
-    products: TProduct[];
+    items:TCartItem[];
     loading: boolean;
     error: string | null;
     
 }
 
 
-const initialState: TProductState= {
-    products:[],
+const initialState: TCartState= {
+    items:[],
     loading:false,
     error:null
  
 }
 
-const productSlice = createSlice({
-    name: 'products',
+const cartSlice = createSlice({
+    name: 'carts',
     initialState,
     reducers:{
-       addProducts: (state,action: PayloadAction<TProduct>){
+       addProductCart: (state,action: PayloadAction<TCartItem>)=>{
+        console.log(action.payload);
+        const {productId,quantity}=action.payload;
 
+       const exitstingItem = state.items.find(item=> item.productId === productId);
+       if(exitstingItem){
+        exitstingItem.quantity = quantity;
+       }else{
+        state.items.push({productId,quantity})
+       }
+
+        
+        
+       },
+       removeProductFromCart:(state,action: PayloadAction<string>)=>{
+        state.items = state.items.filter(item=>item.productId !== action.payload);
        }
     }
 })
 
 
-export const {}= productSlice.actions;
+export const {addProductCart,removeProductFromCart}= cartSlice.actions;
 
-export default productSlice.reducer;
+export default cartSlice.reducer;
 
-
+export const useCurrentCart = (state: RootState)=>state.carts;

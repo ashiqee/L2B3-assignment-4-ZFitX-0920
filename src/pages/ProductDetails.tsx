@@ -7,8 +7,11 @@ import {reternPolicy } from '@/static/pageContent';
 
 import CartModal from '@/components/reusableComponents/CartModal';
 import { useGetSingleProductsQuery } from '@/redux/features/products/productApi';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { addProductCart, useCurrentCart } from '@/redux/features/products/productSlice';
+import { Button } from '@/components/ui/button';
 
 
 const ProductDetails = () => {
@@ -18,6 +21,11 @@ const ProductDetails = () => {
   const [subTotal,setSubTotal] = useState(product?.data?.p_price )
   const [quantity,setQuantity] = useState(1)
   const [isStock,setIsStock] = useState(product?.data?.p_stock>0?1:0 )
+  const dispatch=useAppDispatch()
+  const cartsItems = useAppSelector(useCurrentCart);
+
+  const isItems= cartsItems?.items;
+  
 
   useEffect(()=>{
     setIsStock(product?.data?.p_stock)
@@ -39,6 +47,7 @@ const ProductDetails = () => {
     p_images,
     p_price,
     p_stock,
+    _id
   } = product.data;
 
   
@@ -48,6 +57,8 @@ const ProductDetails = () => {
     setQuantity(newQty);
     setSubTotal(newQty* p_price);
     setIsStock(isStock-1);
+   
+  
   }
   const handleDecrementQty = ()=>{
     if(quantity>1){
@@ -55,9 +66,21 @@ const ProductDetails = () => {
       setQuantity(newQty);
       setSubTotal(newQty * p_price);
       setIsStock(isStock+1);
+
+      
     }
   
   }
+
+  const isAlreadyAdd = isItems?.filter(item=>item.productId === _id)
+
+  // console.log(isAlreadyAdd[0].quantity);
+  
+
+  const handleAddtoCart =()=>{
+    dispatch(addProductCart({productId:_id,quantity:quantity}))
+  }
+  
 
 
   return (
@@ -106,9 +129,13 @@ const ProductDetails = () => {
             {/* sort description  */}
             <p>{p_description.slice(0,30)} </p>
             <p>Product Category: {p_category}</p>
+            <div className='md:flex gap-4 items-center'>
             <p className="p-1  outline-1 outline my-2 w-28 font-semibold text-center">
               {p_stock>0 ? `${isStock} in stock` : `Out of Stock`}
             </p>
+           {isAlreadyAdd.length>0 &&  <p>You have {isAlreadyAdd[0]?.quantity} of this item in your cart.</p>}
+            </div>
+          
 
             <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
@@ -116,7 +143,10 @@ const ProductDetails = () => {
                 <span>{quantity}</span>
                 <button onClick={handleIncrementQty}>+</button>
               </div>
-              <CartModal />
+          {
+            isAlreadyAdd.length > 0 ? <Link to='/cart'><Button>View Cart</Button></Link>
+             :   <CartModal  handleAddtoCart={handleAddtoCart}   />
+          }
             
             </div>
           </div>
