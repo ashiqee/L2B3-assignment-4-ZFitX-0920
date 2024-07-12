@@ -19,11 +19,13 @@ const ProductDetails = () => {
   const {data:product,isLoading}= useGetSingleProductsQuery(id)
   const [mainImgIndex,setMainImg] = useState(0)
   const [quantity,setQuantity] = useState(1)
+  const [qty, setQty] = useState([]);
   const [isStock,setIsStock] = useState(product?.data?.p_stock>0?1:0 )
   const dispatch=useAppDispatch()
   const cartsItems = useAppSelector(useCurrentCart);
 const cartItem = cartsItems?.items.find(item=>item.productId === id);
-  const isItems= cartsItems?.items;
+  
+const isItems= cartsItems?.items;
   
 
   useEffect(()=>{
@@ -31,10 +33,9 @@ const cartItem = cartsItems?.items.find(item=>item.productId === id);
       setIsStock(product?.data?.p_stock)
 
     }
-    if(cartItem){
-      setQuantity(cartItem?.quantity)
-    }
-
+    const newQty = cartsItems?.items?.map((product) => product.quantity);
+    
+setQty(newQty)
 
   },[product,cartItem])
 
@@ -60,58 +61,12 @@ const cartItem = cartsItems?.items.find(item=>item.productId === id);
   
 
   
-  
-  // const handleIncrementQty = (id,pQty)=>{
-  //   console.log(id,pQty);
-    
-  //   if(isStock>0){
-  //     const newQty = pQty+1;
-  //     setQuantity(newQty);
-  //     setIsStock(isStock-1);
-  //     dispatch(addProductCart({productId:id,quantity:newQty}))
-
-  //   }
-   
-  
-  // }
-  // const handleDecrementQty = ()=>{
-  //   if(quantity>1){
-  //     const newQty = quantity-1;
-  //     setQuantity(newQty);
-     
-  //     setIsStock(isStock+1);
-  //     dispatch(addProductCart({productId:_id,quantity:newQty}))
-      
-  //   }
-  
-  // }
-  // const handleIncrementQty = (id)=>{
-  //   const newQty = quantity+1;
-  //   setQuantity(newQty);
-   
-  //   setIsStock(isStock-1);
-  //   dispatch(addProductCart({productId:id,quantity:newQty}))
-  
-  // }
-  // const handleDecrementQty = (id)=>{
-  //   if(quantity>1){
-  //     const newQty = quantity-1;
-  //     setQuantity(newQty);
-     
-  //     setIsStock(isStock+1);
-  //     dispatch(addProductCart({productId:id,quantity:newQty}))
-      
-  //   }
-  
-  // }
-
-  
   // todo thid from cart
   const ifcart = cartItem ? cartItem.quantity:0
   
 
   const handleAddToCart =()=>{
-    dispatch(addProductCart({productId:_id,quantity:quantity}))
+    dispatch(addProductCart({productId:_id,quantity:ifcart|1}))
   }
   
 
@@ -123,9 +78,9 @@ const cartItem = cartsItems?.items.find(item=>item.productId === id);
       {/* product details section  */}
       <section className="py-10 container mx-auto px-4">
         {/* image view */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="flex xl:gap-6">
-            <div className=" space-y-3  flex flex-col   overflow-x-hidden scrollbar-hide   justify-center  md:min-w-[150px]   max-h-[520px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="md:flex md:flex-row flex flex-col-reverse xl:gap-6">
+            <div className=" space-y-3  flex md:flex-col overflow-y-hidden  md:overflow-x-hidden scrollbar-hide   justify-center  md:min-w-[150px]   max-h-[520px]">
               {p_images?.map((image:string,i:number) => (
                 <img
                 key={i}
@@ -164,7 +119,7 @@ const cartItem = cartsItems?.items.find(item=>item.productId === id);
             <p>Product Category: {p_category}</p>
             <div className='md:flex gap-4 items-center'>
             <p className="p-1  outline-1 outline my-2 w-28 font-semibold text-center">
-            {p_stock>0 ? `${isStock} in stock` : `Out of Stock`}
+            {p_stock>0 ? `${isStock-ifcart} in stock` : `Out of Stock`}
             </p>
            {ifcart>0 &&  <p>You have {ifcart} of this item in your cart.</p>}
             </div>
@@ -172,9 +127,9 @@ const cartItem = cartsItems?.items.find(item=>item.productId === id);
 
             <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-              <button onClick={() => handleDecrementQty(quantity, _id, setQuantity, setIsStock, dispatch, addProductCart)}>-</button>
-                <p>{quantity}</p>
-                <button onClick={() => handleIncrementQty(_id, quantity, isStock, setQuantity, setIsStock, dispatch, addProductCart)}>+</button>
+              <button  onClick={()=>handleDecrementQty(_id,qty[0], p_stock, setQuantity, setIsStock, dispatch, addProductCart)}>-</button>
+                  <span>{ifcart ? ifcart : 1}</span>
+                  <button disabled={p_stock===0 || (isStock-ifcart) ===0}  onClick={() => handleIncrementQty(_id,qty[0], p_stock, setQuantity, setIsStock, dispatch, addProductCart)}>+</button>
              
               </div>
               <CartModal
@@ -199,8 +154,8 @@ const cartItem = cartsItems?.items.find(item=>item.productId === id);
     <section className='py-10 mx-5'>
       <Tabs defaultValue="description" className="w-full">
   <TabsList className='bg-blue-900 mb-5 bg-opacity-10 w-96 flex gap-10 text-left'>
-    <TabsTrigger className='text-xl hover:text-primary' value="description">Description</TabsTrigger>
-    <TabsTrigger  className='text-xl hover:text-primary' value="ship">Shipping Information</TabsTrigger>
+    <TabsTrigger className='md:text-xl hover:text-primary' value="description">Description</TabsTrigger>
+    <TabsTrigger  className='md:text-xl hover:text-primary' value="ship">Shipping Information</TabsTrigger>
   </TabsList>
   <TabsContent value="description">{p_description}</TabsContent>
   <TabsContent value="ship">{reternPolicy}</TabsContent>

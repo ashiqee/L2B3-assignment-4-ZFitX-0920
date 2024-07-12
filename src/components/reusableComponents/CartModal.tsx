@@ -42,6 +42,7 @@ const CartModal = ({
   useEffect(() => {
     //quantities from cart item for localstorage
     const newQty = carts?.items?.map((product) => product.quantity);
+
     //  console.log(newQty);
 
     setQty(newQty);
@@ -55,6 +56,7 @@ const CartModal = ({
 
   const handleRemoveFromCart = (id) => {
     dispatch(removeProductFromCart(id));
+    setQuantity(1);
   };
 
   return (
@@ -70,7 +72,16 @@ const CartModal = ({
             {isLoading ? (
               <div>Loading...</div>
             ) : isError ? (
-              <div>Error Loading Cart product</div>
+              <div className="text-center space-y-10">
+                <p className="text-red-600 text-xl">
+                  Your shopping cart is empty!
+                </p>
+                <div>
+                  <Link to="/products">
+                    <Button>Please Go Shop</Button>
+                  </Link>
+                </div>
+              </div>
             ) : (
               <div className="md:max-h-[260px] 2xl:min-h-[460px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide">
                 {cartsProductDetails?.data?.map((product, i) => (
@@ -96,8 +107,9 @@ const CartModal = ({
                           <button
                             onClick={() =>
                               handleDecrementQty(
-                                qty[i],
                                 product._id,
+                                qty[i],
+                                product.p_stock,
                                 setQuantity,
                                 setIsStock,
                                 dispatch,
@@ -107,13 +119,16 @@ const CartModal = ({
                           >
                             -
                           </button>
-                          <p>{qty[i]}</p>
+                          <span>{qty[i]}</span>
                           <button
+                            disabled={
+                              product?.p_stock === 0 || isStock - ifcart === 0
+                            }
                             onClick={() =>
                               handleIncrementQty(
                                 product._id,
                                 qty[i],
-                                isStock,
+                                product.p_stock,
                                 setQuantity,
                                 setIsStock,
                                 dispatch,
@@ -143,25 +158,26 @@ const CartModal = ({
                 {/* {carts?.items} */}
               </div>
             )}
-
             {/* check out  */}
-            <div className="border-t-2 text-white mt-6 ">
-              <div className="space-y-3 py-4">
-                <p>Total Items: {totalItems} </p>
-                <h4 className="text-2xl flex  justify-between items-center">
-                  Sub Total: <span>${totalAmount}</span>
-                </h4>
-                <p>Free delivery</p>
-                <div className="flex items-center gap-4">
-                  <Link className="w-full" to="/cart">
-                    <Button className="w-full">View Cart</Button>
-                  </Link>
-                  <Link to="/checkout">
-                    <Button className="w-full">Check Out</Button>
-                  </Link>
+            {totalItems > 0 && (
+              <div className="border-t-2 text-white mt-6 ">
+                <div className="space-y-3 py-4">
+                  <p>Total Items: {totalItems} </p>
+                  <h4 className="text-2xl flex  justify-between items-center">
+                    Total: <span>${totalAmount ? totalAmount : '0.00'}</span>
+                  </h4>
+                  <p>Free delivery</p>
+                  <div className="flex items-center gap-4">
+                    <Link className="w-full" to="/cart">
+                      <Button className="w-full">View Cart</Button>
+                    </Link>
+                    <Link to="/checkout">
+                      <Button className="w-full">Check Out</Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

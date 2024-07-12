@@ -3,10 +3,12 @@ import { baseApi } from "@/redux/api/baseApi";
 const productApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getProducts: builder.query({
-          query: () => ({
-            url: '/products',
-            method: 'GET',
-          }),
+          query: (filters) => {
+            const params = new URLSearchParams(
+              filters as Record<string,string>
+            ).toString();
+            return`products?${params}`;
+          },        
           providesTags:["products"]
         }),
         getSingleProducts: builder.query({
@@ -18,7 +20,7 @@ const productApi = baseApi.injectEndpoints({
         }),
         getCartsProducts: builder.query({
           query: (productIds) => {
-            console.log("Get LEN",productIds.length)
+            
             
             if(productIds.length>0){
               console.log(productIds.length);
