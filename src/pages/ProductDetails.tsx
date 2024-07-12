@@ -7,38 +7,45 @@ import {reternPolicy } from '@/static/pageContent';
 
 import CartModal from '@/components/reusableComponents/CartModal';
 import { useGetSingleProductsQuery } from '@/redux/features/products/productApi';
-import { Link, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { addProductCart, useCurrentCart } from '@/redux/features/products/productSlice';
-import { Button } from '@/components/ui/button';
+import { handleDecrementQty, handleIncrementQty } from '@/utils/quantityUtils';
 
 
 const ProductDetails = () => {
   const {id} = useParams()
   const {data:product,isLoading}= useGetSingleProductsQuery(id)
   const [mainImgIndex,setMainImg] = useState(0)
-  const [subTotal,setSubTotal] = useState(product?.data?.p_price )
   const [quantity,setQuantity] = useState(1)
   const [isStock,setIsStock] = useState(product?.data?.p_stock>0?1:0 )
   const dispatch=useAppDispatch()
   const cartsItems = useAppSelector(useCurrentCart);
-
+const cartItem = cartsItems?.items.find(item=>item.productId === id);
   const isItems= cartsItems?.items;
   
 
   useEffect(()=>{
-    setIsStock(product?.data?.p_stock)
-    
-    setSubTotal(product?.data?.p_price)
-   
+    if(product){
+      setIsStock(product?.data?.p_stock)
+
+    }
+    if(cartItem){
+      setQuantity(cartItem?.quantity)
+    }
 
 
-  },[product,isLoading])
+  },[product,cartItem])
 
   if(isLoading){
     return <>Loading...</>
   }
+
+  if(!product){
+    return <>Product Not found</>
+  }
+
 
   const {
     p_name,
@@ -51,34 +58,59 @@ const ProductDetails = () => {
   } = product.data;
 
   
+
   
-  const handleIncrementQty = ()=>{
-    const newQty = quantity+1;
-    setQuantity(newQty);
-    setSubTotal(newQty* p_price);
-    setIsStock(isStock-1);
-    dispatch(addProductCart({productId:_id,quantity:newQty}))
   
-  }
-  const handleDecrementQty = ()=>{
-    if(quantity>1){
-      const newQty = quantity-1;
-      setQuantity(newQty);
-      setSubTotal(newQty * p_price);
-      setIsStock(isStock+1);
-      dispatch(addProductCart({productId:_id,quantity:newQty}))
+  // const handleIncrementQty = (id,pQty)=>{
+  //   console.log(id,pQty);
+    
+  //   if(isStock>0){
+  //     const newQty = pQty+1;
+  //     setQuantity(newQty);
+  //     setIsStock(isStock-1);
+  //     dispatch(addProductCart({productId:id,quantity:newQty}))
+
+  //   }
+   
+  
+  // }
+  // const handleDecrementQty = ()=>{
+  //   if(quantity>1){
+  //     const newQty = quantity-1;
+  //     setQuantity(newQty);
+     
+  //     setIsStock(isStock+1);
+  //     dispatch(addProductCart({productId:_id,quantity:newQty}))
       
-    }
+  //   }
   
-  }
+  // }
+  // const handleIncrementQty = (id)=>{
+  //   const newQty = quantity+1;
+  //   setQuantity(newQty);
+   
+  //   setIsStock(isStock-1);
+  //   dispatch(addProductCart({productId:id,quantity:newQty}))
+  
+  // }
+  // const handleDecrementQty = (id)=>{
+  //   if(quantity>1){
+  //     const newQty = quantity-1;
+  //     setQuantity(newQty);
+     
+  //     setIsStock(isStock+1);
+  //     dispatch(addProductCart({productId:id,quantity:newQty}))
+      
+  //   }
+  
+  // }
 
-  const isAlreadyAdd = isItems?.filter(item=>item.productId === _id)
-
+  
   // todo thid from cart
-  const ifcart =isAlreadyAdd[0]?.quantity;
+  const ifcart = cartItem ? cartItem.quantity:0
   
 
-  const handleAddtoCart =()=>{
+  const handleAddToCart =()=>{
     dispatch(addProductCart({productId:_id,quantity:quantity}))
   }
   
@@ -132,22 +164,31 @@ const ProductDetails = () => {
             <p>Product Category: {p_category}</p>
             <div className='md:flex gap-4 items-center'>
             <p className="p-1  outline-1 outline my-2 w-28 font-semibold text-center">
-            {p_stock>0 ? `${ifcart ? isStock-ifcart : p_stock} in stock` : `Out of Stock`}
+            {p_stock>0 ? `${isStock} in stock` : `Out of Stock`}
             </p>
-           {isAlreadyAdd?.length>0 &&  <p>You have {ifcart} of this item in your cart.</p>}
+           {ifcart>0 &&  <p>You have {ifcart} of this item in your cart.</p>}
             </div>
           
 
             <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                <button onClick={handleDecrementQty} >-</button>
-                <p>{ifcart ? ifcart : 1} </p>
-                <button onClick={handleIncrementQty}>+</button>
+              <button onClick={() => handleDecrementQty(quantity, _id, setQuantity, setIsStock, dispatch, addProductCart)}>-</button>
+                <p>{quantity}</p>
+                <button onClick={() => handleIncrementQty(_id, quantity, isStock, setQuantity, setIsStock, dispatch, addProductCart)}>+</button>
+             
               </div>
-          {
-            isAlreadyAdd.length > 0 ? <CartModal btnTitle={"View cart"} ifcart={ifcart} handleAddtoCart={handleAddtoCart}   />
-             :   <CartModal btnTitle={"Add to cart"} ifcart={ifcart}  handleAddtoCart={handleAddtoCart}   />
-          }
+              <CartModal
+                btnTitle={ifcart > 0 ? "View cart" : "Add to cart"}
+                ifcart={ifcart}
+                handleAddToCart={handleAddToCart}
+                handleDecrementQty={handleDecrementQty}
+                handleIncrementQty={handleIncrementQty}
+                isStock={isStock}
+                setQuantity={setQuantity}
+                setIsStock={setIsStock}
+                dispatch={dispatch}
+                addProductCart={addProductCart}
+              />
             
             </div>
           </div>

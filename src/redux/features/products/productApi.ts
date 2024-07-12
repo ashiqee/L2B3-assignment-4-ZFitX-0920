@@ -17,15 +17,26 @@ const productApi = baseApi.injectEndpoints({
           providesTags:["products"]
         }),
         getCartsProducts: builder.query({
-          query: (productIds) => (
-            console.log(productIds),
+          query: (productIds) => {
+            console.log("Get LEN",productIds.length)
             
-            {
-            url: `/products/carts?productIds=${productIds}`,
-            method: 'GET',
-           
-          }),
-          providesTags:["products"]
+            if(productIds.length>0){
+              console.log(productIds.length);
+              
+              return{
+                url:`/products/carts`,
+                method:'GET',
+                params:{productIds:productIds},
+              }
+            }
+            return{
+              url:`/products/carts`,
+              method:'GET',
+              params:["asdad"],
+            }
+          },
+          providesTags: ["products"],
+          
         }),
         addProduct: builder.mutation({
             query:(data)=>(
