@@ -57,7 +57,7 @@ const ProductDetails = () => {
     setQuantity(newQty);
     setSubTotal(newQty* p_price);
     setIsStock(isStock-1);
-   
+    dispatch(addProductCart({productId:_id,quantity:newQty}))
   
   }
   const handleDecrementQty = ()=>{
@@ -66,7 +66,7 @@ const ProductDetails = () => {
       setQuantity(newQty);
       setSubTotal(newQty * p_price);
       setIsStock(isStock+1);
-
+      dispatch(addProductCart({productId:_id,quantity:newQty}))
       
     }
   
@@ -74,7 +74,8 @@ const ProductDetails = () => {
 
   const isAlreadyAdd = isItems?.filter(item=>item.productId === _id)
 
-  // console.log(isAlreadyAdd[0].quantity);
+  // todo thid from cart
+  const ifcart =isAlreadyAdd[0]?.quantity;
   
 
   const handleAddtoCart =()=>{
@@ -123,7 +124,7 @@ const ProductDetails = () => {
               <span className="line-through text-[14px]">${p_price+350.00}</span>
             </h4>
             <h4 className="text-md font-bold">
-             Sub Total: ${subTotal}
+             Sub Total: ${ifcart ? p_price*ifcart : p_price }
             
             </h4>
             {/* sort description  */}
@@ -131,21 +132,21 @@ const ProductDetails = () => {
             <p>Product Category: {p_category}</p>
             <div className='md:flex gap-4 items-center'>
             <p className="p-1  outline-1 outline my-2 w-28 font-semibold text-center">
-              {p_stock>0 ? `${isStock} in stock` : `Out of Stock`}
+            {p_stock>0 ? `${ifcart ? isStock-ifcart : p_stock} in stock` : `Out of Stock`}
             </p>
-           {isAlreadyAdd.length>0 &&  <p>You have {isAlreadyAdd[0]?.quantity} of this item in your cart.</p>}
+           {isAlreadyAdd?.length>0 &&  <p>You have {ifcart} of this item in your cart.</p>}
             </div>
           
 
             <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
                 <button onClick={handleDecrementQty} >-</button>
-                <span>{quantity}</span>
+                <p>{ifcart ? ifcart : 1} </p>
                 <button onClick={handleIncrementQty}>+</button>
               </div>
           {
-            isAlreadyAdd.length > 0 ? <Link to='/cart'><Button>View Cart</Button></Link>
-             :   <CartModal  handleAddtoCart={handleAddtoCart}   />
+            isAlreadyAdd.length > 0 ? <CartModal btnTitle={"View cart"} ifcart={ifcart} handleAddtoCart={handleAddtoCart}   />
+             :   <CartModal btnTitle={"Add to cart"} ifcart={ifcart}  handleAddtoCart={handleAddtoCart}   />
           }
             
             </div>
