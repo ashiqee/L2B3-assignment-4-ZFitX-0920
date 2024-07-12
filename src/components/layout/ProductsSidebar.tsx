@@ -2,8 +2,12 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 
+const stock =[
+  
+]
 
-const ProductsSidebar = ({register}) => {
+
+const ProductsSidebar = ({setFieldValue,values}) => {
   const [openMenus, setOpenMenus] = useState({
     equipments: false,
     yogaWear: false,
@@ -23,7 +27,11 @@ const ProductsSidebar = ({register}) => {
         </p>
 
         <div className="w-full my-8">
-          <Input name='search' {...register('search')} className="w-full mt-8" type="text" placeholder="Search..." />
+          <Input 
+          name='searchTerm'
+           onChange={(e)=>setFieldValue("searchTerm",e.target.value)} 
+          value={values.searchTerm}
+          className="w-full mt-8" type="text" placeholder="Search..." />
         </div>
       </div>
 
@@ -36,10 +44,16 @@ const ProductsSidebar = ({register}) => {
         <div className="w-full my-8">
           <ul className="space-y-3">
           <li className="flex gap-2">
-                   <input type="checkbox" name="inStock" {...register('inStock')}  /> <p>In Stock (20)</p>
+          <RadioButtons
+              label="Sort by price"
+              options={stock}
+              name="sortByPrice"
+              type="radio"
+            /><p>In Stock (20)</p>
                   </li>
                   <li className="flex gap-2">
-                   <input type="checkbox" name="outOfStock" {...register('outOfStock')}  /> <p>Out of Stock (5)</p>
+                   <input type="checkbox" name="outOfStock"  onChange={(e)=>setFieldValue("outOfStock",e.target.value)} 
+                  value={values.outOfStock} /> <p>Out of Stock (5)</p>
                   </li>
         
           </ul>
@@ -66,13 +80,13 @@ const ProductsSidebar = ({register}) => {
               {openMenus.equipments && (
                 <ul className="ml-4 space-y-2 py-2">
                   <li className="flex gap-2">
-                   <input name="yoga" {...register('yoga')} type="checkbox" id="" /> <p>Yoga</p>
+                   <input name="yoga"  type="checkbox" id="" /> <p>Yoga</p>
                   </li>
                   <li className="flex gap-2">
-                   <input type="checkbox" name="gym" {...register('gym')}id="" /> <p>Gym</p>
+                   <input type="checkbox" name="gym" id="" /> <p>Gym</p>
                   </li>
                   <li className="flex gap-2">
-                   <input type="checkbox" name="accesssories" {...register('accesssories')}id="" /> <p>Accessories</p>
+                   <input type="checkbox" name="accesssories" id="" /> <p>Accessories</p>
                   </li>
                  
                 </ul>

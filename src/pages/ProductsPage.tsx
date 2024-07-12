@@ -11,10 +11,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { Form, Formik } from "formik";
+
+const initialFilterValues ={
+  searchTerm:'',
+  sortByPrice:'asce',
+  inStock:false,
+  outOfStock:false,
+  categories:[]
+}
 
 const ProductsPage = () => {
-  const {register,handleSubmit}= useForm()
+  const [filters,setFilters]= useState(initialFilterValues);
   const { data: products, isLoading, isError } = useGetProductsQuery({});
 
   if (isLoading) {
@@ -22,10 +31,13 @@ const ProductsPage = () => {
   }
   
 
+  console.log(filters);
+  
 
-  const handleFilterSubmit =(filterQuery:string)=>{
+  const handleFilterSubmit =(values)=>{
    
-    console.log(filterQuery);
+    setFilters(values)
+    console.log(values);
     
 
   }
@@ -42,14 +54,20 @@ const ProductsPage = () => {
 
       <section className="container py-10 grid grid-cols-5 gap-4">
         {/* Search and filter */}
-<form onSubmit={handleSubmit(handleFilterSubmit)}>
-        <ProductsSidebar register={register} />
+<Formik initialValues={initialFilterValues} onSubmit={handleFilterSubmit}>
 
-</form>
+{({values,setFieldValue})=>(
+  <Form>
+    <ProductsSidebar  setFieldValue={setFieldValue} values={values} />
+
+  </Form>
+)}
+
+</Formik>
 
         {/* product grid */}
         <div className="col-span-4">
-          <form onChange={handleSubmit(handleFilterSubmit)}  >
+          <form   >
             <div className="flex items-center py-2 p-2  border-[0.001px] mb-7 justify-between">
               <p>Showing 1–12 of 24 results</p>
               <button>

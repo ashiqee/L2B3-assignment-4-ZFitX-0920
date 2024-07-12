@@ -25,6 +25,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.1.6",
     "embla-carousel-react": "^8.1.6",
+    "formik": "^2.4.6",
     "localforage": "^1.10.0",
     "lucide-react": "^0.403.0",
     "match-sorter": "^6.3.4",
