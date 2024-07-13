@@ -10,7 +10,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 const Checkout = () => {
   return (
     <div>
-      <PageBanner img={checkoutImg} />
+      <PageBanner bannerTitle='Check Out' img={checkoutImg} />
       <form>
         <div className="container  mx-auto grid grid-cols-2 gap-6">
           <div className="p-10 space-y-4 py-14">

@@ -18,14 +18,12 @@ const ProductDetails = () => {
   const {id} = useParams()
   const {data:product,isLoading}= useGetSingleProductsQuery(id)
   const [mainImgIndex,setMainImg] = useState(0)
-  const [quantity,setQuantity] = useState(1)
-  const [qty, setQty] = useState([]);
+
+  const [qty, setQty] = useState<number[]>([]);
   const [isStock,setIsStock] = useState(product?.data?.p_stock>0?1:0 )
   const dispatch=useAppDispatch()
   const cartsItems = useAppSelector(useCurrentCart);
 const cartItem = cartsItems?.items.find(item=>item.productId === id);
-  
-const isItems= cartsItems?.items;
   
 
   useEffect(()=>{
@@ -33,11 +31,11 @@ const isItems= cartsItems?.items;
       setIsStock(product?.data?.p_stock)
 
     }
-    const newQty = cartsItems?.items?.map((product) => product.quantity);
+    const newQty = cartsItems?.items?.map((product) => product.quantity)||[];
     
 setQty(newQty)
 
-  },[product,cartItem])
+  },[product,cartsItems])
 
   if(isLoading){
     return <>Loading...</>
@@ -127,9 +125,9 @@ setQty(newQty)
 
             <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-              <button  onClick={()=>handleDecrementQty(_id,qty[0], p_stock, setQuantity, setIsStock, dispatch, addProductCart)}>-</button>
+              <button  onClick={()=>handleDecrementQty(_id,qty[0], p_stock, setIsStock, dispatch, addProductCart)}>-</button>
                   <span>{ifcart ? ifcart : 1}</span>
-                  <button disabled={p_stock===0 || (isStock-ifcart) ===0}  onClick={() => handleIncrementQty(_id,qty[0], p_stock, setQuantity, setIsStock, dispatch, addProductCart)}>+</button>
+                  <button disabled={p_stock===0 || (isStock-ifcart) ===0}  onClick={() => handleIncrementQty(_id,qty[0], p_stock,setIsStock, dispatch, addProductCart)}>+</button>
              
               </div>
               <CartModal
@@ -139,7 +137,7 @@ setQty(newQty)
                 handleDecrementQty={handleDecrementQty}
                 handleIncrementQty={handleIncrementQty}
                 isStock={isStock}
-                setQuantity={setQuantity}
+             
                 setIsStock={setIsStock}
                 dispatch={dispatch}
                 addProductCart={addProductCart}

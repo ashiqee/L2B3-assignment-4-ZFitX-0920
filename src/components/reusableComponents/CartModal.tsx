@@ -11,27 +11,71 @@ import { Button } from '../ui/button';
 import { Trash } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
+  AddProductCartAction,
   removeProductFromCart,
-  useCurrentCart,
+  useCurrentCart
 } from '@/redux/features/products/productSlice';
 import { useAppSelector } from '@/redux/hook';
 import { useGetCartsProductsQuery } from '@/redux/features/products/productApi';
 import { useEffect, useState } from 'react';
+import { TProduct } from '@/types/Interface';
 
-const CartModal = ({
+import { Dispatch } from 'redux';
+
+type SetIsStockFunction = (isStock: number) => void;
+
+interface Payload {
+  productId: string;
+  quantity: number;
+}
+
+interface TCartModalProps {
+  handleAddToCart: () => void;
+  ifcart: number;
+  btnTitle: string;
+  handleIncrementQty: (
+    id: string,
+    pQty: number,
+    isStock: number,
+    setIsStock: SetIsStockFunction,
+    dispatch: Dispatch<AddProductCartAction>,
+    addProductCart: (payload: Payload) => AddProductCartAction
+  ) => void;
+  handleDecrementQty: (
+    id: string,
+    pQty: number,
+    isStock: number,
+    setIsStock: SetIsStockFunction,
+    dispatch: Dispatch<AddProductCartAction>,
+    addProductCart: (payload: Payload) => AddProductCartAction
+  ) => void;
+  isStock: number;
+  setIsStock: SetIsStockFunction,
+  dispatch: Dispatch<AddProductCartAction>;
+  addProductCart: (payload: {
+    productId: string;
+    quantity: number;
+  }) => AddProductCartAction;
+}
+
+
+
+
+
+const CartModal:React.FC<TCartModalProps> = ({
   handleAddToCart,
   ifcart,
   btnTitle,
   handleIncrementQty,
   handleDecrementQty,
   isStock,
-  setQuantity,
   setIsStock,
   dispatch,
   addProductCart,
 }) => {
   const carts = useAppSelector(useCurrentCart);
-  const [qty, setQty] = useState([]);
+  const [qty, setQty] = useState<number[]>([]);
+
   const productIds = carts.items.map((product) => product.productId);
   const {
     data: cartsProductDetails,
@@ -45,18 +89,17 @@ const CartModal = ({
 
     //  console.log(newQty);
 
-    setQty(newQty);
+    setQty(newQty)
   }, [carts]);
 
   const totalItems = qty?.reduce((total, quantity) => total + quantity, 0);
 
-  const totalAmount = cartsProductDetails?.data?.reduce((total, product, i) => {
+  const totalAmount = cartsProductDetails?.data?.reduce((total:number, product:TProduct, i:number) => {
     return total + product.p_price * qty[i];
   }, 0);
 
-  const handleRemoveFromCart = (id) => {
+  const handleRemoveFromCart = (id: string) => {
     dispatch(removeProductFromCart(id));
-    setQuantity(1);
   };
 
   return (
@@ -84,7 +127,7 @@ const CartModal = ({
               </div>
             ) : (
               <div className="md:max-h-[260px] 2xl:min-h-[460px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide">
-                {cartsProductDetails?.data?.map((product, i) => (
+                {cartsProductDetails?.data?.map((product:TProduct, i:number) => (
                   <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
                     <div className="flex  gap-2">
                       <img
@@ -110,7 +153,7 @@ const CartModal = ({
                                 product._id,
                                 qty[i],
                                 product.p_stock,
-                                setQuantity,
+                              
                                 setIsStock,
                                 dispatch,
                                 addProductCart,
@@ -122,14 +165,14 @@ const CartModal = ({
                           <span>{qty[i]}</span>
                           <button
                             disabled={
-                              product?.p_stock === 0 || isStock - ifcart === 0
+                              product?.p_stock === 0 || (isStock - ifcart) === 0
                             }
                             onClick={() =>
                               handleIncrementQty(
                                 product._id,
                                 qty[i],
                                 product.p_stock,
-                                setQuantity,
+                               
                                 setIsStock,
                                 dispatch,
                                 addProductCart,

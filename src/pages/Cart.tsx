@@ -14,39 +14,42 @@ import {
 } from '@/redux/features/products/productSlice';
 import { useEffect, useState } from 'react';
 import { handleDecrementQty, handleIncrementQty } from '@/utils/quantityUtils';
+import { TProduct } from '@/types/Interface';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
   const carts = useAppSelector(useCurrentCart);
   const productIds = carts.items.map((product) => product.productId);
   const { data: cartsProductDetails } = useGetCartsProductsQuery(productIds);
-  const [qty, setQty] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  const [qty, setQty] = useState<number[]>([]);
+
   const [isStock, setIsStock] = useState(1);
 
   console.log(carts?.items[0]?.quantity);
 
   useEffect(() => {
     //quantities from cart item for localstorage
-    const newQty = carts?.items?.map((product) => product.quantity);
-    //  console.log(newQty);
+    const newQty = carts?.items?.map((product) => product.quantity) || [];
 
     setQty(newQty);
   }, [carts]);
 
   const totalItems = qty?.reduce((total, quantity) => total + quantity, 0);
 
-  const totalAmount = cartsProductDetails?.data?.reduce((total, product, i) => {
-    return total + product.p_price * qty[i];
-  }, 0);
+  const totalAmount = cartsProductDetails?.data?.reduce(
+    (total: number, product: TProduct, i: number) => {
+      return total + product.p_price * qty[i];
+    },
+    0,
+  );
 
-  const handleRemoveFromCart = (id) => {
+  const handleRemoveFromCart = (id: string) => {
     dispatch(removeProductFromCart(id));
   };
 
   return (
     <div>
-      <PageBanner img={img} />
+      <PageBanner bannerTitle={''} img={img} />
 
       {totalItems > 0 ? (
         <div className="py-5 flex flex-col container mx-auto justify-between h-full">
@@ -57,7 +60,7 @@ const Cart = () => {
           </div>
           <div className=" flex   flex-col gap-3  ">
             {carts?.items.length > 0 ? (
-              cartsProductDetails?.data?.map((product, i) => (
+              cartsProductDetails?.data?.map((product: TProduct, i: number) => (
                 <div
                   key={i}
                   className="grid grid-cols-3 border justify-between items-center px-4 rounded-lg shadow-2xl "
@@ -72,7 +75,7 @@ const Cart = () => {
                     </Link>
                     <div className="space-y-2">
                       <h4 className="text-sm  text-primary">
-                        {product.p_name}
+                        {product.p_name.slice(0, 70)}
                       </h4>
                       <div className="">
                         <p className="text-white  text-ms">
@@ -80,6 +83,9 @@ const Cart = () => {
                         </p>
                         <p className="text-white  text-sm">
                           Catergory: {product.p_category}
+                        </p>
+                        <p className="text-white hidden text-sm">
+                          stock: {isStock}
                         </p>
                       </div>
                     </div>
@@ -92,7 +98,7 @@ const Cart = () => {
                             product._id,
                             qty[i],
                             product.p_stock,
-                            setQuantity,
+
                             setIsStock,
                             dispatch,
                             addProductCart,
@@ -108,7 +114,6 @@ const Cart = () => {
                             product._id,
                             qty[i],
                             product.p_stock,
-                            setQuantity,
                             setIsStock,
                             dispatch,
                             addProductCart,

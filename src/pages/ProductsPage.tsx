@@ -9,9 +9,19 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
-import { useState } from 'react';
+import { TProduct } from '@/types/Interface';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-const initialFilterValues = {
+interface TFilterValues {
+  searchTerm: string;
+  sortByPrice: string;
+  stockStatus: string;
+  categories: string[];
+}
+
+
+
+const initialFilterValues:TFilterValues = {
   searchTerm: '',
   sortByPrice: 'asc',
   stockStatus: '',
@@ -19,17 +29,16 @@ const initialFilterValues = {
 };
 
 const ProductsPage = () => {
-  const [filters, setFilters] = useState(initialFilterValues);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const { data: products, isLoading, isError } = useGetProductsQuery(filters);
+  const [filters, setFilters] = useState<TFilterValues>(initialFilterValues);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const { data: products, isLoading } = useGetProductsQuery(filters);
 
   if (isLoading) {
     return <>Loading...</>;
   }
 
-  console.log(filters);
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilters((prevValues) => ({
       ...prevValues,
@@ -37,7 +46,7 @@ const ProductsPage = () => {
     }));
   };
 
-  const handleCheckboxChange = (category) => {
+  const handleCheckboxChange = (category:string) => {
     setSelectedCategories((prevSelected) =>
       prevSelected.includes(category)
         ? prevSelected.filter((item) => item !== category)
@@ -62,13 +71,21 @@ const ProductsPage = () => {
     });
   };
 
-  const handleFilterSubmit = (e) => {
+  const handleFilterSubmit = (e:FormEvent) => {
     e.preventDefault();
     console.log(filters);
   };
 
+  const handleFormChange = (e: ChangeEvent<HTMLFormElement>) => {
+    const { name, value } = e.target as unknown as HTMLInputElement | HTMLSelectElement;
+    handleFilterChange({ target: { name, value } } as ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >);
+  };
+
+
   const categories = Array.from(
-    new Set(products?.data?.map((product: string) => product.p_category)),
+    new Set(products?.data?.map((product: TProduct) => product.p_category)),
   );
 
   const img =
@@ -107,7 +124,7 @@ const ProductsPage = () => {
         <option value="asc">High to Low</option>
         <option value="desc">Low to High</option>
       </select> */}
-            <form onChange={handleFilterChange}>
+            <form onChange={handleFormChange}>
               <Select name="sortByPrice">
                 <SelectTrigger className="w-[180px]">
                   <SelectValue
@@ -129,7 +146,7 @@ const ProductsPage = () => {
 
           <div className="grid w-full  grid-cols-4 gap-4">
             {/* Todo product card */}
-            {products?.data?.map((product) => (
+            {products?.data?.map((product:TProduct) => (
               <FeatureProductCard key={product._id} data={product} />
             ))}
           </div>

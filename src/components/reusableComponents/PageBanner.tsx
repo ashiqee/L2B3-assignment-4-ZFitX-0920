@@ -10,7 +10,7 @@ import { useCurrentPath } from '@/hooks/useCurrentPath';
 interface TPageBannerProps {
    
     img: string;
-    bannerTitle:string
+    bannerTitle:string;
 }
 
 const PageBanner = ({img,bannerTitle }:TPageBannerProps) => {

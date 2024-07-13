@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Slider } from "@/components/ui/slider"
-
 
 const ProductsSidebar = ({
   filters,
@@ -13,8 +11,7 @@ const ProductsSidebar = ({
   categories,
   handleCheckboxChange,
   selectedCategories,
-  initialFilterValues,
-  resetFilters
+    resetFilters
 }) => {
   const [openMenus, setOpenMenus] = useState({
     equipments: false,

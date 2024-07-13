@@ -7,18 +7,24 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
-import { img } from '@/static/pageContent';
+
 import { Plus } from 'lucide-react';
 
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
 
 import { useAddProductMutation } from '@/redux/features/products/productApi';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
-const AddNewProductModal = ({ toast }) => {
+
+interface TAddNewProductProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  toast: any;
+}
+
+const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
   const {
     register,
     handleSubmit,
@@ -27,27 +33,40 @@ const AddNewProductModal = ({ toast }) => {
   } = useForm({});
 
   const [addProduct] = useAddProductMutation();
-  const [imgUrls, setImgUrl] = useState([]);
+  const [imgUrls, setImgUrl] = useState<string[]>([]);
 
-  const handleImage = (e) => {
-    const value = e.target.value;
+  const handleImage = (e: FormEvent<HTMLTextAreaElement>) => {
+    const value = e.currentTarget.value;
     const urls = value.split(',').map((url) => url.trim());
     setImgUrl(urls);
   };
-  const handleAddProductSubmit = async (productData) => {
+
+  const handleAddProductSubmit: SubmitHandler<FieldValues> = async (
+    productData,
+  ) => {
+    
+    
+    // const trimmedUrls = productData.p_images.map((url) =>
+    //   url.trim(),
+    // );
     const data = {
       ...productData,
-      p_images: productData.p_images.split(',').map((url) => url.trim()),
+      p_images: imgUrls,
     };
+
+  
+    
 
     const res = await addProduct(data);
 
     if (res?.data?.success) {
-      toast(res?.data?.message);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (toast as any)(res?.data?.message);
       reset();
       setImgUrl([]);
     } else {
-      toast(res?.error?.data?.errorMessages[0].message);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (toast as any)('An error occurred');
     }
   };
 
@@ -80,9 +99,10 @@ const AddNewProductModal = ({ toast }) => {
                     })}
                     name="p_name"
                   />
-                  {errors.p_name && (
-                    <p className="text-red-500">{errors?.p_name?.message}</p>
-                  )}
+                  {errors.p_name &&
+                    typeof errors.p_name.message === 'string' && (
+                      <p className="text-red-500">{errors.p_name.message}</p>
+                    )}
                 </div>
                 <div className="flex justify-between gap-6 items-center">
                   <div className="w-full">
@@ -98,7 +118,7 @@ const AddNewProductModal = ({ toast }) => {
                       })}
                       name="p_price"
                     />
-                    {errors.p_price && (
+                    {errors.p_price && typeof errors.p_price.message==="string" && (
                       <p className="text-red-500">{errors?.p_price?.message}</p>
                     )}
                   </div>
@@ -115,7 +135,7 @@ const AddNewProductModal = ({ toast }) => {
                       })}
                       name="p_stock"
                     />
-                    {errors.p_stock && (
+                    {errors.p_stock && typeof errors.p_stock.message==="string" && (
                       <p className="text-red-500">{errors?.p_stock?.message}</p>
                     )}
                   </div>
@@ -131,7 +151,7 @@ const AddNewProductModal = ({ toast }) => {
                     })}
                     name="p_category"
                   />
-                  {errors.p_category && (
+                  {errors.p_category && typeof errors.p_category.message==="string" && (
                     <p className="text-red-500">
                       {errors?.p_category?.message}
                     </p>
@@ -147,7 +167,7 @@ const AddNewProductModal = ({ toast }) => {
                     })}
                     name="p_description"
                   />
-                  {errors.p_description && (
+                  {errors.p_description && typeof errors.p_description.message==="string" &&(
                     <p className="text-red-500">
                       {errors?.p_description?.message}
                     </p>
@@ -164,7 +184,7 @@ const AddNewProductModal = ({ toast }) => {
                     onChange={handleImage}
                     name="p_images"
                   />
-                  {errors.p_images && (
+                  {errors.p_images && typeof errors.p_images.message==="string" && (
                     <p className="text-red-500">{errors?.p_images?.message}</p>
                   )}
                   <small className="text-white">

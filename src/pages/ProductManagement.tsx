@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
-import { Plus, Search } from 'lucide-react';
+import {Search } from 'lucide-react';
 import {
   Pagination,
   PaginationContent,
@@ -11,17 +11,21 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { EllipsisVertical } from 'lucide-react';
+
 import AddNewProductModal from '@/components/reusableComponents/AddNewProductModal';
 import ActionMenu from '@/components/reusableComponents/ActionMenu';
 
 import { Toaster, toast } from 'sonner';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import {  ChangeEvent, useState } from 'react';
 import { useDeleteProductMutation } from '@/redux/features/products/productApi';
 
-const initialFilterValues = {
+interface TFilters{
+  searchTerm:string;
+}
+
+const initialFilterValues:TFilters = {
   searchTerm: '',
   
 };
@@ -29,13 +33,15 @@ const initialFilterValues = {
 const ProductManagement = () => {
   
   const [deleteProduct] = useDeleteProductMutation()
-  const [filters, setFilters] = useState(initialFilterValues);
+  const [filters, setFilters] = useState<TFilters>(initialFilterValues);
   const { data: products, isLoading } = useGetProductsQuery(filters);
  
  
+ if(isLoading){
+  return <>Loading...</>
+ }
  
- 
-  const handleDeletedProduct = (id) => {
+  const handleDeletedProduct = (id:string) => {
    const res = deleteProduct(id);
   if(res.arg.track){
     toast.error('Product Deleted', {
@@ -47,8 +53,9 @@ const ProductManagement = () => {
   }
 
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
+  const handleFilterChange = (e:ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    const { name, value } = e.currentTarget;
     setFilters((prevValues) => ({
       ...prevValues,
       [name]: value,

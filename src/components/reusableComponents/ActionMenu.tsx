@@ -1,22 +1,23 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuSeparator,
+    
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { Button } from "../ui/button";
-import { useState } from "react";
-import { Delete, Edit, EllipsisVertical } from "lucide-react";
-import EditProductModal from "./EditProductModal";
-import { useAppDispatch } from './../../redux/hook';
-import { useDeleteProductMutation } from "@/redux/features/products/productApi";
-   
 
-const ActionMenu = ({product,handleDeletedProduct,toast}) => {
-    const [position, setPosition] = useState("bottom")
+
+import { Delete, EllipsisVertical } from "lucide-react";
+import EditProductModal from "./EditProductModal";
+import { TProduct } from "@/types/Interface";
+
+   interface TActionMenuProps{
+    product:TProduct;
+    handleDeletedProduct:(productId:string)=>void;
+    toast:unknown;
+   }
+
+const ActionMenu: React.FC<TActionMenuProps> = ({product,handleDeletedProduct,toast}) => {
+    
 
 
     

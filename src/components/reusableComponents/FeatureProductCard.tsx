@@ -7,19 +7,22 @@ import {
 } from '@/components/ui/card';
 import { Button } from '../ui/button';
 
-import { ShoppingCart,Heart  } from 'lucide-react';
+import { Heart  } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { TProduct } from '@/types/Interface';
 
-const FeatureProductCard = ({data}) => {
+interface TCardDataProps{
+  data: TProduct;
+}
+
+const FeatureProductCard = ({data}:TCardDataProps) => {
   const {
     p_name,
-p_description,
 p_category,
 p_images,
 p_price,
 p_stock,
-
 _id
   } =data;
   const [open, setOpen] = useState(false);
@@ -33,14 +36,14 @@ _id
       <CardContent  onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="px-0 pb-0 mb-4 relative   overflow-hidden">
        <div className='max-h-[360px] min-h-[360px]'>
        <img className='hover:scale-125 max-h-[360px] min-h-[360px]  object-cover transition-transform w-full duration-1000' 
-        src={p_images}/>
+        src={p_images[0]}/>
        </div>
        {
         open && <div className="absolute -left-2 w-20  flex flex-col gap-3 text-white justify-center items-center inset-0 ">
         
       
-        <button className="hover:text-white hover:bg-gray-600 text-black bg-primary rounded-full p-2  text-xl" >
-          <ShoppingCart />
+        <button className="hover:text-white hover:bg-gray-600 text-black bg-primary rounded-full p-2  text-sm" >
+          {p_stock}
         
         </button>
         <button className="hover:text-white hover:bg-gray-600 text-black bg-primary rounded-full p-2 text-xl" >  <Heart /></button>

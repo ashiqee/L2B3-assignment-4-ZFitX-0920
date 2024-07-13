@@ -28,7 +28,7 @@ const cartSlice = createSlice({
     initialState,
     reducers:{
        addProductCart: (state,action: PayloadAction<TCartItem>)=>{
-        console.log(action.payload);
+     
         const {productId,quantity}=action.payload;
 
        const exitstingItem = state.items.find(item=> item.productId === productId);

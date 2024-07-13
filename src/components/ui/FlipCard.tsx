@@ -1,8 +1,12 @@
 
+import { TAboutItem } from '@/types/Interface';
 import '../../lib/css/FlipCard.css'; 
 
+interface FlipCardProps{
+    item:TAboutItem
+}
 
-const FlipCard = ({item}) => {
+const FlipCard: React.FC<FlipCardProps> = ({item}) => {
     return (
         <div className="flip-card">
         <div className="flip-card-inner ">

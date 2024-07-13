@@ -12,15 +12,16 @@ interface TProduct{
     p_price:number;
     p_stock:number;
     p_isDeleted?: boolean;
+    _id:string;
 }
 
 const FeaturedProduct = () => {
-    const {data: products ,isLoading ,isError} = useGetProductsQuery({});
+    const {data: products ,isLoading } = useGetProductsQuery({});
 
     if(isLoading){
       return <>Loading...</>
     }
-    console.log(products?.data);
+   
 
     return (
         <div className="space-y-10">

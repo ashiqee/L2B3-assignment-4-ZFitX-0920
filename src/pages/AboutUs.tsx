@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import FlipCard from '@/components/ui/FlipCard';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { aboutImg, instragramImgs, teamsImg } from '@/static/AboutPageStatic';
+import { aboutImgs, instagramImgs, teamsImgs } from '@/static/AboutPageStatic';
 
-import { Instagram, StampIcon } from 'lucide-react';
+
+import { Instagram } from 'lucide-react';
 
 const AboutUs = () => {
   const img =
@@ -19,7 +20,7 @@ const AboutUs = () => {
       <PageBanner bannerTitle={'About Us'} img={img} />
       <div className="container mx-auto">
         <div className="grid grid-cols-5  ">
-          {aboutImg.map((item) => (
+          {aboutImgs.map((item) => (
             <FlipCard item={item} />
           ))}
         </div>
@@ -77,7 +78,7 @@ const AboutUs = () => {
             we are stronger.
           </p>
           <div className="grid grid-cols-4 py-10 ">
-            {teamsImg.map((item) => (
+            {teamsImgs.map((item) => (
               <FlipCard item={item} />
             ))}
           </div>
@@ -122,7 +123,7 @@ const AboutUs = () => {
             <Instagram /> FOLLOW US ON @GFITX
           </p>
           <div className="flex mb-0 overflow-y-hidden  md:overflow-x-hidden scrollbar-hide ">
-            {instragramImgs.map((img, i) => (
+            {instagramImgs.map((img, i) => (
               <div key={i}>
                 <img className="w-40" src={img.imgUrl} />
               </div>
