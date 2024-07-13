@@ -29,7 +29,7 @@ const BenefitCard = ({ benefits }:TBenifitProps) => {
               <li>Secure</li>
             </ul>
 
-            <Link to='#'>
+            <Link to='/products'>
               <Button>View more</Button>
             </Link>
           </div>

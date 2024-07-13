@@ -18,7 +18,7 @@ const MobileMenu = ({menus}:MenusProps) => {
         <Popover>
         <PopoverTrigger  className='text-2xl 2xl:hidden rotate-90'>III</PopoverTrigger>
        
-       <PopoverContent className="w-[90vw] mt-7 flex items-start justify-between min-h-screen bg-opacity-70 bg-black text-white">
+       <PopoverContent className="md:w-[25vw] mt-7 flex items-start justify-between min-h-screen bg-opacity-70 bg-black text-white">
             <ul className="space-y-3">
                 {
                    menus.map((menu)=> (<li className="text-xl " key={menu.menuId}> <NavLink 

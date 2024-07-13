@@ -52,28 +52,7 @@ const BenefitSection = () => {
   return (
     <div className="container mt-10   mx-auto">
       <MainTttle className="text-center" title="PHYSIQUE WELLNESS & FITNESS" />
-      {/* <div className=" h-[600px] mt-14  overflow-scroll overflow-x-hidden scrollbar-hide overflow-hidden  items-center space-y-10">
-        {benefits.map((benefit, index) => (
-          <div key={index} className="flex-1 flex gap-10 ">
-            <div className="text-left w-1/2 my-auto space-y-1.5 px-2 md:px-0">
-              <TagTitle tagTitle={benefit.title} />
-
-              <p>{benefit.description}</p>
-              <Button>Explore more</Button>
-            </div>
-
-            <div className="w-1/2">
-              {benefit.image && (
-                <img
-                  src={benefit.image}
-                  alt={benefit.title}
-                  className="w-full h-[600px] object-contain object-center"
-                />
-              )}
-            </div>
-          </div>
-        ))}
-      </div> */}
+  
 
 
       <div className="mt-14">
