@@ -108,7 +108,7 @@ const ProductsPage = () => {
         <option value="desc">Low to High</option>
       </select> */}
             <form onChange={handleFilterChange}>
-              <Select name="sortByPrice" >
+              <Select name="sortByPrice">
                 <SelectTrigger className="w-[180px]">
                   <SelectValue
                     placeholder="Sort By Price"
@@ -122,7 +122,6 @@ const ProductsPage = () => {
                 <SelectContent>
                   <SelectItem value="asc">Low to high</SelectItem>
                   <SelectItem value="desc">High to low</SelectItem>
-                 
                 </SelectContent>
               </Select>
             </form>

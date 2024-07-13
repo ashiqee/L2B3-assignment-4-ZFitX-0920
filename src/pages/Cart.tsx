@@ -63,19 +63,19 @@ const totalItems = qty?.reduce((total, quantity) => total + quantity, 0);
        {
         carts?.items.length > 0 ?  cartsProductDetails?.data?.map((product,i)=>(
           <div key={i} className="flex justify-between items-center px-4 rounded-lg shadow-2xl ">
-          <div className="flex   gap-2">
-            <img className="w-28 object-cover h-28" src={product.p_images[0]} />
+          <div className="flex  items-center   gap-2">
+           <Link to={`/products/${product._id}`}> <img className="min-w-28 hover:scale-150 hover:cursor-pointer object-cover h-28" src={product.p_images[0]} /></Link>
             <div className="space-y-2">
-              <h4 className="text-xl text-primary">{product.p_name}</h4>
-              <div>
-                <p className="text-white text-md">${product.p_price}</p>
-                <p className="text-white text-md">Catergory: {product.p_category}</p>
+              <h4 className="text-sm w-full  text-primary">{product.p_name}</h4>
+              <div className="w-full">
+                <p className="text-white  text-md">${product.p_price}</p>
+                <p className="text-white  text-md">Catergory: {product.p_category}</p>
               </div>
              
             </div>
           
           </div>
-          <div className=" flex justify-between text-md gap-4 text-white items-center  font-semibold text-center">
+          <div className=" flex w-full justify-between text-md gap-4 text-white items-center  font-semibold text-center">
                 <div className='flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center'>
                 <button onClick={()=>handleDecrementQty(product._id,qty[i], product.p_stock, setQuantity, setIsStock, dispatch, addProductCart)}>-</button>
                 <span>{qty[i]}</span>
@@ -88,7 +88,7 @@ const totalItems = qty?.reduce((total, quantity) => total + quantity, 0);
               </div>
           <div className=" p-3">
            
-            <p className="text-white text-[26px] pb-2 flex gap-3 items-center text-md">
+            <p className="text-white w-full text-[26px] pb-2 flex gap-3 items-center text-md">
                ${product.p_price*qty[i]}
             </p>
           </div>
