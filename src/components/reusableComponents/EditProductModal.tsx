@@ -13,12 +13,20 @@ import { Edit } from 'lucide-react';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormEvent, useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useUpdateProductMutation } from '@/redux/features/products/productApi';
+import { TProduct } from '@/types/Interface';
 
 
-const EditProductModal = ({ product,toast }) => {
+interface TEditProductProps{
+  product:TProduct;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  toast:any;
+}
+
+
+const EditProductModal:React.FC<TEditProductProps>= ({ product,toast }) => {
   const { p_name, p_description, p_category, p_images, p_price, p_stock, _id } = product;
   const [updateProduct] = useUpdateProductMutation();
 
@@ -31,17 +39,18 @@ const EditProductModal = ({ product,toast }) => {
   } = useForm({});
 
   // const [addProduct] = useAddProductMutation();
-  const [imgUrls, setImgUrl] = useState([]);
+  const [imgUrls, setImgUrl] = useState<string[]>([]);
 
-  const handleImage = (e) => {
-    const value = e.target.value;
+  const handleImage = (e: FormEvent<HTMLTextAreaElement>) => {
+    const value = e.currentTarget.value;
     const urls = value.split(',').map((url) => url.trim());
     setImgUrl(urls);
   };
-  const handleUpdateProductSubmit = async (productData) => {
+
+  const handleUpdateProductSubmit:SubmitHandler<FieldValues> = async (productData) => {
     const data = {
       ...productData,
-      p_images: productData.p_images.split(',').map((url) => url.trim()),
+      p_images: imgUrls,
       id:_id
     };
 
@@ -52,7 +61,7 @@ const EditProductModal = ({ product,toast }) => {
       reset();
       setImgUrl([]);
     } else {
-      toast(res?.error?.data?.errorMessages[0].message);
+      toast('Product update An error occurred');
     }
   };
 
@@ -83,9 +92,10 @@ const EditProductModal = ({ product,toast }) => {
                     name="p_name"
                     defaultValue={p_name}
                   />
-                  {errors.p_name && (
-                    <p className="text-red-500">{errors?.p_name?.message}</p>
-                  )}
+                  {errors.p_name &&
+                    typeof errors.p_name.message === 'string' && (
+                      <p className="text-red-500">{errors.p_name.message}</p>
+                    )}
                 </div>
                 <div className="flex justify-between gap-6 items-center">
                   <div className="w-full">
@@ -102,9 +112,12 @@ const EditProductModal = ({ product,toast }) => {
                       name="p_price"
                       defaultValue={p_price}
                     />
-                    {errors.p_price && (
-                      <p className="text-red-500">{errors?.p_price?.message}</p>
-                    )}
+                     {errors.p_price &&
+                      typeof errors.p_price.message === 'string' && (
+                        <p className="text-red-500">
+                          {errors?.p_price?.message}
+                        </p>
+                      )}
                   </div>
                   <div className="w-full">
                     <Label className="text-xl text-white">Stock:</Label>
@@ -120,9 +133,12 @@ const EditProductModal = ({ product,toast }) => {
                       name="p_stock"
                       defaultValue={p_stock}
                     />
-                    {errors.p_stock && (
-                      <p className="text-red-500">{errors?.p_stock?.message}</p>
-                    )}
+                  {errors.p_stock &&
+                      typeof errors.p_stock.message === 'string' && (
+                        <p className="text-red-500">
+                          {errors?.p_stock?.message}
+                        </p>
+                      )}
                   </div>
                 </div>
                 <div>
@@ -137,11 +153,12 @@ const EditProductModal = ({ product,toast }) => {
                     name="p_category"
                     defaultValue={p_category}
                   />
-                  {errors.p_category && (
-                    <p className="text-red-500">
-                      {errors?.p_category?.message}
-                    </p>
-                  )}
+                  {errors.p_category &&
+                    typeof errors.p_category.message === 'string' && (
+                      <p className="text-red-500">
+                        {errors?.p_category?.message}
+                      </p>
+                    )}
                 </div>
                 <div>
                   <Label className="text-xl text-white">Description:</Label>
@@ -154,11 +171,12 @@ const EditProductModal = ({ product,toast }) => {
                     name="p_description"
                     defaultValue={p_description}
                   />
-                  {errors.p_description && (
-                    <p className="text-red-500">
-                      {errors?.p_description?.message}
-                    </p>
-                  )}
+                   {errors.p_description &&
+                    typeof errors.p_description.message === 'string' && (
+                      <p className="text-red-500">
+                        {errors?.p_description?.message}
+                      </p>
+                    )}
                 </div>
                 <div>
                   <Label className="text-xl text-white">Images</Label>
@@ -172,9 +190,12 @@ const EditProductModal = ({ product,toast }) => {
                     name="p_images"
                     defaultValue={p_images}
                   />
-                  {errors.p_images && (
-                    <p className="text-red-500">{errors?.p_images?.message}</p>
-                  )}
+                  {errors.p_images &&
+                    typeof errors.p_images.message === 'string' && (
+                      <p className="text-red-500">
+                        {errors?.p_images?.message}
+                      </p>
+                    )}
                   <small className="text-white">
                     Enter multiple URLs separated by commas
                   </small>

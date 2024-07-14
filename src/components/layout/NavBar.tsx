@@ -33,7 +33,7 @@ const NavBar = () => {
     },
   ];
   return (
-    <div className="2xl:fixed px-5 2xl:px-0  w-full z-40 bg-black bg-opacity-70 top-0 border-b-[1px] py-6">
+    <div className="2xl:fixed px-5 2xl:px-0  w-full z-40 bg-black/90 bg-opacity-70 top-0 border-b-[1px] py-6">
       <div className="container grid grid-cols-2 2xl:grid-cols-3  justify-start   items-center  mx-auto">
         {/* logo  */}
        

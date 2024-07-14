@@ -18,7 +18,6 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
 import { FormEvent, useState } from 'react';
 
-
 interface TAddNewProductProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   toast: any;
@@ -44,18 +43,10 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
   const handleAddProductSubmit: SubmitHandler<FieldValues> = async (
     productData,
   ) => {
-    
-    
-    // const trimmedUrls = productData.p_images.map((url) =>
-    //   url.trim(),
-    // );
-    const data = {
+     const data = {
       ...productData,
       p_images: imgUrls,
     };
-
-  
-    
 
     const res = await addProduct(data);
 
@@ -82,7 +73,7 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
           Add New
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent >
         <DialogHeader>
           <DialogTitle className="text-2xl">Add New Product</DialogTitle>
           <DialogDescription className="py-5 text-left  overflow-x-auto flex flex-col justify-between h-[80vh]">
@@ -118,9 +109,12 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                       })}
                       name="p_price"
                     />
-                    {errors.p_price && typeof errors.p_price.message==="string" && (
-                      <p className="text-red-500">{errors?.p_price?.message}</p>
-                    )}
+                    {errors.p_price &&
+                      typeof errors.p_price.message === 'string' && (
+                        <p className="text-red-500">
+                          {errors?.p_price?.message}
+                        </p>
+                      )}
                   </div>
                   <div className="w-full">
                     <Label className="text-xl text-white">Stock:</Label>
@@ -135,9 +129,12 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                       })}
                       name="p_stock"
                     />
-                    {errors.p_stock && typeof errors.p_stock.message==="string" && (
-                      <p className="text-red-500">{errors?.p_stock?.message}</p>
-                    )}
+                    {errors.p_stock &&
+                      typeof errors.p_stock.message === 'string' && (
+                        <p className="text-red-500">
+                          {errors?.p_stock?.message}
+                        </p>
+                      )}
                   </div>
                 </div>
                 <div>
@@ -151,11 +148,12 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                     })}
                     name="p_category"
                   />
-                  {errors.p_category && typeof errors.p_category.message==="string" && (
-                    <p className="text-red-500">
-                      {errors?.p_category?.message}
-                    </p>
-                  )}
+                  {errors.p_category &&
+                    typeof errors.p_category.message === 'string' && (
+                      <p className="text-red-500">
+                        {errors?.p_category?.message}
+                      </p>
+                    )}
                 </div>
                 <div>
                   <Label className="text-xl text-white">Description:</Label>
@@ -167,11 +165,12 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                     })}
                     name="p_description"
                   />
-                  {errors.p_description && typeof errors.p_description.message==="string" &&(
-                    <p className="text-red-500">
-                      {errors?.p_description?.message}
-                    </p>
-                  )}
+                  {errors.p_description &&
+                    typeof errors.p_description.message === 'string' && (
+                      <p className="text-red-500">
+                        {errors?.p_description?.message}
+                      </p>
+                    )}
                 </div>
                 <div>
                   <Label className="text-xl text-white">Images</Label>
@@ -184,9 +183,12 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                     onChange={handleImage}
                     name="p_images"
                   />
-                  {errors.p_images && typeof errors.p_images.message==="string" && (
-                    <p className="text-red-500">{errors?.p_images?.message}</p>
-                  )}
+                  {errors.p_images &&
+                    typeof errors.p_images.message === 'string' && (
+                      <p className="text-red-500">
+                        {errors?.p_images?.message}
+                      </p>
+                    )}
                   <small className="text-white">
                     Enter multiple URLs separated by commas
                   </small>

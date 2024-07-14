@@ -14,7 +14,7 @@ import { Button } from '../ui/button';
 
 const Footer = () => {
   return (
-    <div className="   bg-black bg-opacity-70  border-t-[1px]  py-10 ">
+    <div className="   bg-primary/5 bg-opacity-70  border-t-[1px]  py-10 ">
       <div className="container px-4 md:px-0 grid grid-cols-1 md:grid-cols-4 gap-5">
         {/* logo  */}
         <section className="space-y-3 border-b-[0.5px]  md:border-b-0 pb-10 md:border-r-[0.5px] border-primary">

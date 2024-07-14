@@ -21,27 +21,27 @@ import ProductManagement from "@/pages/ProductManagement";
             element:<HomePage/>
         },
         {
-            path:'/products',
+            path:'products',
             element:<ProductsPage/>
         },
         {
-            path:'/products/:id',
+            path:'products/:id',
             element:<ProductDetails/>
         },
         {
-          path:'/cart',
+          path:'cart',
           element:<Cart/>
       },
         {
-          path:'/checkout',
+          path:'checkout',
           element:<Checkout/>
       },
         {
-            path:'/about-us',
+            path:'about-us',
             element:<AboutUs/>
         },
         {
-            path:'/product-management',
+            path:'product-management',
             element:<ProductManagement/>
         },
        

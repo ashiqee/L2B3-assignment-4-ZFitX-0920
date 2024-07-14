@@ -1,10 +1,23 @@
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Button } from '../ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { TFilterValues } from '@/pages/ProductsPage';
 
-const ProductsSidebar = ({
+
+interface ProductsSidebarProps {
+  filters:  TFilterValues;
+  handleFilterChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleFilterSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  categories: string[];
+  handleCheckboxChange: (caregory:string) => void;
+  selectedCategories: string[];
+  resetFilters: () => void;
+}
+
+
+const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
   filters,
   handleFilterChange,
   handleFilterSubmit,
@@ -13,19 +26,13 @@ const ProductsSidebar = ({
   selectedCategories,
     resetFilters
 }) => {
-  const [openMenus, setOpenMenus] = useState({
-    equipments: false,
-    yogaWear: false,
-    gymWear: false,
-    accessories: false,
-  });
 
-  const handleOpenMenu = (menu: boolean) => {
-    setOpenMenus((prevState) => ({ ...prevState, [menu]: !prevState[menu] }));
-  };
+  const [openMenus, setOpenMenus] = useState(false);
+
+
   return (
     <div className="max-w-72  ">
-      <form onSubmit={handleFilterSubmit} onChange={handleFilterChange}>
+      <form onSubmit={handleFilterSubmit} >
         <div className="shadow-xl p-1 mb-5 rounded-lg">
           <p className="text-2xl  py-1 p-1 bg-primary text-black font-medium">
             Search:
@@ -37,6 +44,7 @@ const ProductsSidebar = ({
               className="w-full mt-8"
               type="text"
               placeholder="Search..."
+              onChange={handleFilterChange}
             />
           </div>
 
@@ -92,13 +100,13 @@ const ProductsSidebar = ({
             <ul className="space-y-3">
               <li className="">
                 <div
-                  onClick={() => handleOpenMenu('equipments')}
+                  onClick={() => setOpenMenus(!openMenus)}
                   className="flex justify-between items-center pr-4"
                 >
                   <p>Equipments</p>
-                  <p className="text-xl">{openMenus.equipments ? '-' : '+'}</p>
+                  <p className="text-xl">{openMenus ? '-' : '+'}</p>
                 </div>
-                {openMenus.equipments && (
+                {openMenus && (
                  <div className="w-full my-8">
                  <RadioGroup name="categoryFilters" >
 
@@ -111,7 +119,7 @@ const ProductsSidebar = ({
               id={category}
               value={category}
               checked={selectedCategories.includes(category)}
-              onChange={() => handleCheckboxChange(category)}
+              onClick={() => handleCheckboxChange(category)}
             />
                     <Label htmlFor={category}>{category}</Label>
                   </div>

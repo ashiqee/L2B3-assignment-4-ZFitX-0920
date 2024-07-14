@@ -20,6 +20,7 @@ import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import { Link } from 'react-router-dom';
 import {  ChangeEvent, useState } from 'react';
 import { useDeleteProductMutation } from '@/redux/features/products/productApi';
+import { TProduct } from '@/types/Interface';
 
 interface TFilters{
   searchTerm:string;
@@ -53,15 +54,17 @@ const ProductManagement = () => {
   }
 
 
-  const handleFilterChange = (e:ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (e:ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     e.preventDefault()
-    const { name, value } = e.currentTarget;
+    const { name, value } = e.target;
     setFilters((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
   };
 
+  console.log(filters);
+  
 
   return (
     <div className="2xl:mt-20">
@@ -70,14 +73,14 @@ const ProductManagement = () => {
         {/* navbar product manage  */}
  
        <div className="flex items-center gap-10 justify-between">
-       <form onChange={handleFilterChange} className="flex items-center w-full justify-between">
+       <form  className="flex items-center w-full justify-between">
           <div className="flex gap-3">
             <Label>Showing</Label>
 
-            <select defaultValue={5} className="text-black" name="5" id="">
-              <option value="">5</option>
-              <option value="">10</option>
-              <option value="">20</option>
+            <select defaultValue={5} className="text-black" name="pageLimit" onChange={handleFilterChange} id="">
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
             </select>
           </div>
 
@@ -88,6 +91,7 @@ const ProductManagement = () => {
               className="rounded-sm w-60 hover:border-primary"
               type="text"
               placeholder="Search"
+              onChange={handleFilterChange}
             />
             <button className="absolute hover:text-primary right-2">
               <Search />
@@ -132,7 +136,7 @@ const ProductManagement = () => {
               </thead>
               <tbody>
                 {products?.data?.length > 0
-                  ? products?.data?.map((product, i) => (
+                  ? products?.data?.map((product:TProduct, i:number) => (
                       <tr
                         key={i}
                         className="odd:bg-slate-900 odd:dark:bg-primary-900 text-white even:bg-primary-500 even:dark:bg-gray-800 border-b dark:border-gray-700"
@@ -182,11 +186,11 @@ const ProductManagement = () => {
         </div>
         {/* pagination  */}
         <div>
-          <form onChange={handleFilterChange}>
-          <Pagination>
+          
+          <Pagination >
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious href="#"  />
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink href="#">1</PaginationLink>
@@ -199,7 +203,7 @@ const ProductManagement = () => {
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-          </form>
+         
         </div>
       </div>
     </div>

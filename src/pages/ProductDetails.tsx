@@ -96,10 +96,9 @@ setQty(newQty)
           {/* detail  */}
 
           <div className="p-2 space-y-3">
-            <MainTttle
-              className="subpixel-antialiased"
-              title={p_name}
-            />
+            <h3 className="subpixel-antialiased text-md md:text-2xl">
+              {p_name}
+              </h3>
             <p className="text-[15px] subpixel-antialiased text-primary flex gap-2 items-center">
               <ShoppingBag /> 23 Itemssold in last 23 hours
             </p>

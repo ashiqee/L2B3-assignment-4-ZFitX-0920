@@ -11,14 +11,14 @@ import { Button } from '../ui/button';
 import { Trash } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
-  AddProductCartAction,
+ 
   removeProductFromCart,
-  useCurrentCart
+  useCurrentCart,
 } from '@/redux/features/products/productSlice';
-import { useAppSelector } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { useGetCartsProductsQuery } from '@/redux/features/products/productApi';
 import { useEffect, useState } from 'react';
-import { TProduct } from '@/types/Interface';
+import { AddProductCartAction, TProduct } from '@/types/Interface';
 
 import { Dispatch } from 'redux';
 
@@ -70,10 +70,10 @@ const CartModal:React.FC<TCartModalProps> = ({
   handleDecrementQty,
   isStock,
   setIsStock,
-  dispatch,
   addProductCart,
 }) => {
   const carts = useAppSelector(useCurrentCart);
+  const dispatch = useAppDispatch();
   const [qty, setQty] = useState<number[]>([]);
 
   const productIds = carts.items.map((product) => product.productId);
@@ -128,7 +128,7 @@ const CartModal:React.FC<TCartModalProps> = ({
             ) : (
               <div className="md:max-h-[260px] 2xl:min-h-[460px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide">
                 {cartsProductDetails?.data?.map((product:TProduct, i:number) => (
-                  <div className="flex justify-between bg-gray-900 px-4 rounded-lg shadow-2xl ">
+                  <div className="flex justify-between bg-base-300 border-[0.1px] px-4 p-3 rounded-lg shadow-2xl ">
                     <div className="flex  gap-2">
                       <img
                         className="w-28 object-cover h-28"
@@ -214,7 +214,7 @@ const CartModal:React.FC<TCartModalProps> = ({
                     <Link className="w-full" to="/cart">
                       <Button className="w-full">View Cart</Button>
                     </Link>
-                    <Link to="/checkout">
+                    <Link className="w-full" to="/checkout">
                       <Button className="w-full">Check Out</Button>
                     </Link>
                   </div>
