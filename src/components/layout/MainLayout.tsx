@@ -8,19 +8,23 @@ const MainLayout = () => {
   const { isLoading } = useGetProductsQuery({});
   return (
     <>
-      <div className="min-h-screen">
-        <NavBar />
+     
+       
         {isLoading ? (
           <>
             <LoadingPage />
           </>
         ) : (
+            <div className="min-h-screen">
+            <NavBar />
           <div className="pt-0">
             <Outlet />
           </div>
+            <Footer />
+            </div>
         )}
-      </div>
-      <Footer />
+     
+    
     </>
   );
 };
