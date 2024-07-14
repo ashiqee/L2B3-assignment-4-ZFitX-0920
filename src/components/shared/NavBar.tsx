@@ -1,7 +1,7 @@
 import {  Link, NavLink } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Search, ShoppingBag, User } from 'lucide-react';
-import MobileMenu from './MobileMenu';
+import MobileMenu from '../shared/MobileMenu';
 import Logo from '../reusableComponents/Logo';
 import {  TMenuItem } from '@/types/Interface';
 

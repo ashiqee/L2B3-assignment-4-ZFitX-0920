@@ -3,6 +3,7 @@ import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import FeatureProductCard from '../reusableComponents/FeatureProductCard';
 import MainTttle from '../reusableComponents/MainTttle';
 import TagTitle from '../reusableComponents/TagTitle';
+import LoadingPage from '../shared/LoadingPage';
 
 interface TProduct{
     p_name: string;
@@ -19,7 +20,7 @@ const FeaturedProduct = () => {
     const {data: products ,isLoading } = useGetProductsQuery({});
 
     if(isLoading){
-      return <>Loading...</>
+      return <><LoadingPage/></>
     }
    
 

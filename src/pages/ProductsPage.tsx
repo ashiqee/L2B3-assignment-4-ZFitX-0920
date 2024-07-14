@@ -1,6 +1,7 @@
-import ProductsSidebar from '@/components/layout/ProductsSidebar';
+
 import FeatureProductCard from '@/components/reusableComponents/FeatureProductCard';
 import PageBanner from '@/components/reusableComponents/PageBanner';
+import ProductsSidebar from '@/components/shared/ProductsSidebar';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import { TProduct } from '@/types/Interface';
 import { FormEvent, useEffect, useState } from 'react';
