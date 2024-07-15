@@ -29,13 +29,13 @@ _id
     
     
   return (
-    <Card className="min-h-96 p-0  bg-opacity-10">
+    <Card className="md:min-h-96  max-h-96 p-0  bg-opacity-10">
       <CardHeader className="p-0 px-0">
        
       </CardHeader>
       <CardContent  onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="px-0 pb-0 mb-4 relative   overflow-hidden">
-       <div className='max-h-[360px] min-h-[360px]'>
-       <img className='hover:scale-125 max-h-[360px] min-h-[360px]  object-cover transition-transform w-full duration-1000' 
+       <div className='md:max-h-[360px]  max-h-52 md:min-h-[360px]'>
+       <img className='hover:scale-125 md:max-h-[360px] min-h-52 max-h-52 md:min-h-[360px]  object-cover transition-transform w-full duration-1000' 
         src={p_images[0]}/>
        </div>
        {
@@ -53,11 +53,11 @@ _id
       
       <div className="space-y-2">
        <div className=" md:flex justify-between items-center gap-3">
-       <p className="text-primary uppercase text-[13px] md:text-[12px]">{p_category}</p>
+       <p className="text-primary uppercase text-[10px] md:text-[12px]">{p_category}</p>
        <p className="text-primary uppercase text-[13px] md:text-[20px]">${p_price}</p>
        </div>
        <div className=" md:flex justify-between items-center gap-3">
-      <h3 className="hover:text-primary text-sm md:text-md text-white">
+      <h3 className="hover:text-primary text-[12px] md:text-md text-white">
        {p_name.slice(0,30)}{p_name.length > 30 && <span> ...</span>}
        </h3>
  <div>

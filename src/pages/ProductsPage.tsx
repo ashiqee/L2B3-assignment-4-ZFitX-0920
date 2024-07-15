@@ -105,7 +105,7 @@ const ProductsPage = () => {
 
       {/* product page layout  */}
 
-      <section className=" container py-10 grid grid-cols-5 gap-4">
+      <section className=" container py-10 px-4 md:px-0  md:grid md:grid-cols-5 gap-4">
         {/* Search and filter */}
 
         <ProductsSidebar
@@ -140,7 +140,7 @@ const ProductsPage = () => {
             {/* </form> */}
           </div>
 
-          <div className="grid w-full  grid-cols-4 gap-4">
+          <div className="grid w-full grid-cols-2 md:grid-cols-4 gap-4">
             {/* Todo product card */}
             {products?.data?.map((product: TProduct) => (
               <FeatureProductCard key={product._id} data={product} />

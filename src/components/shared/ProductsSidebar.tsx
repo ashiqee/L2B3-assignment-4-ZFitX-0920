@@ -31,14 +31,17 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
 
 
   return (
-    <div className="max-w-72  ">
+    <div className="md:max-w-72 w-full ">
       <form onSubmit={handleFilterSubmit} >
         <div className="shadow-xl p-1 mb-5 rounded-lg">
-          <p className="text-2xl  py-1 p-1 bg-primary text-black font-medium">
+          <p className="text-2xl hidden md:block py-1 p-1 bg-primary text-black font-medium">
             Search:
           </p>
+          <p className="text-2xl md:hidden block py-1 p-1 bg-primary/40 text-white bg-opacity-50 font-medium">
+            Filters:
+          </p>
 
-          <div className="w-full my-8">
+          <div className="w-full md:my-8">
             <Input
               name="searchTerm"
               className="w-full mt-8"
@@ -73,7 +76,7 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
 
         {/* filter  */}
         <div className="shadow-xl p-1 mb-5 rounded-lg">
-          <p className="text-2xl  py-1 p-1 bg-primary text-black font-medium">
+          <p className="text-2xl hidden md:block  py-1 p-1 bg-primary text-black font-medium">
             Filter:
           </p>
           {/* onValueChange={handleFilterChange} */}
@@ -91,12 +94,12 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
           </div>
         </div>
         {/* Category  */}
-        <div className="shadow-xl p-1 mb-5 rounded-lg">
-          <p className="text-2xl  py-1 p-1 bg-primary text-black font-medium">
+        <div className="shadow-xl p-1 md:mb-5 rounded-lg">
+          <p className="text-2xl hidden md:block py-1 p-1 bg-primary text-black font-medium">
             Category:
           </p>
 
-          <div className="w-full my-8">
+          <div className="w-full md:my-8">
             <ul className="space-y-3">
               <li className="">
                 <div
