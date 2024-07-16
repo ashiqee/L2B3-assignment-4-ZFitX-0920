@@ -29,13 +29,13 @@ _id
     
     
   return (
-    <Card className="md:min-h-96  max-h-96 p-0  bg-opacity-10">
+    <Card className="md:min-h-[480px]  max-h-96 md:max-h-[480px] p-0  bg-opacity-10">
       <CardHeader className="p-0 px-0">
        
       </CardHeader>
       <CardContent  onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="px-0 pb-0 mb-4 relative   overflow-hidden">
        <div className='md:max-h-[360px]  max-h-52 md:min-h-[360px]'>
-       <img className='hover:scale-125 md:max-h-[360px] min-h-52 max-h-52 md:min-h-[360px]  object-cover transition-transform w-full duration-1000' 
+       <img className='hover:scale-125 md:max-h-[360px] min-h-52 max-h-52 md:min-h-[360px] overflow-hidden  object-cover transition-transform w-full duration-1000' 
         src={p_images[0]}/>
        </div>
        {

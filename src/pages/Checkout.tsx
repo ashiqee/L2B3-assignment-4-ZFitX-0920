@@ -1,19 +1,25 @@
 import PageBanner from '@/components/reusableComponents/PageBanner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { checkoutImg, img } from '@/static/pageContent';
+import { checkoutImg } from '@/static/pageContent';
 import { Label } from '@radix-ui/react-label';
 import { ArrowLeftFromLine } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import useCartData from '@/hooks/useCartData';
+
 
 const Checkout = () => {
+
+  const { cartsProducts, totalAmount } = useCartData();
+
+
   return (
     <div>
-      <PageBanner bannerTitle='Check Out' img={checkoutImg} />
+      <PageBanner bannerTitle="Check Out" img={checkoutImg} />
       <form>
-        <div className="container  mx-auto grid grid-cols-2 gap-6">
-          <div className="p-10 space-y-4 py-14">
+        <div className="container  mx-auto md:flex    justify-between  gap-6">
+          <div className="p-10 space-y-4 w-full py-14">
             <p>Contact</p>
             <div className="space-y-10">
               <Input type="email" placeholder="Email" />
@@ -35,55 +41,45 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
-              <Label className="flex pt-4 max-w-[10vw] hover:text-primary   cursor-pointer  ">
-            <Link className="flex gap-4  items-center"  to="/cart">
+            <Label className="flex pt-4 max-w-[10vw] hover:text-primary   cursor-pointer  ">
+              <Link className="flex gap-4  items-center" to="/cart">
                 {' '}
                 <ArrowLeftFromLine /> Return to cart
-            </Link>
-              </Label>
+              </Link>
+            </Label>
           </div>
 
           {/* order Information */}
-          <div className="bg-gray-900 p-10 space-y-6 bg-opacity-30">
+          <div className="bg-primary/5 p-10 w-full space-y-6 bg-opacity-30">
             <p>Checkout Summary</p>
-            {/* product info  */}
-            <div className="flex justify-between  items-center">
-              <div className="flex gap-4 items-center">
-                <div className="relative">
-                  <img
-                    className="w-20  object-cover h-20 rounded-lg"
-                    src={img}
-                  />
-                  <p className=" w-6 absolute -top-2 -right-2.5 text-[12px] h-6 p-1 text-center rounded-full bg-primary text-black">
-                    3
-                  </p>
-                </div>
-                <div>
-                  <p>Product title</p>
-                  <p>category</p>
-                </div>
-              </div>
 
-              <p>$20000</p>
-            </div>
-            <div className="flex justify-between  items-center">
-              <div className="flex gap-4 items-center">
-                <div className="relative">
-                  <img
-                    className="w-20  object-cover h-20 rounded-lg"
-                    src={img}
-                  />
-                  <p className=" w-6 absolute -top-2 -right-2.5 text-[12px] h-6 p-1 text-center rounded-full bg-primary text-black">
-                    3
-                  </p>
-                </div>
-                <div>
-                  <p>Product title</p>
-                  <p>category</p>
-                </div>
-              </div>
+            <div>
+              {cartsProducts?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex justify-between  items-center"
+                >
+                  <div className="flex gap-4 items-center">
+                    <div className="relative">
+                      <Link to={`/products/${item._id}`}>
+                        <img
+                          className="w-20  object-cover h-20 rounded-lg"
+                          src={item.p_images}
+                        />
+                      </Link>
+                      <p className=" w-6 absolute -top-2 -right-2.5 text-[12px] h-6 p-1 text-center rounded-full bg-primary text-black">
+                        {item.quantity}
+                      </p>
+                    </div>
+                    <div>
+                      <p>{item?.p_name?.slice(0, 50)}</p>
+                      <p className="text-[12px]">{item.p_category}</p>
+                    </div>
+                  </div>
 
-              <p>$20000</p>
+                  <p>${item.p_price * item.quantity}</p>
+                </div>
+              ))}
             </div>
 
             {/* total info  */}
@@ -91,7 +87,7 @@ const Checkout = () => {
               <div className="flex justify-between items-center">
                 <p>Subtotal</p>
                 <p>
-                  $<span>{'20000'}</span>{' '}
+                  $<span>{totalAmount}</span>{' '}
                 </p>
               </div>
               <div className="flex justify-between items-center">
@@ -109,7 +105,7 @@ const Checkout = () => {
               <div className="flex text-xl py-4 justify-between items-center">
                 <p>Total</p>
                 <p>
-                  $<span>{'20000'}</span>{' '}
+                  $<span>{totalAmount}</span>{' '}
                 </p>
               </div>
               <div className="space-y-4">
@@ -137,7 +133,7 @@ const Checkout = () => {
                     </RadioGroup>
                   </div>
 
-                  <Button type='submit' >Confirm Order</Button>
+                  <Button type="submit">Confirm Order</Button>
                 </div>
               </div>
             </div>

@@ -10,93 +10,27 @@ import { Button } from '../ui/button';
 
 import { Trash } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import {
- 
-  removeProductFromCart,
-  useCurrentCart,
-} from '@/redux/features/products/productSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { useGetCartsProductsQuery } from '@/redux/features/products/productApi';
-import { useEffect, useState } from 'react';
-import { AddProductCartAction, TProduct } from '@/types/Interface';
-
-import { Dispatch } from 'redux';
-
-type SetIsStockFunction = (isStock: number) => void;
-
-interface Payload {
-  productId: string;
-  quantity: number;
-}
+import { removeProductFromCart } from '@/redux/features/products/productSlice';
+import { useAppDispatch } from '@/redux/hook';
+import useCartData from '@/hooks/useCartData';
+import { addProductCart } from '@/redux/features/products/productSlice';
 
 interface TCartModalProps {
-  handleAddToCart?: () => void;
-  ifcart: number;
   btnTitle: string;
-  handleIncrementQty: (
-    id: string,
-    pQty: number,
-    isStock: number,
-    setIsStock: SetIsStockFunction,
-    dispatch: Dispatch<AddProductCartAction>,
-    addProductCart: (payload: Payload) => AddProductCartAction
-  ) => void;
-  handleDecrementQty: (
-    id: string,
-    pQty: number,
-    isStock: number,
-    setIsStock: SetIsStockFunction,
-    dispatch: Dispatch<AddProductCartAction>,
-    addProductCart: (payload: Payload) => AddProductCartAction
-  ) => void;
-  isStock: number;
-  setIsStock: SetIsStockFunction,
-  dispatch: Dispatch<AddProductCartAction>;
-  addProductCart: (payload: {
-    productId: string;
-    quantity: number;
-  }) => AddProductCartAction;
+  productId: string;
+  ifcart:number;
 }
 
-
-
-
-
-const CartModal:React.FC<TCartModalProps> = ({
-  handleAddToCart,
-  ifcart,
-  btnTitle,
-  handleIncrementQty,
-  handleDecrementQty,
-  isStock,
-  setIsStock,
-  addProductCart,
-}) => {
-  const carts = useAppSelector(useCurrentCart);
+const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) => {
   const dispatch = useAppDispatch();
-  const [qty, setQty] = useState<number[]>([]);
+  const { cartsProducts, totalAmount } = useCartData();
 
-  const productIds = carts.items.map((product) => product.productId);
-  const {
-    data: cartsProductDetails,
-    isLoading,
-    isError,
-  } = useGetCartsProductsQuery(productIds);
-
-  useEffect(() => {
-    //quantities from cart item for localstorage
-    const newQty = carts?.items?.map((product) => product.quantity);
-
-    //  console.log(newQty);
-
-    setQty(newQty)
-  }, [carts]);
-
-  const totalItems = qty?.reduce((total, quantity) => total + quantity, 0);
-
-  const totalAmount = cartsProductDetails?.data?.reduce((total:number, product:TProduct, i:number) => {
-    return total + product.p_price * qty[i];
-  }, 0);
+ 
+  // add card new or exiting
+  const handleAddToCart = (productId: string, qty: number) => {
+    dispatch(addProductCart({ productId: productId, quantity: qty }));
+  };
+ 
 
   const handleRemoveFromCart = (id: string) => {
     dispatch(removeProductFromCart(id));
@@ -106,95 +40,76 @@ const CartModal:React.FC<TCartModalProps> = ({
     <Dialog>
       <DialogTrigger>
         {' '}
-        <Button onClick={handleAddToCart}>{btnTitle}</Button>
+        <Button onClick={ifcart > 0 ? undefined : () => handleAddToCart(productId, 1)} >
+          {btnTitle}
+        </Button>
       </DialogTrigger>
       <DialogContent className=" ">
         <DialogHeader>
           <DialogTitle className="text-2xl">Shopping Cart</DialogTitle>
           <DialogDescription className="py-5 flex flex-col justify-between h-full">
-            {isLoading ? (
-              <div>Loading...</div>
-            ) : isError ? (
-              <div className="text-center space-y-10">
-                <p className="text-red-600 text-xl">
-                  Your shopping cart is empty!
-                </p>
-                <div>
-                  <Link to="/products">
-                    <Button>Please Go Shop</Button>
-                  </Link>
-                </div>
-              </div>
+            {totalAmount === 0 ? (
+              <div>Your cart is empty</div>
             ) : (
               <div className="md:max-h-[260px] 2xl:min-h-[460px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide">
-                {cartsProductDetails?.data?.map((product:TProduct, i:number) => (
-                  <div className="flex justify-between text-left bg-base-300 border-[0.1px] px-4 p-3 rounded-lg shadow-2xl ">
-                    <div className="flex  gap-2">
-                      <img
-                        className="w-28 object-cover h-28"
-                        src={product.p_images[0]}
-                      />
-                      <div className="space-y-2">
+                {cartsProducts?.map((product) => (
+                  <div
+                    key={product._id}
+                    className="flex justify-between text-left bg-base-300 hover:bg-primary/5 border-[0.1px] px-4 p-3 rounded-lg shadow-2xl "
+                  >
+                    <div className="flex justify-between  w-full  md:gap-4">
+                      <div className="flex gap-2 w-1/2">
+                        <button
+                          onClick={() => handleRemoveFromCart(product._id)}
+                          className="md:text-2xl  text-right hover:text-primary text-white"
+                        >
+                          <Trash size={20} />
+                        </button>
+                        <Link
+                          className="w-28  h-28"
+                          to={`/products/${product._id}`}
+                        >
+                          <img
+                            className="w-28 object-cover hover:scale-110"
+                            src={product?.p_images}
+                          />
+                        </Link>
+                      </div>
+                      <div className="space-y-2 ml-8 md:ml-0 p-1 w-full ">
                         <Link to={`/products/${product._id}`}>
                           {' '}
                           <h4 className="text-[12px]   md:text-sm text-primary">
-                            {product.p_name.slice(0, 15)}
+                            {product?.p_name?.slice(0, 15)}
                           </h4>
                         </Link>
-                        <div>
-                          <p className="text-white md:text-md">
-                            ${product.p_price}
-                          </p>
-                        </div>
-                        <div className=" flex justify-between text-md text-white items-center outline-1 outline p-1 md:p-2 md:my-2 max-w-20 md:w-28 font-semibold text-center">
-                          <button
-                            onClick={() =>
-                              handleDecrementQty(
-                                
-                                product._id,
-                                qty[i],
-                                product.p_stock,
-                              
-                                setIsStock,
-                                dispatch,
-                                addProductCart,
-                              )
-                            }
-                          >
-                            -
-                          </button>
-                          <span>{qty[i]}</span>
-                          <button
-                            // disabled={
-                            //   product?.p_stock === 0 || (isStock - ifcart) === 0
-                            // }
-                            onClick={() =>
-                              handleIncrementQty(
-                                product._id,
-                                qty[i],
-                                product.p_stock,
-                               
-                                setIsStock,
-                                dispatch,
-                                addProductCart,
-                              )
-                            }
-                          >
-                            +
-                          </button>
-                        </div>
+
+                        <p className="text-white text-[14px] text-right md:text-[16px] pb-2 flex gap-3 items-center text-md">
+                          ${product.quantity * product.p_price}
+                        </p>
+
+                        <p className="text-white  text-[12px]">
+                          Catergory: {product.p_category}
+                        </p>
                       </div>
-                    </div>
-                    <div className="flex-col flex-end h-full md:w-full w-24  items-end justify-between flex md:p-3">
-                      <button
-                        onClick={() => handleRemoveFromCart(product._id)}
-                        className="md:text-2xl  text-right hover:text-primary text-white"
-                      >
-                        <Trash className='text-[8px]' />
-                      </button>
-                      <p className="text-white text-[12px] text-right md:text-[16px] pb-2 flex gap-3 items-center text-md">
-                        Sub Total: ${qty?.[i] * product.p_price}
-                      </p>
+                      <div className=" flex flex-col-reverse justify-between text-md text-white items-center  p-1 md:p-2 md:my-2 max-w-20 md:w-28 font-semibold text-center">
+                        <button
+                           disabled={
+                            ifcart <= 0
+                         }
+                          onClick={() => handleAddToCart(product._id, -1)}
+                        >
+                          -
+                        </button>
+                        <span>{product.quantity}</span>
+                        <button
+                          disabled={
+                            product?.p_stock === 0 || (product.p_stock - ifcart) === 0
+                          }
+                          onClick={() => handleAddToCart(product._id, +1)}
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -203,10 +118,10 @@ const CartModal:React.FC<TCartModalProps> = ({
               </div>
             )}
             {/* check out  */}
-            {totalItems > 0 && (
+            {cartsProducts?.length > 0 && (
               <div className="border-t-2 text-white mt-6 ">
                 <div className="space-y-3 text-right py-4">
-                  <p>Total Items: {totalItems} </p>
+                  <p>Total Items: {10} </p>
                   <h4 className="text-2xl ">
                     Total: <span>${totalAmount ? totalAmount : '0.00'}</span>
                   </h4>

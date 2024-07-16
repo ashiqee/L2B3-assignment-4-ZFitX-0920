@@ -5,45 +5,30 @@ import PageBanner from '@/components/reusableComponents/PageBanner';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Link } from 'react-router-dom';
-import { useGetCartsProductsQuery } from '@/redux/features/products/productApi';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { useAppDispatch } from '@/redux/hook';
 import {
   addProductCart,
   removeProductFromCart,
-  useCurrentCart,
+
 } from '@/redux/features/products/productSlice';
-import { useEffect, useState } from 'react';
-import { handleDecrementQty, handleIncrementQty } from '@/utils/quantityUtils';
-import { TProduct } from '@/types/Interface';
+import { useState } from 'react';
+
+import useCartData from '@/hooks/useCartData';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
-  const carts = useAppSelector(useCurrentCart);
-  const productIds = carts.items.map((product) => product.productId);
-  const { data: cartsProductDetails } = useGetCartsProductsQuery(productIds);
-  const [qty, setQty] = useState<number[]>([]);
+   const {cartsProducts,totalAmount}= useCartData()
+   const [noteTrue,setNoteTrue]= useState(false)
 
-  const [isStock, setIsStock] = useState(1);
-
-  console.log("GET Q",carts?.items[0]?.quantity);
-
-  useEffect(() => {
-    //quantities from cart item for localstorage
-    const newQty = carts?.items?.map((product) => product.quantity ) || [];
+  
 
 
-    setQty(newQty);
-  }, [carts]);
-
-  const totalItems = qty?.reduce((total, quantity) => total + quantity, 0);
-
-  const totalAmount = cartsProductDetails?.data?.reduce(
-    (total: number, product: TProduct, i: number) => {
-      return total + product.p_price * qty[i];
-    },
-    0,
-  );
-
+    // add card new or exiting 
+    const handleAddToCart = (id:string,qty:number) => {
+          dispatch(addProductCart({ productId: id, quantity:  qty }));
+    };
+  
+  
   const handleRemoveFromCart = (id: string) => {
     dispatch(removeProductFromCart(id));
   };
@@ -52,90 +37,79 @@ const Cart = () => {
     <div>
       <PageBanner bannerTitle={''} img={img} />
 
-      {totalItems > 0 ? (
+      {cartsProducts?.length > 0 ? (
         <div className="py-5 flex flex-col container mx-auto justify-between h-full">
-          <div className="flex justify-between  border-b-2 mb-6 py-4 items-center px-6 text-xl">
-            <p>Product</p>
+          <div className="flex justify-between  border-b-[1px] mb-6 py-4 items-center px-6 md:text-xl">
+            <p>Product details</p>
             <p>Quantity</p>
-            <p>Total</p>
+           
           </div>
-          <div className=" flex   flex-col gap-3  ">
-            {carts?.items.length > 0 ? (
-              cartsProductDetails?.data?.map((product: TProduct, i: number) => (
+          <div className=" flex px-2   flex-col gap-3  ">
+            {cartsProducts?.length > 0 ? (
+              cartsProducts?.map((product) => (
                 <div
-                  key={i}
-                  className="grid grid-cols-3 border justify-between items-center px-4 rounded-lg shadow-2xl "
+                  key={product._id}
+                  className="flex border hover:bg-primary/5 justify-between items-center px-4 rounded-lg shadow-2xl "
                 >
-                  <div className="flex  justify-between items-center   gap-2">
-                    <Link to={`/products/${product._id}`}>
-                      {' '}
-                      <img
-                        className="md:min-w-28 min-w-20 hover:scale-150 hover:cursor-pointer object-cover h-28"
-                        src={product.p_images[0]}
-                      />
-                    </Link>
-                    <div className="space-y-2">
-                      <h4 className="md:text-sm text-[12px]  text-primary">
-                        {product.p_name.slice(0, 70)}
-                      </h4>
-                      <div className="">
-                        <p className="text-white  text-[12px]">
-                          ${product.p_price}
-                        </p>
-                        <p className="text-white  text-[12px]">
-                          Catergory: {product.p_category}
-                        </p>
-                        <p className="text-white hidden text-sm">
-                          stock: {isStock}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className=" flex w-full  justify-center text-md gap-4 text-white items-center  font-semibold text-center">
-                    <div className="flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                      <button
-                        onClick={() =>
-                          handleDecrementQty(
-                            product._id,
-                            qty[i],
-                            product.p_stock,
-
-                            setIsStock,
-                            dispatch,
-                            addProductCart,
-                          )
-                        }
-                      >
-                        -
-                      </button>
-                      <span>{qty[i]}</span>
-                      <button
-                        onClick={() =>
-                          handleIncrementQty(
-                            product._id,
-                            qty[i],
-                            product.p_stock,
-                            setIsStock,
-                            dispatch,
-                            addProductCart,
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
+                  <div className="flex  w-[5060px]  items-center   gap-2">
                     <button
                       onClick={() => handleRemoveFromCart(product._id)}
                       className="text-2xl flex-end text-right hover:text-primary text-white"
                     >
                       <Trash />
                     </button>
+                    <Link to={`/products/${product._id}`}>
+                      {' '}
+                      <img
+                        className="md:min-w-28 min-w-20 max-h-24 hover:scale-150 hover:cursor-pointer object-cover h-28"
+                        src={product?.p_images}
+                      />
+                    </Link>
+{/* prodcut price details block  */}
+                    <div className="">
+                      <div className=" p-1 space-y-1 md:p-3">
+                        <h4 className="md:text-sm hover:text-white text-[12px]  text-primary">
+                        <Link to={`/products/${product._id}`}>
+                          {product.p_name}
+                          </Link>
+                        </h4>
+                        <p className="text-white  text-[12px]">
+                          Catergory: {product.p_category}
+                        </p>
+                        <p className="text-white  md:text-[26px] pb-2  gap-3  text-md">
+                          ${product.p_price * product.quantity}
+                        </p>
+                     
+                       
+                      </div>
+                    </div>
+                    {/* prodcut price details block end */}
                   </div>
-                  <div className=" p-3">
+                  <div className=" md:flex   justify-center text-md gap-4 text-white items-center  font-semibold text-center">
+                    <div className="flex  flex-col-reverse justify-between text-md text-white items-center  p-2 my-2 w-12 font-semibold text-center">
+                      <button
+                       disabled={product.quantity === 1}
+                        onClick={() =>handleAddToCart(product._id,-1)
+                        }
+                      >
+                        -
+                      </button>
+                      <span>{product.quantity}</span>
+                      <button
+                        disabled={product.p_stock === product.quantity}
+                        onClick={() =>handleAddToCart(product._id,+1)
+                        }
+                      >
+                        +
+                      </button>
+     
+                    </div>
+                  </div>
+                  {/* <div className=" p-3">
                     <p className="text-white w-full text-[26px] pb-2  gap-3 flex-end text-right items-center text-md">
                       ${product.p_price * qty[i]}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (
@@ -144,15 +118,17 @@ const Cart = () => {
           </div>
 
           {/* check out  */}
-          <div className="border-t-2 flex justify-between p-10 text-white mt-6 ">
-            <div className="grid w-[30vw] gap-1.5">
-              <Label className="flex gap-2 items-center" htmlFor="message">
+          <div className="border-t-[1px] flex justify-between gap-4 p-2 md:p-10 text-white mt-6 ">
+            <div className="  md:w-[30vw] space-y-4 py-4 w-full">
+              <Label onClick={()=>setNoteTrue(!noteTrue)} className="flex gap-2 items-center" htmlFor="message">
                 <NotepadText /> Add note
               </Label>
-              <Textarea placeholder="Type your message here." id="message" />
+            {
+              noteTrue &&   <Textarea placeholder="Type your message here." id="message" />
+            }
             </div>
-            <div className="space-y-4  py-4">
-              <h4 className="text-2xl flex  justify-between items-center">
+            <div className="space-y-4 w-full md:max-w-96 py-4">
+              <h4 className=" text-md md:text-2xl flex  justify-between items-center">
                 Sub Total: <span>${totalAmount ? totalAmount : '00'}</span>
               </h4>
               <p>Free delivery</p>

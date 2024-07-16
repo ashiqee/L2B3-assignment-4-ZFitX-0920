@@ -13,27 +13,19 @@ import {
   addProductCart,
   useCurrentCart,
 } from '@/redux/features/products/productSlice';
-import { handleDecrementQty, handleIncrementQty } from '@/utils/quantityUtils';
+
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { data: product, isLoading } = useGetSingleProductsQuery(id);
   const [mainImgIndex, setMainImg] = useState(0);
-
-  const [qty, setQty] = useState<number[]>([]);
-  const [isStock, setIsStock] = useState(product?.data?.p_stock > 0 ? 1 : 0);
   const dispatch = useAppDispatch();
   const cartsItems = useAppSelector(useCurrentCart);
   const cartItem = cartsItems?.items.find((item) => item.productId === id);
 
-  useEffect(() => {
-    if (product) {
-      setIsStock(product?.data?.p_stock);
-    }
-    const newQty = cartsItems?.items?.map((product) => product.quantity) || [];
+  
 
-    setQty(newQty);
-  }, [product, cartsItems]);
+
 
   if (isLoading) {
     return <>Loading...</>;
@@ -48,18 +40,21 @@ const ProductDetails = () => {
 
   // todo thid from cart
   const ifcart = cartItem ? cartItem.quantity : 0;
-  console.log(ifcart);
-  
 
-  const handleAddToCart = () => {
-    dispatch(addProductCart({ productId: _id, quantity:  1 }));
+
+   
+  // add card new or exiting
+  const handleAddToCart = (productId: string, qty: number) => {
+    dispatch(addProductCart({ productId: productId, quantity: qty }));
   };
+ 
+
 
   return (
     <div>
       <PageBanner
         bannerTitle={p_name}
-        img={p_images.length > 1 ? p_images[1] : p_images[0]}
+        img={p_images?.length > 1 ? p_images[1] : p_images[0]}
       />
 
       {/* product details section  */}
@@ -105,11 +100,11 @@ const ProductDetails = () => {
               Sub Total: ${ifcart ? p_price * ifcart : p_price}
             </h4>
             {/* sort description  */}
-            <p>{p_description.slice(0, 30)} </p>
+            <p>{p_description?.slice(0, 30)} </p>
             <p>Product Category: {p_category}</p>
             <div className="md:flex gap-4 items-center">
               <p className="p-1  outline-1 outline my-2 w-28 font-semibold text-center">
-                {p_stock > 0 ? `${isStock - ifcart} in stock` : `Out of Stock`}
+                {p_stock >= 0 ? `${p_stock - ifcart} in stock` : `Out of Stock`}
               </p>
               {ifcart > 0 && (
                 <p>You have {ifcart} of this item in your cart.</p>
@@ -118,48 +113,29 @@ const ProductDetails = () => {
 
             <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
-                <button
-                  onClick={() =>
-                    handleDecrementQty(
-                      _id,
-                      qty[0],
-                      p_stock,
-                      setIsStock,
-                      dispatch,
-                      addProductCart,
-                    )
-                  }
-                >
-                  -
-                </button>
-                <span>{ifcart ? ifcart : 1}</span>
-                <button
-                  disabled={p_stock === 0 || isStock - ifcart === 0}
-                  onClick={() =>
-                    handleIncrementQty(
-                      _id,
-                      qty[0],
-                      p_stock,
-                      setIsStock,
-                      dispatch,
-                      addProductCart,
-                    )
-                  }
-                >
-                  +
-                </button>
+              <button
+               disabled={
+                 ifcart <= 0
+              }
+                          onClick={() => handleAddToCart(_id, -1)}
+                        >
+                          -
+                        </button>
+                        <span>{ifcart>0 ? ifcart: 1}</span>
+                        <button
+                          disabled={
+                            p_stock === 0 || (p_stock - ifcart) === 0
+                          }
+                          onClick={() => handleAddToCart(_id, +1)}
+                        >
+                          +
+                        </button>
               </div>
               <CartModal
                 btnTitle={ifcart > 0 ? 'View cart' : 'Add to cart'}
+                productId={_id}
                 ifcart={ifcart}
-                handleAddToCart={ ifcart > 0 ? undefined : handleAddToCart}
-                handleDecrementQty={handleDecrementQty}
-                handleIncrementQty={handleIncrementQty}
-                isStock={isStock}
-                setIsStock={setIsStock}
-                dispatch={dispatch}
-                addProductCart={addProductCart}
-              />
+                        />
             </div>
           </div>
         </div>

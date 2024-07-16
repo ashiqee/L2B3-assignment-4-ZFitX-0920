@@ -38,8 +38,17 @@ export interface TBenefit{
     }
   }
 
+
+  export interface TCartItem{
+    productId: string;
+    quantity:number;
+    
+}
+
   export interface TProduct {
     _id: string;
+    productId:string;
+    quantity:number;
     p_category: string;
     p_price: number;
     p_name: string;
