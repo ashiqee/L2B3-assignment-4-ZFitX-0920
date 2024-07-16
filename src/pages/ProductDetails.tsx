@@ -7,7 +7,7 @@ import { reternPolicy } from '@/static/pageContent';
 import CartModal from '@/components/reusableComponents/CartModal';
 import { useGetSingleProductsQuery } from '@/redux/features/products/productApi';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import {
   addProductCart,

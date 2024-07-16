@@ -118,9 +118,8 @@ const ProductsPage = () => {
           resetFilters={resetFilters}
         />
 
-        {/* )} */}
-
-        {/* </Formik> */}
+     
+    
 
         {/* product grid */}
         <div className="col-span-4">

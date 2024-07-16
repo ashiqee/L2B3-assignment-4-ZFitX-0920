@@ -6,6 +6,7 @@ import HomePage from '@/pages/HomePage';
 import ProductDetails from '@/pages/ProductDetails';
 import ProductsPage from '@/pages/ProductsPage';
 import ProductManagement from '@/pages/ProductManagement';
+import OrderSuccess from '@/components/reusableComponents/OrderSuccess';
 
 export const frontendPageRoutes = [
   {
@@ -36,6 +37,10 @@ export const frontendPageRoutes = [
       {
         path: 'product-management',
         element: <ProductManagement />,
+      },
+      {
+        path: 'order-success',
+        element: <OrderSuccess />,
       },
     ],
   },

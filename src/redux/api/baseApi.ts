@@ -5,6 +5,6 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://zfit-x-backend.vercel.app/api/v1',
   }),
-  tagTypes:['products'],
+  tagTypes:['products','orders'],
   endpoints: () => ({}),
 });

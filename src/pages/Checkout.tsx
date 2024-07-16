@@ -7,37 +7,68 @@ import { ArrowLeftFromLine } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import useCartData from '@/hooks/useCartData';
-
+import { useForm } from "react-hook-form";
+import { useAddOrderMutation } from '@/redux/features/Orders/OrdersApi';
+import { toast,Toaster } from 'sonner';
 
 const Checkout = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [addOrder] = useAddOrderMutation();
+  const { cartsProducts,currentCarts, totalAmount } = useCartData();
 
-  const { cartsProducts, totalAmount } = useCartData();
+
+  const cartItems = currentCarts?.items
+
+  const onSubmit = async (data) =>{
+    
+    
+  
+    
+    const res = await addOrder({
+      ...data,
+      o_cartItems:cartItems
+      
+    });
+  console.log(res?.data);
+  
+    
+  
+  }
+
 
 
   return (
+
     <div>
       <PageBanner bannerTitle="Check Out" img={checkoutImg} />
-      <form>
+      <Toaster />
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="container  mx-auto md:flex    justify-between  gap-6">
           <div className="p-10 space-y-4 w-full py-14">
             <p>Contact</p>
             <div className="space-y-10">
-              <Input type="email" placeholder="Email" />
+              <Input type="email"   {...register("o_email",{ required: true })} placeholder="Email" />
+              {errors.o_email && <span className='text-red-600 text-[12px]'>Email must be required</span>}
 
               <div className="space-y-4">
                 <p>Shipping address</p>
 
                 <div className="space-y-4">
                   <div className="flex gap-4">
-                    <Input type="text" placeholder="First Name" />
-                    <Input type="text" placeholder="Last Name" />
+                    <Input type="text"   {...register("o_firstName",{ required: true })} placeholder="First Name" />
+          
+                    
+                    <Input type="text"  {...register("o_lastName")} placeholder="Last Name" />
                   </div>
-                  <Input type="text" placeholder="Address" />
+                  {errors.firstName && <span className='text-red-600 text-[12px]'>First Name must be required</span>}
+                  <Input type="text" {...register("o_address",{required:true})} placeholder="Address" />
+                  {errors.o_address && <span className='text-red-600 text-[12px]'>Address must be required</span>}
                   <div className="flex gap-4">
-                    <Input type="text" placeholder="City" />
-                    <Input type="text" placeholder="State" />
+                    <Input type="text" {...register("o_city")} placeholder="City" />
+                    <Input type="text"  {...register("o_state")} placeholder="State" />
                   </div>
-                  <Input type="phone" placeholder="Phone" />
+                  <Input type="phone"  {...register("o_phone",{required:true})} placeholder="Phone" />
+                  {errors.o_phone && <span className='text-red-600 text-[12px]'>Phone must be required</span>}
                 </div>
               </div>
             </div>
@@ -133,7 +164,9 @@ const Checkout = () => {
                     </RadioGroup>
                   </div>
 
+ 
                   <Button type="submit">Confirm Order</Button>
+
                 </div>
               </div>
             </div>
