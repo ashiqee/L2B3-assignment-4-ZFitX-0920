@@ -13,6 +13,7 @@ import {
   addProductCart,
   useCurrentCart,
 } from '@/redux/features/products/productSlice';
+import LoadingPage from '@/components/shared/LoadingPage';
 
 
 const ProductDetails = () => {
@@ -28,7 +29,7 @@ const ProductDetails = () => {
 
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <><LoadingPage/></>;
   }
 
   if (!product) {
@@ -103,15 +104,16 @@ const ProductDetails = () => {
             <p>{p_description?.slice(0, 30)} </p>
             <p>Product Category: {p_category}</p>
             <div className="md:flex gap-4 items-center">
-              <p className="p-1  outline-1 outline my-2 w-28 font-semibold text-center">
-                {p_stock >= 0 ? `${p_stock - ifcart} in stock` : `Out of Stock`}
+              <p className="p-1  outline-1 outline my-2 w-32 font-semibold text-center">
+                {p_stock >= 1 ? `${p_stock - ifcart} in stock` : `Out of Stock`}
               </p>
               {ifcart > 0 && (
                 <p>You have {ifcart} of this item in your cart.</p>
               )}
             </div>
 
-            <div className="flex items-center gap-6">
+            {
+              p_stock !== 0 &&   <div className="flex items-center gap-6">
               <div className=" flex justify-between items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
               <button
                disabled={
@@ -132,11 +134,12 @@ const ProductDetails = () => {
                         </button>
               </div>
               <CartModal
-                btnTitle={ifcart > 0 ? 'View cart' : 'Add to cart'}
-                productId={_id}
-                ifcart={ifcart}
-                        />
+              btnTitle={ifcart > 0 ? 'View cart' : 'Add to cart'}
+              productId={_id}
+              ifcart={ifcart}
+                      />
             </div>
+             }
           </div>
         </div>
 

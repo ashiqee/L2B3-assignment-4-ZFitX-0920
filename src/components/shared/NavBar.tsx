@@ -4,10 +4,12 @@ import { Search, ShoppingBag, User } from 'lucide-react';
 import MobileMenu from '../shared/MobileMenu';
 import Logo from '../reusableComponents/Logo';
 import {  TMenuItem } from '@/types/Interface';
+import useCartData from '@/hooks/useCartData';
 
 
 
 const NavBar = () => {
+  const {totalCartItems}=useCartData()
 
 
   const menus = [
@@ -80,7 +82,8 @@ const NavBar = () => {
             </button>
           <button className="hover:text-primary">
             <Link to='/cart'>
-            <ShoppingBag />
+           <p className='relative'> <ShoppingBag  /></p> 
+           <p className='absolute top-3 ml-0.5 bg-primary/50 px-1 rounded-full'> {totalCartItems}</p>
             </Link>
           </button>
           <button className="hover:text-primary">

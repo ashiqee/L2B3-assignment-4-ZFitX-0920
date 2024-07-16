@@ -4,32 +4,60 @@ import { Input } from '@/components/ui/input';
 import { checkoutImg } from '@/static/pageContent';
 import { Label } from '@radix-ui/react-label';
 import { ArrowLeftFromLine } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import useCartData from '@/hooks/useCartData';
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useAddOrderMutation } from '@/redux/features/Orders/OrdersApi';
 import { toast,Toaster } from 'sonner';
+import useHandleProducts from '@/hooks/useHandleProducts';
+import { TOrder } from '@/types/Interface';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 const Checkout = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm<TOrder>();
   const [addOrder] = useAddOrderMutation();
   const { cartsProducts,currentCarts, totalAmount } = useCartData();
-
+  const {handleRemoveFromCart}=useHandleProducts()
+const navigate= useNavigate()
 
   const cartItems = currentCarts?.items
-
-  const onSubmit = async (data) =>{
-    
-    
   
+
+  const handdleOrderPlacement:SubmitHandler<TOrder> = async (orderData) =>{
+    
+
     
     const res = await addOrder({
-      ...data,
+      ...orderData,
       o_cartItems:cartItems
       
     });
-  console.log(res?.data);
+
+
+
+if(res?.data?.success){
+ 
+  
+  toast?.success("Your Order placed succesfully")
+  const productIdsToRemove =cartItems.map(item=> item.productId);
+  handleRemoveFromCart(productIdsToRemove)
+  navigate("/order-success")
+
+
+
+  }else{
+  if(res.error){
+    if ('data' in res.error) {
+      const error = res.error as FetchBaseQueryError;
+      toast.error((error.data as { message: string }).message || "Something went wrong in fetching");
+    } else {
+      toast.error("Something went wrong");
+    }
+  }else{
+    toast.error("Something went wrong");
+  }
+  }
   
     
   
@@ -42,7 +70,7 @@ const Checkout = () => {
     <div>
       <PageBanner bannerTitle="Check Out" img={checkoutImg} />
       <Toaster />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handdleOrderPlacement)}>
         <div className="container  mx-auto md:flex    justify-between  gap-6">
           <div className="p-10 space-y-4 w-full py-14">
             <p>Contact</p>
@@ -60,7 +88,7 @@ const Checkout = () => {
                     
                     <Input type="text"  {...register("o_lastName")} placeholder="Last Name" />
                   </div>
-                  {errors.firstName && <span className='text-red-600 text-[12px]'>First Name must be required</span>}
+                  {errors.o_firstName && <span className='text-red-600 text-[12px]'>First Name must be required</span>}
                   <Input type="text" {...register("o_address",{required:true})} placeholder="Address" />
                   {errors.o_address && <span className='text-red-600 text-[12px]'>Address must be required</span>}
                   <div className="flex gap-4">
@@ -85,9 +113,9 @@ const Checkout = () => {
             <p>Checkout Summary</p>
 
             <div>
-              {cartsProducts?.map((item) => (
+              {cartsProducts?.map((item,i) => (
                 <div
-                  key={item._id}
+                  key={i}
                   className="flex justify-between  items-center"
                 >
                   <div className="flex gap-4 items-center">
@@ -95,7 +123,7 @@ const Checkout = () => {
                       <Link to={`/products/${item._id}`}>
                         <img
                           className="w-20  object-cover h-20 rounded-lg"
-                          src={item.p_images}
+                          src={item?.p_images[0] ?? "#"}
                         />
                       </Link>
                       <p className=" w-6 absolute -top-2 -right-2.5 text-[12px] h-6 p-1 text-center rounded-full bg-primary text-black">

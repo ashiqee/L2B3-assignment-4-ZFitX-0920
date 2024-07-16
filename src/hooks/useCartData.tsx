@@ -18,6 +18,7 @@ interface UseCartDataResult{
     cartsProducts: TCartsProductsItems[];
     currentCarts: TCartState & PersistPartial;
     totalAmount:number;
+    totalCartItems:number
 }
 
 const useCartData = ():UseCartDataResult => {
@@ -32,6 +33,7 @@ const useCartData = ():UseCartDataResult => {
     }
 
     const getCartsProducts = data?.data
+   
     
     // combined cart 
     const cartsProducts:TCartsProductsItems[] = currentCarts.items.map((cartItem)=>{
@@ -43,8 +45,12 @@ const useCartData = ():UseCartDataResult => {
     })
 
 
+    
+    const totalCartItems = cartsProducts?.reduce((total:number,item:TCartsProductsItems)=>{
+        return total + item.quantity
+    },0)
 
-
+   
     const totalAmount = cartsProducts?.reduce(
         (total: number, item: TCartsProductsItems) => {
              
@@ -56,7 +62,7 @@ const useCartData = ():UseCartDataResult => {
 
 
 
-    return {cartsProducts,currentCarts,totalAmount}
+    return {cartsProducts,currentCarts,totalAmount,totalCartItems}
 };
 
 export default useCartData;

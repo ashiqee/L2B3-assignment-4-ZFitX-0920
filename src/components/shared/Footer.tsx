@@ -49,11 +49,11 @@ const Footer = () => {
             </li>
             <li className="hover:text-primary">
               {' '}
-              <Link to="/"> Order status</Link>
+              <Link to="/orders"> Order status</Link>
             </li>
             <li className="hover:text-primary">
               {' '}
-              <Link to="/"> About Us</Link>
+              <Link to="/about-us"> About Us</Link>
             </li>
 
             <li className="hover:text-primary">

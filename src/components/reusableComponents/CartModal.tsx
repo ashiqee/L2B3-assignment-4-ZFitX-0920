@@ -32,7 +32,7 @@ const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) =>
   };
  
 
-  const handleRemoveFromCart = (id: string) => {
+  const handleRemoveFromCart = (id: string[]) => {
     dispatch(removeProductFromCart(id));
   };
 
@@ -60,7 +60,7 @@ const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) =>
                     <div className="flex justify-between  w-full  md:gap-4">
                       <div className="flex gap-2 w-1/2">
                         <button
-                          onClick={() => handleRemoveFromCart(product._id)}
+                          onClick={() => handleRemoveFromCart([product._id])}
                           className="md:text-2xl  text-right hover:text-primary text-white"
                         >
                           <Trash size={20} />
@@ -70,8 +70,8 @@ const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) =>
                           to={`/products/${product._id}`}
                         >
                           <img
-                            className="w-28 object-cover hover:scale-110"
-                            src={product?.p_images}
+                            className="w-28 h-28 object-cover hover:scale-110"
+                            src={product?.p_images?.[0] ?? '#'} alt="Product Image" 
                           />
                         </Link>
                       </div>
@@ -100,7 +100,7 @@ const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) =>
                         >
                           -
                         </button>
-                        <span>{product.quantity}</span>
+                        <span>{product?.quantity}</span>
                         <button
                           disabled={
                             product?.p_stock === 0 || (product.p_stock - ifcart) === 0

@@ -7,6 +7,7 @@ import ProductDetails from '@/pages/ProductDetails';
 import ProductsPage from '@/pages/ProductsPage';
 import ProductManagement from '@/pages/ProductManagement';
 import OrderSuccess from '@/components/reusableComponents/OrderSuccess';
+import OrdersPage from '@/pages/OrdersPage';
 
 export const frontendPageRoutes = [
   {
@@ -41,6 +42,10 @@ export const frontendPageRoutes = [
       {
         path: 'order-success',
         element: <OrderSuccess />,
+      },
+      {
+        path: 'orders',
+        element: <OrdersPage />,
       },
     ],
   },

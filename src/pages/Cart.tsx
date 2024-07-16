@@ -9,7 +9,6 @@ import { useAppDispatch } from '@/redux/hook';
 import {
   addProductCart,
   removeProductFromCart,
-
 } from '@/redux/features/products/productSlice';
 import { useState } from 'react';
 
@@ -17,19 +16,15 @@ import useCartData from '@/hooks/useCartData';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
-   const {cartsProducts,totalAmount}= useCartData()
-   const [noteTrue,setNoteTrue]= useState(false)
+  const { cartsProducts, totalAmount } = useCartData();
+  const [noteTrue, setNoteTrue] = useState(false);
 
-  
+  // add card new or exiting
+  const handleAddToCart = (id: string, qty: number) => {
+    dispatch(addProductCart({ productId: id, quantity: qty }));
+  };
 
-
-    // add card new or exiting 
-    const handleAddToCart = (id:string,qty:number) => {
-          dispatch(addProductCart({ productId: id, quantity:  qty }));
-    };
-  
-  
-  const handleRemoveFromCart = (id: string) => {
+  const handleRemoveFromCart = (id: string[]) => {
     dispatch(removeProductFromCart(id));
   };
 
@@ -42,18 +37,17 @@ const Cart = () => {
           <div className="flex justify-between  border-b-[1px] mb-6 py-4 items-center px-6 md:text-xl">
             <p>Product details</p>
             <p>Quantity</p>
-           
           </div>
           <div className=" flex px-2   flex-col gap-3  ">
             {cartsProducts?.length > 0 ? (
-              cartsProducts?.map((product) => (
+              cartsProducts?.map((product, i) => (
                 <div
-                  key={product._id}
+                  key={i}
                   className="flex border hover:bg-primary/5 justify-between items-center px-4 rounded-lg shadow-2xl "
                 >
                   <div className="flex  w-[5060px]  items-center   gap-2">
                     <button
-                      onClick={() => handleRemoveFromCart(product._id)}
+                      onClick={() => handleRemoveFromCart([product._id])}
                       className="text-2xl flex-end text-right hover:text-primary text-white"
                     >
                       <Trash />
@@ -61,16 +55,17 @@ const Cart = () => {
                     <Link to={`/products/${product._id}`}>
                       {' '}
                       <img
-                        className="md:min-w-28 min-w-20 max-h-24 hover:scale-150 hover:cursor-pointer object-cover h-28"
-                        src={product?.p_images}
+                        className="md:min-w-28 max-w-28 min-w-20 max-h-24 hover:scale-150 hover:cursor-pointer object-cover h-28"
+                        src={product?.p_images?.[0] ?? '#'}
+                        alt="Product Image"
                       />
                     </Link>
-{/* prodcut price details block  */}
+                    {/* prodcut price details block  */}
                     <div className="">
                       <div className=" p-1 space-y-1 md:p-3">
                         <h4 className="md:text-sm hover:text-white text-[12px]  text-primary">
-                        <Link to={`/products/${product._id}`}>
-                          {product.p_name}
+                          <Link to={`/products/${product._id}`}>
+                            {product.p_name}
                           </Link>
                         </h4>
                         <p className="text-white  text-[12px]">
@@ -79,8 +74,6 @@ const Cart = () => {
                         <p className="text-white  md:text-[26px] pb-2  gap-3  text-md">
                           ${product.p_price * product.quantity}
                         </p>
-                     
-                       
                       </div>
                     </div>
                     {/* prodcut price details block end */}
@@ -88,21 +81,18 @@ const Cart = () => {
                   <div className=" md:flex   justify-center text-md gap-4 text-white items-center  font-semibold text-center">
                     <div className="flex  flex-col-reverse justify-between text-md text-white items-center  p-2 my-2 w-12 font-semibold text-center">
                       <button
-                       disabled={product.quantity === 1}
-                        onClick={() =>handleAddToCart(product._id,-1)
-                        }
+                        disabled={product.quantity === 1}
+                        onClick={() => handleAddToCart(product._id, -1)}
                       >
                         -
                       </button>
                       <span>{product.quantity}</span>
                       <button
                         disabled={product.p_stock === product.quantity}
-                        onClick={() =>handleAddToCart(product._id,+1)
-                        }
+                        onClick={() => handleAddToCart(product._id, +1)}
                       >
                         +
                       </button>
-     
                     </div>
                   </div>
                   {/* <div className=" p-3">
@@ -120,12 +110,16 @@ const Cart = () => {
           {/* check out  */}
           <div className="border-t-[1px] flex justify-between gap-4 p-2 md:p-10 text-white mt-6 ">
             <div className="  md:w-[30vw] space-y-4 py-4 w-full">
-              <Label onClick={()=>setNoteTrue(!noteTrue)} className="flex gap-2 items-center" htmlFor="message">
+              <Label
+                onClick={() => setNoteTrue(!noteTrue)}
+                className="flex gap-2 items-center"
+                htmlFor="message"
+              >
                 <NotepadText /> Add note
               </Label>
-            {
-              noteTrue &&   <Textarea placeholder="Type your message here." id="message" />
-            }
+              {noteTrue && (
+                <Textarea placeholder="Type your message here." id="message" />
+              )}
             </div>
             <div className="space-y-4 w-full md:max-w-96 py-4">
               <h4 className=" text-md md:text-2xl flex  justify-between items-center">
