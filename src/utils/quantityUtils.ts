@@ -1,4 +1,3 @@
-
 import { Dispatch } from 'redux';
 import { AddProductCartAction } from './../types/Interface';
 type SetIsStockFunction = (isStock: number) => void;
@@ -7,7 +6,7 @@ export const handleIncrementQty = (
   id: string,
   pQty: number,
   isStock: number,
- 
+
   _setIsStock: SetIsStockFunction,
   dispatch: Dispatch<AddProductCartAction>,
   addProductCart: (payload: {
@@ -28,7 +27,7 @@ export const handleDecrementQty = (
   id: string,
   pQty: number,
   _isStock: number,
- 
+
   _setIsStock: SetIsStockFunction,
   dispatch: Dispatch<AddProductCartAction>,
   addProductCart: (payload: {

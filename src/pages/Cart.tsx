@@ -25,11 +25,12 @@ const Cart = () => {
 
   const [isStock, setIsStock] = useState(1);
 
-  console.log(carts?.items[0]?.quantity);
+  console.log("GET Q",carts?.items[0]?.quantity);
 
   useEffect(() => {
     //quantities from cart item for localstorage
-    const newQty = carts?.items?.map((product) => product.quantity) || [];
+    const newQty = carts?.items?.map((product) => product.quantity ) || [];
+
 
     setQty(newQty);
   }, [carts]);
@@ -69,19 +70,19 @@ const Cart = () => {
                     <Link to={`/products/${product._id}`}>
                       {' '}
                       <img
-                        className="min-w-28 hover:scale-150 hover:cursor-pointer object-cover h-28"
+                        className="md:min-w-28 min-w-20 hover:scale-150 hover:cursor-pointer object-cover h-28"
                         src={product.p_images[0]}
                       />
                     </Link>
                     <div className="space-y-2">
-                      <h4 className="text-sm  text-primary">
+                      <h4 className="md:text-sm text-[12px]  text-primary">
                         {product.p_name.slice(0, 70)}
                       </h4>
                       <div className="">
-                        <p className="text-white  text-ms">
+                        <p className="text-white  text-[12px]">
                           ${product.p_price}
                         </p>
-                        <p className="text-white  text-sm">
+                        <p className="text-white  text-[12px]">
                           Catergory: {product.p_category}
                         </p>
                         <p className="text-white hidden text-sm">
@@ -90,7 +91,7 @@ const Cart = () => {
                       </div>
                     </div>
                   </div>
-                  <div className=" flex w-full justify-center text-md gap-4 text-white items-center  font-semibold text-center">
+                  <div className=" flex w-full  justify-center text-md gap-4 text-white items-center  font-semibold text-center">
                     <div className="flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
                       <button
                         onClick={() =>

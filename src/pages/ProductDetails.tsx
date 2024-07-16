@@ -48,9 +48,11 @@ const ProductDetails = () => {
 
   // todo thid from cart
   const ifcart = cartItem ? cartItem.quantity : 0;
+  console.log(ifcart);
+  
 
   const handleAddToCart = () => {
-    dispatch(addProductCart({ productId: _id, quantity: ifcart | 1 }));
+    dispatch(addProductCart({ productId: _id, quantity:  1 }));
   };
 
   return (
@@ -150,7 +152,7 @@ const ProductDetails = () => {
               <CartModal
                 btnTitle={ifcart > 0 ? 'View cart' : 'Add to cart'}
                 ifcart={ifcart}
-                handleAddToCart={handleAddToCart}
+                handleAddToCart={ ifcart > 0 ? undefined : handleAddToCart}
                 handleDecrementQty={handleDecrementQty}
                 handleIncrementQty={handleIncrementQty}
                 isStock={isStock}

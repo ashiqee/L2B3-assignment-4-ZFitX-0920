@@ -33,7 +33,7 @@ const cartSlice = createSlice({
 
        const exitstingItem = state.items.find(item=> item.productId === productId);
        if(exitstingItem){
-        exitstingItem.quantity = quantity;
+        exitstingItem.quantity = +quantity;
        }else{
         state.items.push({productId,quantity})
        }

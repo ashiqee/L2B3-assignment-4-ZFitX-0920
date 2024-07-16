@@ -30,7 +30,7 @@ interface Payload {
 }
 
 interface TCartModalProps {
-  handleAddToCart: () => void;
+  handleAddToCart?: () => void;
   ifcart: number;
   btnTitle: string;
   handleIncrementQty: (
@@ -128,7 +128,7 @@ const CartModal:React.FC<TCartModalProps> = ({
             ) : (
               <div className="md:max-h-[260px] 2xl:min-h-[460px] flex  flex-col gap-3  overflow-x-hidden scrollbar-hide">
                 {cartsProductDetails?.data?.map((product:TProduct, i:number) => (
-                  <div className="flex justify-between bg-base-300 border-[0.1px] px-4 p-3 rounded-lg shadow-2xl ">
+                  <div className="flex justify-between text-left bg-base-300 border-[0.1px] px-4 p-3 rounded-lg shadow-2xl ">
                     <div className="flex  gap-2">
                       <img
                         className="w-28 object-cover h-28"
@@ -137,19 +137,20 @@ const CartModal:React.FC<TCartModalProps> = ({
                       <div className="space-y-2">
                         <Link to={`/products/${product._id}`}>
                           {' '}
-                          <h4 className="text-sm text-primary">
-                            {product.p_name.slice(0, 20)}
+                          <h4 className="text-[12px]   md:text-sm text-primary">
+                            {product.p_name.slice(0, 15)}
                           </h4>
                         </Link>
                         <div>
-                          <p className="text-white text-md">
+                          <p className="text-white md:text-md">
                             ${product.p_price}
                           </p>
                         </div>
-                        <div className=" flex justify-between text-md text-white items-center outline-1 outline p-2 my-2 w-28 font-semibold text-center">
+                        <div className=" flex justify-between text-md text-white items-center outline-1 outline p-1 md:p-2 md:my-2 max-w-20 md:w-28 font-semibold text-center">
                           <button
                             onClick={() =>
                               handleDecrementQty(
+                                
                                 product._id,
                                 qty[i],
                                 product.p_stock,
@@ -164,9 +165,9 @@ const CartModal:React.FC<TCartModalProps> = ({
                           </button>
                           <span>{qty[i]}</span>
                           <button
-                            disabled={
-                              product?.p_stock === 0 || (isStock - ifcart) === 0
-                            }
+                            // disabled={
+                            //   product?.p_stock === 0 || (isStock - ifcart) === 0
+                            // }
                             onClick={() =>
                               handleIncrementQty(
                                 product._id,
@@ -184,14 +185,14 @@ const CartModal:React.FC<TCartModalProps> = ({
                         </div>
                       </div>
                     </div>
-                    <div className="flex-col items-end justify-between flex p-3">
+                    <div className="flex-col flex-end h-full md:w-full w-24  items-end justify-between flex md:p-3">
                       <button
                         onClick={() => handleRemoveFromCart(product._id)}
-                        className="text-2xl flex-end text-right hover:text-primary text-white"
+                        className="md:text-2xl  text-right hover:text-primary text-white"
                       >
-                        <Trash />
+                        <Trash className='text-[8px]' />
                       </button>
-                      <p className="text-white text-[16px] pb-2 flex gap-3 items-center text-md">
+                      <p className="text-white text-[12px] text-right md:text-[16px] pb-2 flex gap-3 items-center text-md">
                         Sub Total: ${qty?.[i] * product.p_price}
                       </p>
                     </div>
@@ -204,9 +205,9 @@ const CartModal:React.FC<TCartModalProps> = ({
             {/* check out  */}
             {totalItems > 0 && (
               <div className="border-t-2 text-white mt-6 ">
-                <div className="space-y-3 py-4">
+                <div className="space-y-3 text-right py-4">
                   <p>Total Items: {totalItems} </p>
-                  <h4 className="text-2xl flex  justify-between items-center">
+                  <h4 className="text-2xl ">
                     Total: <span>${totalAmount ? totalAmount : '0.00'}</span>
                   </h4>
                   <p>Free delivery</p>
