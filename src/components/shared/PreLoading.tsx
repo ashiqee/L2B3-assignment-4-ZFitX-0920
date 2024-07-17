@@ -4,7 +4,7 @@ const PreLoading = () => {
         <div className="flex justify-center items-center h-screen">
         <div>
             <div>
-                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/eb897640400159.577dcf373d963.gif" alt="" />
+                <img src="https://i.postimg.cc/k4q8dSTY/X7-Zcr8yp7-B6issio-Ep.webp" alt="" />
             </div>
         </div>
     </div>

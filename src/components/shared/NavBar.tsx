@@ -83,12 +83,14 @@ const NavBar = () => {
           <button className="hover:text-primary">
             <Link to='/cart'>
            <p className='relative'> <ShoppingBag  /></p> 
-           <p className='absolute top-3 ml-0.5 bg-primary/50 px-1 rounded-full'> {totalCartItems}</p>
+          {totalCartItems !== 0 &&  <p className='absolute top-8 ml-6 bg-primary/50 px-1 rounded-full'> {totalCartItems}</p> }
             </Link>
           </button>
-          <button className="hover:text-primary">
+      <Link to='/product-management'>
+      <button className="hover:text-primary">
             <User />
           </button>
+      </Link>
         </section>
       </div>
     </div>

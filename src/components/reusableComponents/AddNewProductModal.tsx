@@ -17,6 +17,7 @@ import { useAddProductMutation } from '@/redux/features/products/productApi';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
 import { FormEvent, useState } from 'react';
+import usePageRefreshWaring from '@/hooks/usePageRefreshWaring';
 
 interface TAddNewProductProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,13 +34,28 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
 
   const [addProduct] = useAddProductMutation();
   const [imgUrls, setImgUrl] = useState<string[]>([]);
+const [isEditing,setIsEditing]= useState<boolean>(false)
+const [isButtonEnable,setIsButtonEnable]= useState<boolean>(true)
+const [isDialogOpen,setIsDialogOpen]=useState<boolean>(false)
+
+
+usePageRefreshWaring(isEditing,"Are you sure you want to leave? Your changes may not be saved.")
 
   const handleImage = (e: FormEvent<HTMLTextAreaElement>) => {
     const value = e.currentTarget.value;
     const urls = value.split(',').map((url) => url.trim());
     setImgUrl(urls);
+    console.log(urls.length);
+    
+    if(urls.length > 0 ){
+      setIsButtonEnable(false)
+    }else{
+      setIsButtonEnable(true)
+    }
   };
 
+
+  // submit add product 
   const handleAddProductSubmit: SubmitHandler<FieldValues> = async (
     productData,
   ) => {
@@ -52,17 +68,19 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
 
     if (res?.data?.success) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (toast as any)(res?.data?.message);
+      (toast.success as any)(res?.data?.message);
       reset();
       setImgUrl([]);
+      setIsDialogOpen(false)
+      setIsEditing(false)
     } else {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (toast as any)('An error occurred');
+      (toast.error as any)('An error occurred');
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger>
         <Button className="flex gap-2">
           {' '}
@@ -77,13 +95,14 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
         <DialogHeader>
           <DialogTitle className="text-2xl">Add New Product</DialogTitle>
           <DialogDescription className="py-5 text-left  overflow-x-auto flex flex-col justify-between h-[80vh]">
-            <form onSubmit={handleSubmit(handleAddProductSubmit)}>
+            <form onChange={()=>setIsEditing(true)} onSubmit={handleSubmit(handleAddProductSubmit)}>
               <div className="space-y-3">
                 <div>
                   <Label className="text-xl text-white">Product Name:</Label>
                   <Input
                     type="text"
                     className="text-white"
+                    
                     id="p_name"
                     {...register('p_name', {
                       required: 'product name must be need',
@@ -175,6 +194,7 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                 <div>
                   <Label className="text-xl text-white">Images</Label>
                   <Textarea
+                
                     className="text-white"
                     id="p_images"
                     {...register('p_images', {
@@ -204,12 +224,15 @@ const AddNewProductModal: React.FC<TAddNewProductProps> = ({ toast }) => {
                     ))}
                 </div>
                 <div className="flex justify-end">
-                  <Button type="submit">Add New Product</Button>
+                  <Button disabled={isButtonEnable} onClick={()=>setIsEditing(false)} type="submit">Add New Product</Button>
                 </div>
+             
+              
               </div>
             </form>
           </DialogDescription>
         </DialogHeader>
+       
       </DialogContent>
     </Dialog>
   );

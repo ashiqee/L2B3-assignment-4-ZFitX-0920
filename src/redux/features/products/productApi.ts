@@ -8,7 +8,6 @@ const productApi = baseApi.injectEndpoints({
           filters as Record<string, string>,
         ).toString();
 
-        console.log(params);
 
         return `products?${params}`;
       },

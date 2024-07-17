@@ -17,6 +17,7 @@ import { FormEvent, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useUpdateProductMutation } from '@/redux/features/products/productApi';
 import { TProduct } from '@/types/Interface';
+import usePageRefreshWaring from '@/hooks/usePageRefreshWaring';
 
 
 interface TEditProductProps{
@@ -40,6 +41,11 @@ const EditProductModal:React.FC<TEditProductProps>= ({ product,toast }) => {
 
   // const [addProduct] = useAddProductMutation();
   const [imgUrls, setImgUrl] = useState<string[]>([]);
+  const [isEditing,setIsEditing]=useState<boolean>(false)
+
+
+  usePageRefreshWaring(isEditing,"Are you sure you want to leave? Your changes may not be saved.")
+
 
   const handleImage = (e: FormEvent<HTMLTextAreaElement>) => {
     const value = e.currentTarget.value;
@@ -60,6 +66,7 @@ const EditProductModal:React.FC<TEditProductProps>= ({ product,toast }) => {
       toast(res?.data?.message);
       reset();
       setImgUrl([]);
+      setIsEditing(false)
     } else {
       toast('Product update An error occurred');
     }
@@ -78,7 +85,7 @@ const EditProductModal:React.FC<TEditProductProps>= ({ product,toast }) => {
         <DialogHeader>
           <DialogTitle className="text-2xl">Edit Product</DialogTitle>
           <DialogDescription className="py-5  overflow-x-auto flex flex-col justify-between h-[80vh]">
-          <form onSubmit={handleSubmit(handleUpdateProductSubmit)}>
+          <form onChange={()=>setIsEditing(true)} onSubmit={handleSubmit(handleUpdateProductSubmit)}>
               <div className="space-y-3">
               <div>
                   <Label className="text-xl text-white">Product Name:</Label>
