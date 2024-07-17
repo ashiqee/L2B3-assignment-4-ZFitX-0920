@@ -28,10 +28,15 @@ const NavBar = () => {
       label: 'About Us',
       path: '/about-us',
     },
+    // {
+    //   menuId: 4,
+    //   label: 'Cart',
+    //   path: '/cart',
+    // },
     {
       menuId: 4,
-      label: 'Cart',
-      path: '/cart',
+      label: 'Dashboard',
+      path: '/product-management',
     },
   ];
   return (

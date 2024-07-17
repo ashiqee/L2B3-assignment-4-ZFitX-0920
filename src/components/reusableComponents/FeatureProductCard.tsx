@@ -37,6 +37,8 @@ _id
        <div className='md:max-h-[360px]  max-h-52 md:min-h-[360px]'>
        <img className='hover:scale-125 md:max-h-[360px] min-h-52 max-h-52 md:min-h-[360px] overflow-hidden  object-cover transition-transform w-full duration-1000' 
         src={p_images[0]}/>
+        {!p_stock && <p className='text-white p-1 px-2 rounded-md bg-red-800 absolute top-3 left-2'>Sold Out</p>
+        }
        </div>
        {
         open && <div className="absolute -left-2 w-20  flex flex-col gap-3 text-white justify-center items-center inset-0 ">

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 
 const OrderSuccess = () => {
@@ -7,7 +9,12 @@ const OrderSuccess = () => {
 
  <i  className="checkmark text-[100px]">✓</i>
             <h1 className="text-3xl">Thank you for odering!</h1> 
-        <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
+        <p className="pb-5">We received your purchase request;<br/> we'll be in touch shortly!</p>
+     <Link to="/products">
+     <Button>
+            Shop More
+        </Button>
+     </Link>
  </div>
         </div>
     );

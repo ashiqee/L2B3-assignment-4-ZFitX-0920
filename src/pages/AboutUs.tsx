@@ -13,7 +13,7 @@ import { Instagram } from 'lucide-react';
 
 const AboutUs = () => {
   const img =
-    'https://dt-fitfinity.myshopify.com/cdn/shop/files/AdobeStock_320492530_Preview.jpg?v=1701422683&width=1920';
+    'https://t4.ftcdn.net/jpg/03/56/69/05/360_F_356690509_JiltQy0oDQZ0skJYZVt8uMc9PmGn3MnD.jpg';
 
   return (
     <div>

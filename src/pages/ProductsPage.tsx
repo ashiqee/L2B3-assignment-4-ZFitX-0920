@@ -1,6 +1,8 @@
 
 import FeatureProductCard from '@/components/reusableComponents/FeatureProductCard';
 import PageBanner from '@/components/reusableComponents/PageBanner';
+import LoadingPage from '@/components/shared/LoadingPage';
+import NotFound from '@/components/shared/NotFound';
 import ProductsSidebar from '@/components/shared/ProductsSidebar';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import { TProduct } from '@/types/Interface';
@@ -54,7 +56,9 @@ const ProductsPage = () => {
   }, [products]);
 
   if (isLoading) {
-    return <>Loading...</>;
+    return  <>
+    <LoadingPage />
+  </>;
   }
 
   const handleFilterChange = (
@@ -145,8 +149,10 @@ const ProductsPage = () => {
               <FeatureProductCard key={product._id} data={product} />
             ))}
           </div>
+        {!products && <><NotFound text={"Products are Not available!"} /></>}
         </div>
       </section>
+
     </div>
   );
 };

@@ -9,6 +9,7 @@ import {
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 export function Example() {
   return (
@@ -73,7 +74,9 @@ const [isHover,setIsHover]= useState(false)
         <div className="absolute top-[13%] left-48 xl:top-[30%] max-w-40 2xl:container xl:max-w-[500px] xl:left-40 2xl:left-64 items-center">
             <p className="uppercase text-sm md:text-xl">{item.tagLine}</p>
             <h3 className="2xl:text-7xl text-4xl   md:text-5xl font-bold uppercase">{item.title}</h3>
+            <Link to='/products'>
             <Button className="mt-1">SHOP NOW</Button>
+            </Link>
         </div>
     </CarouselItem>)  )
     }

@@ -5,17 +5,21 @@ import React, { useEffect } from 'react';
 
 import { useCreatePaymentIntentMutation } from '@/redux/features/payment/paymentApi';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import useHandleProducts from '@/hooks/useHandleProducts';
+import { useNavigate } from 'react-router-dom';
+import { useAddOrderMutation } from '@/redux/features/Orders/OrdersApi';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PaymentPageModal = ({setIfPayStripe,totalAmount}:any) => {
+const PaymentPageModal = ({setIfPayStripe,totalAmount,orderData,toast,cartItems}:any) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [addOrder] = useAddOrderMutation();
+  const { handleRemoveFromCart } = useHandleProducts();
+  const navigate = useNavigate();
 
   const [createPaymentIntent, { data: clientSecret, isLoading, error }] = useCreatePaymentIntentMutation();
 
-
-  console.log(clientSecret?.clientSecret);
-  
 
   useEffect(() => {
     createPaymentIntent(totalAmount); // Replace with dynamic amount
@@ -45,8 +49,40 @@ const PaymentPageModal = ({setIfPayStripe,totalAmount}:any) => {
       return;
     }
 
-    alert("payment Success")
-    console.log('Payment successful:', paymentIntent);
+    if(paymentIntent?.status === "succeeded"){
+        
+        
+        const res = await addOrder({
+          ...orderData,
+          o_transcationId:paymentIntent.id 
+        });
+ 
+  
+        if (res?.data?.success) {
+          toast?.success('Your Order placed succesfully');
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const productIdsToRemove = cartItems.map((item: { productId: any; }) => item.productId);
+          handleRemoveFromCart(productIdsToRemove);
+          navigate('/order-success');
+          
+        } else {
+          if (res.error) {
+            if ('data' in res.error) {
+              const error = res.error as FetchBaseQueryError;
+              toast.error(
+                (error.data as { message: string }).message ||
+                  'Something went wrong in fetching',
+              );
+            } else {
+              toast.error('Something went wrong');
+            }
+          } else {
+            toast.error('Something went wrong');
+          }
+        }
+    }
+    
+ 
   };
 
   return (

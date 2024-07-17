@@ -23,7 +23,7 @@ interface TCartModalProps {
 
 const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) => {
   const dispatch = useAppDispatch();
-  const { cartsProducts, totalAmount } = useCartData();
+  const { cartsProducts, totalAmount ,totalCartItems} = useCartData();
 
  
   // add card new or exiting
@@ -121,7 +121,7 @@ const CartModal: React.FC<TCartModalProps> = ({ btnTitle, productId,ifcart }) =>
             {cartsProducts?.length > 0 && (
               <div className="border-t-2 text-white mt-6 ">
                 <div className="space-y-3 text-right py-4">
-                  <p>Total Items: {10} </p>
+                  <p>Total Items: {totalCartItems} </p>
                   <h4 className="text-2xl ">
                     Total: <span>${totalAmount ? totalAmount : '0.00'}</span>
                   </h4>

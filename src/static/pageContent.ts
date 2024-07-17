@@ -50,7 +50,7 @@ export const categories =[
     {
         categoryId : 5,
         imgUrl:"https://images.playground.com/d5c52d8a0075464ea6347c8528c4f81a.jpeg",
-        catergoryName:"TREADMILL",
+        catergoryName:"Cardio Training",
     },
     {
         categoryId : 6,

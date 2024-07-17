@@ -45,7 +45,7 @@ usePageRefreshWaring(isEditing,"Are you sure you want to leave? Your changes may
     const value = e.currentTarget.value;
     const urls = value.split(',').map((url) => url.trim());
     setImgUrl(urls);
-    console.log(urls.length);
+   
     
     if(urls.length > 0 ){
       setIsButtonEnable(false)

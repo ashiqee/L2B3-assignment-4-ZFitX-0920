@@ -4,6 +4,8 @@ import MainTttle from '../reusableComponents/MainTttle';
 import TagTitle from '../reusableComponents/TagTitle';
 import LoadingPage from '../shared/LoadingPage';
 import { TProduct } from '@/types/Interface';
+import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
 
 const FeaturedProduct = () => {
   const { data: products, isLoading } = useGetProductsQuery({});
@@ -42,6 +44,13 @@ const FeaturedProduct = () => {
             <FeatureProductCard data={product} key={product._id} />
           ))}
       </section>
+   <div className='flex justify-center'>
+   <Link to='/products'>
+     <Button>
+        Explore More
+      </Button>
+     </Link>
+   </div>
     </div>
   );
 };

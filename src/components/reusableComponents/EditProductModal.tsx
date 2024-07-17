@@ -56,7 +56,7 @@ const EditProductModal:React.FC<TEditProductProps>= ({ product,toast }) => {
   const handleUpdateProductSubmit:SubmitHandler<FieldValues> = async (productData) => {
     const data = {
       ...productData,
-      p_images: imgUrls,
+      p_images: imgUrls || p_images ,
       id:_id
     };
 

@@ -1,3 +1,4 @@
+import LoadingPage from "@/components/shared/LoadingPage";
 import { useGetCartsProductsQuery } from "@/redux/features/products/productApi";
 import { TCartState, useCurrentCart } from "@/redux/features/products/productSlice";
 import { useAppSelector } from "@/redux/hook";
@@ -29,7 +30,9 @@ const useCartData = ():UseCartDataResult => {
 
 
     if(isLoading){
-        <>Loading...</>
+        <>
+        <LoadingPage />
+      </>
     }
 
     const getCartsProducts = data?.data

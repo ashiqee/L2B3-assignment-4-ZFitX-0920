@@ -26,6 +26,7 @@ const Checkout = () => {
     register,
     handleSubmit,
     formState: { errors,isValid },
+    watch,
   } = useForm<TOrder>({mode:'onChange'});
   const [addOrder] = useAddOrderMutation();
   const { cartsProducts, currentCarts, totalAmount } = useCartData();
@@ -46,8 +47,7 @@ const Checkout = () => {
   );
 
  
-  
-  
+
   // stripe public key 
   const stripePromise = loadStripe(`${stripeKey}`);
 
@@ -288,7 +288,22 @@ const Checkout = () => {
       </form>
       {ifPayStripe && (
                     <Elements stripe={stripePromise}>
-                      <PaymentPageModal  setIfPayStripe={setIfPayStripe} totalAmount={totalAmount} />
+                      <PaymentPageModal  
+                      setIfPayStripe={setIfPayStripe} 
+                      totalAmount={totalAmount} 
+                      orderData={{
+                        o_email: watch('o_email'),
+                        o_firstName: watch('o_firstName'),
+                        o_lastName: watch('o_lastName'),
+                        o_address: watch('o_address'),
+                        o_city: watch('o_city'),
+                        o_state: watch('o_state'),
+                        o_phone: watch('o_phone'),
+                        o_cartItems: cartItems,
+                      }}
+                      toast={toast}
+                      cartItems={cartItems}
+                      />
                     </Elements>
                   )}
     </div>
