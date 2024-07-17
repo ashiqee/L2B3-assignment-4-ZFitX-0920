@@ -47,6 +47,7 @@ const Checkout = () => {
 
  
   
+  
   // stripe public key 
   const stripePromise = loadStripe(`${stripeKey}`);
 
