@@ -60,7 +60,7 @@
 
 ### 7. Order Management
  - Order list table with order details
- 
+
 #### 8. About Us Page
 - Company overview, 
 - team introduction,
@@ -120,7 +120,7 @@ npm i
 
 Frontend .env.local
 ```bash
-VITE_PAYMENT_GATEWAY=pk_test_51OEF9YFxDvOZBrlUtiKIyYhOHQ7AkYBDYhHFhqtdGTkACY1IBgZG6MBdVxjEd5Rn4jwVoeSsOnSzM903Pylj1uJ000WCd1fJ52
+# VITE_PAYMENT_GATEWAY=pk_test_51OEF9YFxDvOZBrlUtiKIyYhOHQ7AkYBDYhHFhqtdGTkACY1IBgZG6MBdVxjEd5Rn4jwVoeSsOnSzM903Pylj1uJ000WCd1fJ52
 ```
 
 Banckend .env
@@ -128,9 +128,9 @@ Banckend .env
 
 NODE_ENV = development
 PORT=5000
-DATABASE_URL = mongodb+srv://ashiqcoder5:AdV5WvsHWzEdHsqa@cluster0.gve1hle.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+# DATABASE_URL = mongodb+srv://ashiqcoder5:AdV5WvsHWzEdHsqa@cluster0.gve1hle.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
-STRIPE_SECRET_KEY=sk_test_51OEF9YFxDvOZBrlUSmx1LYcuPiigClJyhYQswDSuQGisO9AoTieQpvsnilBOqTzwGUwwez3s8qLRoAwx3dvETmOB00iTLs553o
+# STRIPE_SECRET_KEY=sk_test_51OEF9YFxDvOZBrlUSmx1LYcuPiigClJyhYQswDSuQGisO9AoTieQpvsnilBOqTzwGUwwez3s8qLRoAwx3dvETmOB00iTLs553o
 ```
 
 ### Runnig the Application both
