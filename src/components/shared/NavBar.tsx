@@ -10,9 +10,10 @@ import { useState } from 'react';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import LoadingPage from './LoadingPage';
 
-interface TSearchValue{
+export interface TSearchValue{
   searchTerm: string;
 }
+
 const initialFilterValues: TSearchValue = {
   searchTerm: '',
 };
@@ -95,7 +96,8 @@ const NavBar = () => {
             <Input
               className="rounded-sm w-60 hover:border-primary"
               type="text"
-              placeholder={searchValues.searchTerm}
+              value={searchValues.searchTerm}
+              placeholder="Search..."
               onChange={(e)=>setSearchTerm({searchTerm:e.target.value})}
             />
             <button className="absolute hover:text-primary right-2">
@@ -103,7 +105,7 @@ const NavBar = () => {
             </button>
           </div>
           <div className=''>
-            <ProductSearchModal searchValues={searchValues} setSearchTerm={setSearchTerm} products={products} />
+            <ProductSearchModal searchValues={searchValues} setSearchTerm={setSearchTerm} products={products?.data} />
           </div>
           <button className=" xl:hidden hover:text-primary ">
               <Search />

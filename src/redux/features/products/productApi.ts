@@ -4,11 +4,10 @@ const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (filters) => {
+       
         const params = new URLSearchParams(
-          filters as Record<string, string>,
-        ).toString();
-
-
+          filters,
+        );
         return `products?${params}`;
       },
       providesTags: ['products'],

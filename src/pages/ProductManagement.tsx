@@ -26,16 +26,22 @@ import LoadingPage from '@/components/shared/LoadingPage';
 
 interface TFilters {
   searchTerm: string;
+  pageLimit: number;
+  currentPage: number;
 }
 
 const initialFilterValues: TFilters = {
   searchTerm: '',
+  pageLimit: 5,
+  currentPage: 1,
 };
 
 const ProductManagement = () => {
   const [deleteProduct] = useDeleteProductMutation();
   const [filters, setFilters] = useState<TFilters>(initialFilterValues);
   const { data: products, isLoading } = useGetProductsQuery(filters);
+
+
 
   if (isLoading) {
     return  <>
@@ -63,6 +69,14 @@ const ProductManagement = () => {
     }));
   };
 
+// handle page change 
+  const handlePageChange = (page: number) => {
+    setFilters((prevValues) => ({
+      ...prevValues,
+      currentPage: page,
+    }));
+  };
+
   return (
     <div className="2xl:mt-24">
       <Toaster />
@@ -74,7 +88,7 @@ const ProductManagement = () => {
         <div className="flex items-center gap-10 justify-between">
           <form className="flex items-center w-full justify-between">
            {
-            !products &&  <div className="flex gap-3">
+            products &&  <div className="flex gap-3">
             <Label>Showing</Label>
 
             <select
@@ -84,6 +98,7 @@ const ProductManagement = () => {
               onChange={handleFilterChange}
               id=""
             >
+              <option value={2}>2</option>
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={20}>20</option>
@@ -195,16 +210,16 @@ const ProductManagement = () => {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href="#" />
+              <PaginationPrevious onClick={()=>handlePageChange(Math.max(filters.currentPage-1,1))} />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
+              <PaginationLink href="#" onClick={()=>handlePageChange(1)}>1</PaginationLink>
             </PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext href="#" />
+              <PaginationNext  onClick={()=>handlePageChange(filters.currentPage+1)} />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
