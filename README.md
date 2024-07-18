@@ -2,8 +2,8 @@
 
 ### **Submission : (Please check my submissions:)**
 
-- Live Frontend Link: [Live Website](https://zfitx.vercel.app/)
-- Live Backend Link: [Backend Link](https://zfit-x-backend.vercel.app/api/v1)
+- Frontend Live Link: [Live Website](https://zfitx.vercel.app/)
+- Backend Live Link: [Backend Link](https://zfit-x-backend.vercel.app/api)
 - GitHub Repository URL (Frontend): https://github.com/ashiqee/L2B3-assignment-4-ZFitX-0920
 - GitHub Repository URL (Backend): https://github.com/ashiqee/ZfitX-Backend
 - Overview Video:
@@ -58,7 +58,10 @@
 - Add new product form
 - pagination view all product.
 
-#### 7. About Us Page
+### 7. Order Management
+ - Order list table with order details
+ 
+#### 8. About Us Page
 - Company overview, 
 - team introduction,
 - customer testimonials
@@ -144,3 +147,4 @@ npm run dev
 npm run build
 ```
 
+This project aims to create a modern, efficient, and user-centric online store for fitness enthusiasts, providing a smooth and enjoyable shopping experience while ensuring secure and reliable transactions.
