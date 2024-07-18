@@ -60,8 +60,11 @@ const Checkout = () => {
       const res = await addOrder({
         ...orderData,
         o_cartItems: cartItems,
+      
       });
   
+      console.log(res);
+      
       if (res?.data?.success) {
         toast?.success('Your Order placed succesfully');
         const productIdsToRemove = cartItems.map((item) => item.productId);

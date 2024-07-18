@@ -5,13 +5,32 @@ import MobileMenu from '../shared/MobileMenu';
 import Logo from '../reusableComponents/Logo';
 import {  TMenuItem } from '@/types/Interface';
 import useCartData from '@/hooks/useCartData';
+import ProductSearchModal from '../reusableComponents/ProductSearchModal';
+import { useState } from 'react';
+import { useGetProductsQuery } from '@/redux/features/products/productApi';
+import LoadingPage from './LoadingPage';
 
-
+interface TSearchValue{
+  searchTerm: string;
+}
+const initialFilterValues: TSearchValue = {
+  searchTerm: '',
+};
 
 const NavBar = () => {
   const {totalCartItems}=useCartData()
+  const [searchValues, setSearchTerm] = useState<TSearchValue>(initialFilterValues);
 
+  
+  const { data: products, isLoading } = useGetProductsQuery(searchValues);
 
+  if (isLoading) {
+    return (
+      <>
+        <LoadingPage />
+      </>
+    );
+  }
   const menus = [
     {
       menuId: 1,
@@ -76,11 +95,15 @@ const NavBar = () => {
             <Input
               className="rounded-sm w-60 hover:border-primary"
               type="text"
-              placeholder="Search"
+              placeholder={searchValues.searchTerm}
+              onChange={(e)=>setSearchTerm({searchTerm:e.target.value})}
             />
             <button className="absolute hover:text-primary right-2">
               <Search />
             </button>
+          </div>
+          <div className=''>
+            <ProductSearchModal searchValues={searchValues} setSearchTerm={setSearchTerm} products={products} />
           </div>
           <button className=" xl:hidden hover:text-primary ">
               <Search />
