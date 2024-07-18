@@ -43,7 +43,7 @@ const NavBar = () => {
     },
     {
       menuId: 2,
-      label: 'Shop',
+      label: 'Products',
       path: '/products',
     },
     {

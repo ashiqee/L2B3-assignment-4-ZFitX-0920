@@ -16,7 +16,7 @@ const ProductSearchModal: React.FC<TProductSearchModalProps> = ({ products, sear
   return (
     <>
       {searchValues?.searchTerm && (
-        <div className="max-w-sm min-w-sm max-h-96 z-50 overflow-x-hidden mx-auto absolute top-24 mt-1 right-20 bg-[#0E2420]/50 ">
+        <div className="max-w-sm min-w-sm max-h-96 z-50 overflow-x-hidden scroll-m-2  mx-auto absolute top-24 mt-1 2xl:right-32 md:right-20 bg-[#0E2420]/50 ">
           {products ? (
             <div className="grid  grid-flow-row gap-4 p-4">
               {' '}
@@ -24,7 +24,7 @@ const ProductSearchModal: React.FC<TProductSearchModalProps> = ({ products, sear
                 <Link key={product._id} to={`/products/${product._id}`}>
                   <div onClick={()=>setSearchTerm({searchTerm:''})} className="flex shadow-lg hover:bg-primary/10 items-center gap-2 p-2">
                     <img
-                      className="w-16"
+                      className="w-16 h-16 rounded-md hover:scale-125 hover:animate-in duration-1000 hover:fade-in-20"
                       src={product.p_images[0] ?? '#'}
                       alt=""
                     />
