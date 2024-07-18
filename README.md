@@ -147,4 +147,6 @@ npm run dev
 npm run build
 ```
 
+Visit : http://localhost:5173/
+
 This project aims to create a modern, efficient, and user-centric online store for fitness enthusiasts, providing a smooth and enjoyable shopping experience while ensuring secure and reliable transactions.
