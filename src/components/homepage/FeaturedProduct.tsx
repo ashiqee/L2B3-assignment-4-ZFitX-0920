@@ -8,7 +8,10 @@ import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
 
 const FeaturedProduct = () => {
-  const { data: products, isLoading } = useGetProductsQuery({});
+  const { data: getResults, isLoading } = useGetProductsQuery({});
+
+    // Product and total product count 
+const products = getResults?.data?.result;
 
   if (isLoading) {
     return (
@@ -38,7 +41,7 @@ const FeaturedProduct = () => {
             xl:grid-cols-4 
             px-2 md:px-4 xl:px-0  items-center container gap-2 md:gap-4 xl:gap-10"
       >
-        {products?.data
+        {products
           ?.slice(0, 8)
           .map((product: TProduct) => (
             <FeatureProductCard data={product} key={product._id} />

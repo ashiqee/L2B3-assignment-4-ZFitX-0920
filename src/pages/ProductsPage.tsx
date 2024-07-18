@@ -4,6 +4,7 @@ import PageBanner from '@/components/reusableComponents/PageBanner';
 import LoadingPage from '@/components/shared/LoadingPage';
 import NotFound from '@/components/shared/NotFound';
 import ProductsSidebar from '@/components/shared/ProductsSidebar';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import { TProduct } from '@/types/Interface';
 import { FormEvent, useEffect, useState } from 'react';
@@ -13,6 +14,8 @@ export interface TFilterValues {
   searchTerm: string;
   sortByPrice: string;
   stockStatus: string;
+  pageLimit: number;
+  currentPage: number;
   categories: string[];
 }
 
@@ -30,6 +33,8 @@ const ProductsPage = () => {
   const initialFilterValues: TFilterValues = {
     searchTerm: '',
     sortByPrice: 'asc',
+    pageLimit: 8,
+    currentPage: 1,
     stockStatus: '',
     categories: [`${category ? category : ''}`],
   };
@@ -38,12 +43,17 @@ const ProductsPage = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     `${category ? category : ''}`,
   ]);
-  const { data: products, isLoading } = useGetProductsQuery(filters);
+  const { data: getResults, isLoading } = useGetProductsQuery(filters);
+
+  // Product and total product count 
+const products = getResults?.data?.result;
+
+
 
   useEffect(() => {
-    if (products?.data) {
+    if (products) {
       const newCategories = Array.from(
-        new Set(products.data.map((product: TProduct) => product.p_category)),
+        new Set(products?.map((product: TProduct) => product.p_category)),
       );
 
       setCategories(
@@ -86,6 +96,17 @@ const ProductsPage = () => {
     }));
   };
 
+
+// handle page change 
+const handlePageChange = (page: number) => {
+  setFilters((prevValues) => ({
+    ...prevValues,
+    currentPage: page,
+  }));
+};
+
+
+
   const resetFilters = () => {
     setSelectedCategories([]);
     setFilters({
@@ -93,8 +114,17 @@ const ProductsPage = () => {
       sortByPrice: '',
       stockStatus: '',
       categories: [],
+      pageLimit: 8,
+      currentPage: 1,
     });
   };
+
+
+// pagination calculate 
+  const totalProducts = getResults?.data?.totalResults;
+  const startIndex =(filters.currentPage -1 )*filters.pageLimit+1;
+  const endIndex = Math.min(startIndex+filters.pageLimit -1,totalProducts)
+  const totalPages = Math.ceil(totalProducts / filters.pageLimit);
 
   const handleFilterSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -128,7 +158,7 @@ const ProductsPage = () => {
         {/* product grid */}
         <div className="col-span-4">
           <div className="flex items-center py-2 p-2   mb-7 justify-between">
-            <p>Showing 1–12 of {products?.data.length} results</p>
+            <p>Showing {startIndex}–{endIndex} of {totalProducts} results</p>
 
             <select
               name="sortByPrice"
@@ -145,10 +175,36 @@ const ProductsPage = () => {
 
           <div className="grid w-full grid-cols-2 md:grid-cols-4 gap-4">
             {/* Todo product card */}
-            {products?.data?.map((product: TProduct) => (
+            {products?.map((product: TProduct) => (
               <FeatureProductCard key={product._id} data={product} />
             ))}
           </div>
+{/* pagination */}
+<Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious onClick={()=>handlePageChange(Math.max(filters.currentPage-1,1))} />
+            </PaginationItem>
+            {[...Array(Math.ceil(totalProducts / filters.pageLimit)).keys()].map((i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                href="#"
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext  onClick={()=>handlePageChange(Math.min(filters.currentPage+1,totalPages))} />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+
+          {/* if no prduct  */}
         {!products && <><NotFound text={"Products are Not available!"} /></>}
         </div>
       </section>

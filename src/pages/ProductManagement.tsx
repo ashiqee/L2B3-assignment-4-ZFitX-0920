@@ -39,9 +39,9 @@ const initialFilterValues: TFilters = {
 const ProductManagement = () => {
   const [deleteProduct] = useDeleteProductMutation();
   const [filters, setFilters] = useState<TFilters>(initialFilterValues);
-  const { data: products, isLoading } = useGetProductsQuery(filters);
+  const { data: getResults, isLoading } = useGetProductsQuery(filters);
 
-
+  const products = getResults?.data?.result;
 
   if (isLoading) {
     return  <>
@@ -77,6 +77,14 @@ const ProductManagement = () => {
     }));
   };
 
+// pagination calculate 
+const totalProducts = getResults?.data?.totalResults;
+const startIndex =(filters.currentPage - 1 )*filters.pageLimit+1;
+const endIndex = Math.min(startIndex+filters.pageLimit - 1,totalProducts)
+const totalPages = Math.ceil(totalProducts / filters.pageLimit);
+
+
+
   return (
     <div className="2xl:mt-24">
       <Toaster />
@@ -89,7 +97,7 @@ const ProductManagement = () => {
           <form className="flex items-center w-full justify-between">
            {
             products &&  <div className="flex gap-3">
-            <Label>Showing</Label>
+            <Label>Limit</Label>
 
             <select
               defaultValue={5}
@@ -103,6 +111,8 @@ const ProductManagement = () => {
               <option value={10}>10</option>
               <option value={20}>20</option>
             </select>
+            <p>Showing {startIndex}–{endIndex} of {totalProducts} results</p>
+
           </div>
            }
 
@@ -127,7 +137,7 @@ const ProductManagement = () => {
         </div>
 
         {/* product table  */}
-        {products?.data?.length > 0 ? (
+        {products?.length > 0 ? (
           <div className="py-6">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -158,7 +168,7 @@ const ProductManagement = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.data?.map((product: TProduct, i: number) => (
+                  {products?.map((product: TProduct, i: number) => (
                     <tr
                       key={i}
                       className="odd:bg-slate-900 odd:dark:bg-primary-900 text-white even:bg-primary-500 even:dark:bg-gray-800 border-b dark:border-gray-700"
@@ -212,14 +222,21 @@ const ProductManagement = () => {
             <PaginationItem>
               <PaginationPrevious onClick={()=>handlePageChange(Math.max(filters.currentPage-1,1))} />
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" onClick={()=>handlePageChange(1)}>1</PaginationLink>
+            {[...Array(Math.ceil(totalProducts / filters.pageLimit)).keys()].map((i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                href="#"
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </PaginationLink>
             </PaginationItem>
+          ))}
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext  onClick={()=>handlePageChange(filters.currentPage+1)} />
+              <PaginationNext  onClick={()=>handlePageChange(Math.min(filters.currentPage+1,totalPages))} />
             </PaginationItem>
           </PaginationContent>
         </Pagination>

@@ -34,17 +34,17 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
     <div className="md:max-w-72 w-full ">
       <form onSubmit={handleFilterSubmit} >
         <div className="shadow-xl p-1 mb-5 rounded-lg">
-          <p className="text-2xl hidden md:block py-1 p-1 bg-primary text-black font-medium">
+          <p className="text-2xl hidden md:block py-1 p-1 bg-primary/20 text-white rounded-md font-medium">
             Search:
           </p>
-          <p className="text-2xl md:hidden block py-1 p-1 bg-primary/40 text-white bg-opacity-50 font-medium">
+          <p className="text-2xl md:hidden block py-1 p-1 bg-primary/20 text-white bg-opacity-50 font-medium">
             Filters:
           </p>
 
-          <div className="w-full md:my-8">
+          <div className="w-full md:my-4">
             <Input
               name="searchTerm"
-              className="w-full mt-8"
+              className="w-full mt-4"
               type="text"
               placeholder="Search..."
               onChange={handleFilterChange}
@@ -75,8 +75,8 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
         
 
         {/* filter  */}
-        <div className="shadow-xl p-1 mb-5 rounded-lg">
-          <p className="text-2xl hidden md:block  py-1 p-1 bg-primary text-black font-medium">
+        <div className="shadow-xl hidden p-1 mb-5 rounded-lg">
+          <p className="text-2xl hidden md:block  py-1 p-1 bg-primary/20 text-white font-medium">
             Filter:
           </p>
           {/* onValueChange={handleFilterChange} */}
@@ -95,11 +95,11 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
         </div>
         {/* Category  */}
         <div className="shadow-xl p-1 md:mb-5 rounded-lg">
-          <p className="text-2xl hidden md:block py-1 p-1 bg-primary text-black font-medium">
+          <p className="text-2xl hidden md:block py-1 p-1 bg-primary/20 text-white font-medium">
             Category:
           </p>
 
-          <div className="w-full md:my-8">
+          <div className="w-full md:my-4">
             <ul className="space-y-3">
               <li className="">
                 <div
@@ -110,7 +110,7 @@ const ProductsSidebar:React.FC<ProductsSidebarProps> = ({
                   <p className="text-xl">{openMenus ? '-' : '+'}</p>
                 </div>
                 {openMenus && (
-                 <div className="w-full my-8">
+                 <div className="w-full my-4">
                  <RadioGroup name="categoryFilters" >
 
                     

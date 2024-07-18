@@ -23,7 +23,10 @@ const NavBar = () => {
   const [searchValues, setSearchTerm] = useState<TSearchValue>(initialFilterValues);
 
   
-  const { data: products, isLoading } = useGetProductsQuery(searchValues);
+  const { data: getResults, isLoading } = useGetProductsQuery(searchValues);
+
+  const products = getResults?.data?.result;
+
 
   if (isLoading) {
     return (
@@ -105,7 +108,7 @@ const NavBar = () => {
             </button>
           </div>
           <div className=''>
-            <ProductSearchModal searchValues={searchValues} setSearchTerm={setSearchTerm} products={products?.data} />
+            <ProductSearchModal searchValues={searchValues} setSearchTerm={setSearchTerm} products={products} />
           </div>
           <button className=" xl:hidden hover:text-primary ">
               <Search />

@@ -146,22 +146,22 @@ const ProductDetails = () => {
         {/* decription section  */}
         <section className="py-10 mx-5">
           <Tabs defaultValue="description" className="w-full">
-            <TabsList className="bg-blue-900 mb-5 bg-opacity-10 w-96 flex gap-10 text-left">
+            <TabsList className="bg-blue-900 mb-5 bg-opacity-10 max-w-96 flex gap-10 text-left">
               <TabsTrigger
-                className="md:text-xl hover:text-primary"
+                className="md:text-md text-sm hover:text-primary"
                 value="description"
               >
                 Description
               </TabsTrigger>
               <TabsTrigger
-                className="md:text-xl hover:text-primary"
+                className="md:text-md text-sm hover:text-primary"
                 value="ship"
               >
                 Shipping Information
               </TabsTrigger>
             </TabsList>
             <TabsContent value="description">{p_description}</TabsContent>
-            <TabsContent value="ship">{reternPolicy}</TabsContent>
+            <TabsContent className="text-justify" value="ship">{reternPolicy}</TabsContent>
           </Tabs>
         </section>
       </section>

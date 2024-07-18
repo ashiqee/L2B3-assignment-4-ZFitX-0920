@@ -29,7 +29,7 @@ Please also note that the shipping rates for many items we sell are weight-based
 export const categories =[
     {
         categoryId : 1,
-        imgUrl:"https://dt-fitfinity.myshopify.com/cdn/shop/files/Rectangle_9.png?v=1707204172&width=750",
+        imgUrl:"https://i.postimg.cc/nrNzdVNw/Rope-Work-Out.jpg",
         catergoryName:"Rope Workout",
     },
     {
