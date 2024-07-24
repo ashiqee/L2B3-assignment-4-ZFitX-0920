@@ -1,10 +1,17 @@
-
 import FeatureProductCard from '@/components/reusableComponents/FeatureProductCard';
 import PageBanner from '@/components/reusableComponents/PageBanner';
 import LoadingPage from '@/components/shared/LoadingPage';
 import NotFound from '@/components/shared/NotFound';
 import ProductsSidebar from '@/components/shared/ProductsSidebar';
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { useGetProductsQuery } from '@/redux/features/products/productApi';
 import { TProduct } from '@/types/Interface';
 import { FormEvent, useEffect, useState } from 'react';
@@ -45,9 +52,8 @@ const ProductsPage = () => {
   ]);
   const { data: getResults, isLoading } = useGetProductsQuery(filters);
 
-  // Product and total product count 
-const products = getResults?.data?.result;
-
+  // Product and total product count
+  const products = getResults?.data?.result;
 
 
   useEffect(() => {
@@ -66,9 +72,11 @@ const products = getResults?.data?.result;
   }, [products]);
 
   if (isLoading) {
-    return  <>
-    <LoadingPage />
-  </>;
+    return (
+      <>
+        <LoadingPage />
+      </>
+    );
   }
 
   const handleFilterChange = (
@@ -96,16 +104,13 @@ const products = getResults?.data?.result;
     }));
   };
 
-
-// handle page change 
-const handlePageChange = (page: number) => {
-  setFilters((prevValues) => ({
-    ...prevValues,
-    currentPage: page,
-  }));
-};
-
-
+  // handle page change
+  const handlePageChange = (page: number) => {
+    setFilters((prevValues) => ({
+      ...prevValues,
+      currentPage: page,
+    }));
+  };
 
   const resetFilters = () => {
     setSelectedCategories([]);
@@ -119,11 +124,10 @@ const handlePageChange = (page: number) => {
     });
   };
 
-
-// pagination calculate 
+  // pagination calculate
   const totalProducts = getResults?.data?.totalResults;
-  const startIndex =(filters.currentPage -1 )*filters.pageLimit+1;
-  const endIndex = Math.min(startIndex+filters.pageLimit -1,totalProducts)
+  const startIndex = (filters.currentPage - 1) * filters.pageLimit + 1;
+  const endIndex = Math.min(startIndex + filters.pageLimit - 1, totalProducts);
   const totalPages = Math.ceil(totalProducts / filters.pageLimit);
 
   const handleFilterSubmit = (e: FormEvent) => {
@@ -152,63 +156,85 @@ const handlePageChange = (page: number) => {
           resetFilters={resetFilters}
         />
 
-     
-    
-
         {/* product grid */}
-        <div className="col-span-4">
-          <div className="flex items-center py-2 p-2   mb-7 justify-between">
-            <p>Showing {startIndex}–{endIndex} of {totalProducts} results</p>
+       {
+        !products ? <> <div className='flex justify-center items-center pb-10 col-span-4'>
+          <NotFound text={'Products are Not available!'} />
+          </div></>: <div className="col-span-4">
+        <div className="flex items-center py-2 p-2   mb-7 justify-between">
+          <p>
+            Showing {startIndex}–{endIndex} of {totalProducts} results
+          </p>
 
-            <select
-              name="sortByPrice"
-              className='text-black font-medium border  bg-opacity-10  
-               text-sm rounded-lg  block  p-2.5               '
-              value={filters.sortByPrice || 'Sort By Price'}
-              onChange={handleFilterChange}
-            >
-              <option className='p-2 h-20' value="asc">Low to High</option>
-              <option className='p-2'  value="desc">High to Low</option>
-            </select>
-            {/* </form> */}
-          </div>
+          <select
+            name="sortByPrice"
+            className="text-black font-medium border  bg-opacity-10  
+             text-sm rounded-lg  block  p-2.5               "
+            value={filters.sortByPrice || 'Sort By Price'}
+            onChange={handleFilterChange}
+          >
+            <option className="p-2 h-20" value="asc">
+              Low to High
+            </option>
+            <option className="p-2" value="desc">
+              High to Low
+            </option>
+          </select>
+          {/* </form> */}
+        </div>
 
-          <div className="grid w-full grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Todo product card */}
-            {products?.map((product: TProduct) => (
-              <FeatureProductCard key={product._id} data={product} />
-            ))}
-          </div>
-{/* pagination */}
-<Pagination>
+        <div className="grid w-full grid-cols-2 md:grid-cols-4 gap-4">
+          {/* Todo product card */}
+          {products?.map((product: TProduct) => (
+            <FeatureProductCard key={product._id} data={product} />
+          ))}
+        </div>
+        {/* pagination */}
+        <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious onClick={()=>handlePageChange(Math.max(filters.currentPage-1,1))} />
+              <PaginationPrevious
+                onClick={() =>
+                  handlePageChange(Math.max(filters.currentPage - 1, 1))
+                }
+              />
             </PaginationItem>
-            {[...Array(Math.ceil(totalProducts / filters.pageLimit)).keys()].map((i) => (
-            <PaginationItem key={i}>
-              <PaginationLink
-                href="#"
-                onClick={() => handlePageChange(i + 1)}
-              >
-                {i + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
+            {[
+              ...Array(Math.ceil(totalProducts / filters.pageLimit)).keys(),
+            ].map((i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href="#"
+                  onClick={() => handlePageChange(i + 1)}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext  onClick={()=>handlePageChange(Math.min(filters.currentPage+1,totalPages))} />
+              <PaginationNext
+                onClick={() =>
+                  handlePageChange(
+                    Math.min(filters.currentPage + 1, totalPages),
+                  )
+                }
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
 
-          {/* if no prduct  */}
-        {!products && <><NotFound text={"Products are Not available!"} /></>}
-        </div>
+        {/* if no prduct  */}
+        {!products && (
+          <>
+            <NotFound text={'Products are Not available!'} />
+          </>
+        )}
+      </div>
+       }
       </section>
-
     </div>
   );
 };
